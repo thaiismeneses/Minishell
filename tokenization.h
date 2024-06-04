@@ -6,11 +6,12 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:16:54 by thfranco          #+#    #+#             */
-/*   Updated: 2024/06/03 11:38:56 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/06/04 12:20:58 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include "libft/libft.h"
 
 typedef struct s_token
 {
@@ -20,3 +21,5 @@ typedef struct s_token
 
 }					t_token;
 
+
+void print_prompt(void);
