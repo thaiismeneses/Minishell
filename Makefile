@@ -1,75 +1,46 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/06/04 12:23:18 by thfranco          #+#    #+#              #
-#    Updated: 2024/06/04 12:38:53 by thfranco         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME = minishell
+CC = cc
+RM = rm -rf
+CFLAGS = -Wall -Wextra -Werror
+LIBS = libft/libft.a
 
+SRC = sources/main.c
+OBJ = $(SRC:.c=.o)
 
-NAME        	:= ./minishell
-
-CC		:= cc
-
-FLAGS		:= -Wall -Wextra -Werror -g
-
-INCLUDE		:= -I libft/ tokenization.h
-
-LIBS		:= libft/libft.a
-
-SRCS        	:=	fdf.c\
-			check_file.c\
-			read_file.c\
-			draw.c\
-			config.c\
-			key_settings.c\
-
-
-OBJS        := $(SRCS:.c=.o)
-
-RM		    := rm -rf
-
-AR			:= ar rcs
-
-LEAK = valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s
+Reset = \033[0m
+G = \033[32m
+R = \033[31m
+Y = \033[33m
+blink = \033[6;7;1;3m
 
 all: $(NAME)
 
-minilibx:
-	wget https://cdn.intra.42.fr/document/document/22074/minilibx-linux.tgz
-	tar -xvzf minilibx-linux.tgz
-	rm minilibx-linux.tgz
+$(NAME): $(OBJ)
+	@echo "-----------------------Compilation of $(NAME)----------------------------------------"
+	@make bonus -s -C libft/
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBS) -lreadline
+	@echo "-------------------------------------------------------------------------------------"
+	@echo "$(blink)$(G) ✅ $(NAME) successfully compiled $(Reset)"
 
-$(NAME): $(OBJS)
-					@echo "Compilation of $(NAME) ..."
-					@make -s -C libft/
-					@make -s -C minilibx-linux/
-					@$(CC) $(FLAGS) $(SRCS) $(LIBS) -o $(NAME)
-					@echo "$(NAME) created✔️"
+val:
+	valgrind --leak-check=full --track-origins=yes ./minishell
+
+hell:
+	valgrind --tool=helgrind ./minishell
 
 clean:
-					@echo "Deleting $(NAME) objs ✔️"
-					@make -s clean -C libft/
-					@$(RM) $(OBJS)
+	@make -s clean -C libft/
+	$(RM) $(OBJ)
+	@echo "$(Y) 😉 Objects from the $(NAME) project have been removed $(Reset)"
 
 fclean: clean
-					@echo "Deleting $(NAME) ✔️"
-					@make -s fclean -C libft/
-					@make -s clean -C minilibx-linux/
-					@$(RM) $(NAME)
-					@$(RM) $(LIBFT)
+	@echo "-------------------------------------------------------------------------------------"
+	@make -s fclean -C libft/
+	$(RM) $(NAME)
+	@$(RM) $(LIBFT)
+	@echo "$(blink)$(R) ❌ removed $(NAME) executable $(Reset)"
+	@echo "-------------------------------------------------------------------------------------"
 
+re: fclean all
 
-re:			fclean all
-
-leak:
-				$(LEAK) ./fdf 42.fdf
-
-norma:
-				norminette $(SRCS) fdf.h ./libft
-
-.PHONY:				all clean fclean re leak
+.PHONY: all clean fclean re

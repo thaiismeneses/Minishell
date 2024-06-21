@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenization.c                                     :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/03 11:28:37 by thfranco          #+#    #+#             */
-/*   Updated: 2024/06/04 12:39:02 by thfranco         ###   ########.fr       */
+/*   Created: 2024/06/20 11:35:59 by thfranco          #+#    #+#             */
+/*   Updated: 2024/06/21 13:03:23 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenization.h"
+int	ft_isspace(int c);
 
-void	tokenization(char **av_to_parse)
+int	ft_isspace(int c)
 {
-	int	i;
-
-	i = 1;
-	while (av_to_parse[i])
-		check_kind(av_to_parse[i])
+	if ((c >= 9 || c <= 13) && c == 32)
+	{
+		return (1);
+	}
+	return (0);
 }
