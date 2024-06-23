@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:15:49 by penascim          #+#    #+#             */
-/*   Updated: 2024/06/21 18:16:57 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/06/22 17:29:14 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,19 +106,16 @@ void	get_token(char *cmd, int i, int start, t_type_cmd type)
 
 	token_length = i - start;
 	data = NULL;
-	printf("%s\n", cmd);
+	token = NULL;
 	if (token_length > 0)
 	{
 		token = (char *)calloc((token_length + 1), sizeof(char));
 		ft_strncpy(token, cmd + start, token_length);
 		token[token_length] = '\0';
-		printf("Token: %s\n", token);
 		add_node(&data, type, token);
 		free(token);
 	}
 	print_token_list(data);
-	free_list(&data);
-
 }
 
 static void	tokenization(char *cmd)
@@ -146,26 +143,8 @@ static void	tokenization(char *cmd)
 		}
 		else
 			i++;
-
-		/*int token_length = i - start;
-
-		printf("%s\n", cmd);
-		if (token_length > 0)
-		{
-			char	*token = (char *)calloc((token_length + 1), sizeof(char));
-			ft_strncpy(token, cmd + start, token_length);
-			token[token_length] = '\0';
-			printf("Token: %s\n", token);
-			add_node(&data, type, token);
-			free(token);
-		}*/
 		get_token(cmd, i, start, type);
-
 	}
-	/*if (data){
-		print_token_list(data);
-		free_list(&data);
-	}*/
 }
 
 void	print_prompt(void)
