@@ -8,6 +8,11 @@ SRC =	sources/main.c\
 		sources/tokenization.c\
 		sources/utils_token.c\
 		sources/parse.c\
+		sources/index.c\
+		sources/extra_to_print.c\
+		sources/check_errors.c\
+		sources/utils_errors.c\
+		sources/handle_heredoc.c\
 
 OBJ = $(SRC:.c=.o)
 

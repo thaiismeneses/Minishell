@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:15:49 by penascim          #+#    #+#             */
-/*   Updated: 2024/07/05 15:47:15 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:00:15 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	run(char *prompt)
 {
 	char	*cmd;
 	t_token	*tokens;
-	t_tree_node	*ast;
 
 	while (42)
 	{
@@ -28,10 +27,13 @@ static void	run(char *prompt)
 		if (*cmd)
 		{
 			add_history(cmd);
-			tokens = tokenization(cmd);
-			ast = parse_expression(&tokens);
-			print_tree(ast, 0);
-			free_tree(ast);
+			tokens = tokenization(cmd, tokens);
+			print_token_list(tokens);
+			if (has_error(tokens))
+			{
+				heredoc(tokens);
+				parse(tokens);
+			}
 			free_list(&tokens);
 		}
 		free(cmd);
