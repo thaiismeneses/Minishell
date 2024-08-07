@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:58:59 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/03 19:36:12 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:02:04 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,33 +52,6 @@ t_token *get_last_token(t_token *data)
 	return (current);
 }
 
-// void	get_command(t_token *data)
-// {
-// 	int token;
-// 	char *value;
-
-// 	value = NULL;
-
-// 	if (is_operator(data->token) || is_operator(data->prev->token))
-// 	{
-// 		if (is_first_token(data->token))
-// 			data = data->next;
-// 		while (data && (data->token == CMD || (data->token == ENV_VAR)))
-// 		{
-// 			token = data->token;
-// 			value = ft_strjoin(value, data->value);
-// 			data = data->next;
-// 		}
-// 	}
-// 	if (is_operator(data->next->token))
-// 	{
-// 		while (data && (data->prev->token == CMD || (data->prev->token == ENV_VAR)))
-// 			data = data->prev;
-// 	}
-
-// }
-
-
 //working
 t_tree_node	*parse_command(t_token **data)
 {
@@ -109,20 +82,20 @@ t_tree_node	*parse_expression(t_token **data)
 	t_tree_node	*operator_node;
 
 	right_node = parse_command(data);
-	while (*data && ((*data)->token == PIPE || (*data)->token == REDIRECT_IN
-			|| (*data)->token == REDIRECT_OUT || (*data)->token == APPEND
-			|| (*data)->token == HEREDOC))
+	while (*data && is_operator((*data)->token))
 	{
 		operator_type = (*data)->token;
 		value = (*data)->value;
 		*data = (*data)->prev;
 		operator_node = create_tree_node(operator_type, value);
 		operator_node->right = right_node;
-		operator_node->left = parse_command(data);
+		operator_node->left = parse_expression(data);
 		right_node = operator_node;
 	}
 	return (right_node);
 }
+
+
 
 void	parse(t_token *data)
 {
