@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 11:30:36 by thfranco          #+#    #+#             */
-/*   Updated: 2023/11/04 11:30:37 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:17:39 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strdup(const char *src)
 	int		len;
 	char	*dest;
 
+	if (!src)
+		return (NULL);
 	len = ft_strlen(src);
 	dest = (char *)malloc(len + 1);
 	if (dest != NULL)

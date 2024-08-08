@@ -13,6 +13,7 @@ SRC =	sources/main.c\
 		sources/check_errors.c\
 		sources/utils_errors.c\
 		sources/handle_heredoc.c\
+		sources/check_values.c\
 
 OBJ = $(SRC:.c=.o)
 

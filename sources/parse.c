@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:58:59 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/08 16:12:16 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:10:29 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,7 @@ t_tree_node	*create_tree_node(t_type_cmd type, char *value)
 	node->right = NULL;
 	return (node);
  }
-int is_operator(t_type_cmd token) {
-    return (token == PIPE || token == REDIRECT_IN || token == REDIRECT_OUT ||
-           token == APPEND || token == HEREDOC );
-}
 
-t_token *get_last_token(t_token *data)
-{
-	t_token *current;
-
-	current = data;
-	while (current->next)
-		current = current->next;
-	return (current);
-}
 char	*str_join(char *dest, char *src)
 {
 	char *result;
@@ -85,12 +72,12 @@ t_tree_node	*parse_command(t_token **data)
 			value = str_join(value, (*data)->value);
 			value = str_join(value, (*data)->next->value);
 			arg_node = create_tree_node(COMMAND_SUBSTITUTION, value);
+			free(value);
 			node = arg_node;
 		}
 		else
 		{
 			arg_node = create_tree_node((*data)->token,(*data)->value);
-			free(value);
 			current->left = arg_node;
 			current = arg_node;
 		}
@@ -107,7 +94,6 @@ t_tree_node	*parse_expression(t_token **data)
 	t_tree_node	*operator_node;
 
 	right_node = parse_command(data);
-	printf("RIGHT TYPE:%d  VALUE:%s\n\n",right_node->type, right_node->value);
 	while (*data && ((*data)->token == PIPE))
 	{
 		operator_type = (*data)->token;

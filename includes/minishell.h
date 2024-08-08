@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:24:06 by penascim          #+#    #+#             */
-/*   Updated: 2024/07/20 17:47:35 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:36:06 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void					add_node(t_token **data, t_type_cmd type, char *value);
 void					free_list(t_token **data);
 t_token					*set_token_list(t_token *data, char *value_cmd,
 							int type);
+t_token *get_last_token(t_token *data);
 
 // index
 int						index_envvar(char *cmd, int i);
@@ -125,5 +126,10 @@ int						has_error(t_token *data);
 // extra_to_print
 void					print_tree(t_tree_node *node, int level);
 void					print_token_list(t_token *head);
+
+int	is_in_order(t_token *data);
+void	swap_nodes(t_token *data);
+void	check_values(t_token *data);
+
 
 #endif
