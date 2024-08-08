@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 11:37:25 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/07 14:28:49 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:54:31 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,11 @@ void print_tree(t_tree_node *tree, int level) {
     // Print the current node with indentation based on the level
     for (int i = 0; i < level; i++)
         printf("  ");
-    printf("Node Type: %d\n", tree->type);
+    printf("Node Level: %d\n", level);
     if (tree->value) {
+        for (int i = 0; i < level; i++)
+            printf("  ");
+        printf("Node Type: %d\n", tree->type);
         for (int i = 0; i < level; i++)
             printf("  ");
         printf("Value: %s\n", tree->value);

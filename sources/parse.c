@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:58:59 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/07 15:02:04 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/08 16:12:16 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,49 @@ t_token *get_last_token(t_token *data)
 		current = current->next;
 	return (current);
 }
-
+char	*str_join(char *dest, char *src)
+{
+	char *result;
+	if (!src)
+		return (dest);
+	if (!dest)
+		return (ft_strdup(src));
+	result = ft_strjoin(dest, src);
+	return (result);
+}
 //working
 t_tree_node	*parse_command(t_token **data)
 {
 	t_tree_node	*node;
 	t_tree_node	*current;
 	t_tree_node	*arg_node;
+	char *value;
+
 
 	if (*data == NULL)
 		return (NULL);
 	node = create_tree_node((*data)->token, (*data)->value);
 	*data = (*data)->prev;
 	current = node;
-	while (*data && ((*data)->token == CMD || (*data)->token == ENV_VAR))
+	while (*data && ((*data)->token != PIPE))
 	{
-		arg_node = create_tree_node((*data)->token, (*data)->value);
-		current->left = arg_node;
-		current = arg_node;
+		value = NULL;
+		if ((*data)->token == REDIRECT_IN || (*data)->token == REDIRECT_OUT ||
+			(*data)->token == HEREDOC || (*data)->token == APPEND)
+		{
+			value = str_join(value, (*data)->prev->value);
+			value = str_join(value, (*data)->value);
+			value = str_join(value, (*data)->next->value);
+			arg_node = create_tree_node(COMMAND_SUBSTITUTION, value);
+			node = arg_node;
+		}
+		else
+		{
+			arg_node = create_tree_node((*data)->token,(*data)->value);
+			free(value);
+			current->left = arg_node;
+			current = arg_node;
+		}
 		*data = (*data)->prev;
 	}
 	return (node);
@@ -82,7 +107,8 @@ t_tree_node	*parse_expression(t_token **data)
 	t_tree_node	*operator_node;
 
 	right_node = parse_command(data);
-	while (*data && is_operator((*data)->token))
+	printf("RIGHT TYPE:%d  VALUE:%s\n\n",right_node->type, right_node->value);
+	while (*data && ((*data)->token == PIPE))
 	{
 		operator_type = (*data)->token;
 		value = (*data)->value;
@@ -94,7 +120,6 @@ t_tree_node	*parse_expression(t_token **data)
 	}
 	return (right_node);
 }
-
 
 
 void	parse(t_token *data)

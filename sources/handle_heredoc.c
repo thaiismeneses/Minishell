@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:30:55 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/06 21:58:45 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:15:26 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 int	create_temp_file(void)
 {
 	int	fd;
+	char	*file;
 
-	fd = open("heredoc", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	file = "heredoc";
+	fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		print_error("heredoc: ", strerror(errno));
@@ -39,7 +41,10 @@ void	display_file_content(void)
 	}
 	bytes_read = read(fd, buffer, sizeof(buffer));
 	while (bytes_read > 0)
+	{
 		write(1, buffer, bytes_read);
+		bytes_read = read(fd, buffer, sizeof(buffer));
+	}
 	close(fd);
 }
 
@@ -50,8 +55,12 @@ void	heredoc_aux(t_token *data, int fd)
 	while (42)
 	{
 		line = readline("heredoc> ");
-		if (!line || !ft_strncmp(line, data->next->value,
-				ft_strlen(data->next->value)))
+		if (!line)
+			break ;
+		if (!data->next)
+			break ;
+		if (!ft_strncmp(line, data->next->value,ft_strlen(data->next->value)) &&
+			ft_strlen(line) == ft_strlen(data->next->value))
 		{
 			free(line);
 			break ;
@@ -77,4 +86,5 @@ void	heredoc(t_token *data)
 	}
 	close(fd);
 	display_file_content();
+	unlink("heredoc");
 }
