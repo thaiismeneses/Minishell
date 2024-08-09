@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:58:59 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/08 18:10:29 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/09 09:58:05 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_tree_node	*parse_command(t_token **data)
 	current = node;
 	while (*data && ((*data)->token != PIPE))
 	{
-		value = NULL;
+		value = NULL; 
 		if ((*data)->token == REDIRECT_IN || (*data)->token == REDIRECT_OUT ||
 			(*data)->token == HEREDOC || (*data)->token == APPEND)
 		{
