@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:11:14 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/09 11:56:46 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:09:37 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int	is_in_order(t_token *data)
 {
 	while (data)
 	{
-
 		if (data && (data->token == REDIRECT_IN || data->token == REDIRECT_OUT
-			|| data->token == APPEND || data->token == HEREDOC))
+				|| data->token == APPEND || data->token == HEREDOC))
 		{
 			if (data->next->next && data->next->next->token == CMD)
 			{
@@ -32,11 +31,11 @@ int	is_in_order(t_token *data)
 
 void	swap_nodes(t_token *data)
 {
-	t_token *temp;
-	t_token *last;
-	t_token *node;
+	t_token	*temp;
+	t_token	*last;
 
-	node = data;
+	// t_token *node;
+	// node = data;
 	while (data)
 	{
 		if (data->token == REDIRECT_IN || data->token == REDIRECT_OUT
@@ -61,26 +60,30 @@ void	swap_nodes(t_token *data)
 
 t_token	*reorganize_cmd(t_token *data)
 {
-	t_token *new_list;
-	char *value;
-	
+	t_token	*new_list;
+	char	*value;
+
+	new_list = NULL;
 	while (data)
 	{
+		value = NULL;
 		if (data->token == CMD)
 		{
-		printf("NEW_LIST\n");
-			while (data->token == CMD)
+			while (data && data->token == CMD)
 			{
 				value = str_join(value, data->value);
-				printf("VALUE: %s\n", value);
+				if (data->next && data->next->token == CMD)
+					value = str_join(value, " ");
 				data = data->next;
 			}
-			add_node(&new_list, data->token, value);		
+			new_list = set_token_list(new_list, value, 0);
+			free(value);
 		}
 		else
-			add_node(&new_list, data->token, value);		
-
-		data = data->next;
+		{
+			new_list = set_token_list(new_list, data->value, data->token);
+			data = data->next;
+		}
 	}
 	return (new_list);
 }
@@ -88,17 +91,20 @@ t_token	*reorganize_cmd(t_token *data)
 void	check_values(t_token *data)
 {
 	t_token	*new_list;
-	
+
 	if (is_in_order(data))
-	{	
+	{
 		printf("SWAP\n");
 		swap_nodes(data);
+		new_list = reorganize_cmd(data);
+		parse(new_list);
 	}
 	else
 	{
 		new_list = reorganize_cmd(data);
-		printf("NEW LIST\n");
-		print_token_list(new_list);
+		parse(new_list);
 	}
+	//printf("NEW LIST\n");
+	print_token_list(new_list);
+	free_list(&new_list);
 }
-
