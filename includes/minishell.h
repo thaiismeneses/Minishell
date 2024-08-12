@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:24:06 by penascim          #+#    #+#             */
-/*   Updated: 2024/08/09 11:48:29 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:33:02 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,11 @@ t_type_cmd				find_type(char *cmd, int i, int first_token);
 int						is_first_token(t_type_cmd type);
 
 // utils_token
-t_token					*last_from_list(t_token *data);
-void					add_node(t_token **data, t_type_cmd type, char *value);
-void					free_list(t_token **data);
 t_token					*set_token_list(t_token *data, char *value_cmd,
 							int type);
 t_token					*get_last_token(t_token *data);
+char					*str_join(char *dest, char *src);
+char					*join_cmd(char *dest, char *src, int space);
 
 // index
 int						index_envvar(char *cmd, int i);
@@ -97,13 +96,9 @@ int						index_single(char *cmd, int i);
 int						index_double(char *cmd, int i);
 
 // parse
-t_tree_node				*create_tree_node(t_type_cmd type, char *value);
 void					parse(t_token *data);
 t_tree_node				*parse_command(t_token **data);
 t_tree_node				*parse_expression(t_token **data);
-void					free_tree(t_tree_node *node);
-char	*str_join(char *dest, char *src);
-
 
 // execute
 void					ft_free_tab(char **tab);
@@ -133,6 +128,15 @@ void					print_token_list(t_token *head);
 int						is_in_order(t_token *data);
 void					swap_nodes(t_token *data);
 void					check_values(t_token *data);
+char					*concatenate_cmd_tokens(t_token **data);
 t_token					*reorganize_cmd(t_token *data);
+
+// free.c
+void					free_tree(t_tree_node *node);
+void					free_list(t_token **data);
+
+// node.c
+void					add_node(t_token **data, t_type_cmd type, char *value);
+t_tree_node				*create_tree_node(t_type_cmd type, char *value);
 
 #endif

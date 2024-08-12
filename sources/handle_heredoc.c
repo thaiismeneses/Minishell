@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:30:55 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/08 17:15:26 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 10:37:17 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	create_temp_file(void)
 {
-	int	fd;
+	int		fd;
 	char	*file;
 
 	file = "heredoc";
@@ -59,8 +59,8 @@ void	heredoc_aux(t_token *data, int fd)
 			break ;
 		if (!data->next)
 			break ;
-		if (!ft_strncmp(line, data->next->value,ft_strlen(data->next->value)) &&
-			ft_strlen(line) == ft_strlen(data->next->value))
+		if (!ft_strncmp(line, data->next->value, ft_strlen(data->next->value))
+			&& ft_strlen(line) == ft_strlen(data->next->value))
 		{
 			free(line);
 			break ;

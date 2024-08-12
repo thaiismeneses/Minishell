@@ -6,62 +6,11 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:51:59 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/08 17:30:48 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:18:32 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-t_token	*last_from_list(t_token *data)
-{
-	if (!data)
-		return (NULL);
-	while (data->next)
-		data = data->next;
-	return (data);
-}
-
-void	add_node(t_token **data, t_type_cmd type, char *value)
-{
-	t_token	*new_node;
-	t_token	*last_node;
-
-	if (!data)
-		return ;
-	new_node = (t_token *)malloc(sizeof(t_token));
-	if (!new_node)
-		return ;
-	new_node->token = type;
-	new_node->value = ft_strdup(value);
-	new_node->next = NULL;
-	new_node->prev = NULL;
-	if (!(*data))
-		(*data) = new_node;
-	else
-	{
-		last_node = last_from_list(*data);
-		last_node->next = new_node;
-		new_node->prev = last_node;
-	}
-}
-
-void	free_list(t_token **data)
-{
-	t_token	*current;
-	t_token	*temp;
-
-	if (!data || !(*data))
-		return ;
-	current = *data;
-	while (current)
-	{
-		temp = current->next;
-		free(current->value);
-		free(current);
-		current = temp;
-	}
-	*data = NULL;
-}
 
 t_token	*set_token_list(t_token *data, char *value_cmd, int type)
 {
@@ -69,12 +18,40 @@ t_token	*set_token_list(t_token *data, char *value_cmd, int type)
 	return (data);
 }
 
-t_token *get_last_token(t_token *data)
+t_token	*get_last_token(t_token *data)
 {
-	t_token *current;
+	t_token	*current;
 
 	current = data;
 	while (current->next)
 		current = current->next;
 	return (current);
+}
+
+char	*str_join(char *dest, char *src)
+{
+	char	*result;
+
+	if (!src)
+		return (dest);
+	if (!dest)
+	{
+		result = ft_strdup(src);
+		return (result);
+	}
+	result = ft_strjoin(dest, src);
+	free(dest);
+	return (result);
+}
+
+char	*join_cmd(char *dest, char *src, int space)
+{
+	if (space == 1)
+	{
+		dest = str_join(dest, src);
+		dest = str_join(dest, " ");
+	}
+	else
+		dest = str_join(dest, src);
+	return (dest);
 }

@@ -14,6 +14,8 @@ SRC =	sources/main.c\
 		sources/utils_errors.c\
 		sources/handle_heredoc.c\
 		sources/check_values.c\
+		sources/free.c\
+		sources/nodes.c\
 
 OBJ = $(SRC:.c=.o)
 

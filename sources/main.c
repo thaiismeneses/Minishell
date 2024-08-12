@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:15:49 by penascim          #+#    #+#             */
-/*   Updated: 2024/08/10 17:09:45 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 10:34:12 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ static void	run(char *prompt)
 			print_token_list(tokens);
 			if (has_error(tokens))
 			{
-				//printf("AQUIII\n");
 				check_values(tokens);
 				heredoc(tokens);
-				//parse(tokens);
 			}
 			free_list(&tokens);
 		}

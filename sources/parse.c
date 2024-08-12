@@ -6,61 +6,30 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:58:59 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/10 18:14:05 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:14:41 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_tree(t_tree_node *node)
+t_tree_node	*create_redirect_node(t_token **data)
 {
-	if (node == NULL)
-		return ;
-	free_tree(node->left);
-	free_tree(node->right);
-	free(node->value);
-	free(node);
+	char		*value;
+	t_tree_node	*arg_node;
+
+	value = join_cmd(NULL, (*data)->prev->value, 1);
+	value = join_cmd(value, (*data)->value, 1);
+	value = join_cmd(value, (*data)->next->value, 0);
+	arg_node = create_tree_node(COMMAND_SUBSTITUTION, value);
+	free(value);
+	return (arg_node);
 }
 
-t_tree_node	*create_tree_node(t_type_cmd type, char *value)
-{
-	t_tree_node	*node;
-
-	node = calloc(1, sizeof(t_tree_node));
-	if (!node)
-	{
-		perror("Failed to allocate memory for tree node");
-		return (NULL);
-	}
-	node->type = type;
-	node->value = ft_strdup(value);
-	node->left = NULL;
-	node->right = NULL;
-	return (node);
-}
-
-char	*str_join(char *dest, char *src)
-{
-	char	*result;
-
-	if (!src)
-		return (dest);
-	if (!dest)
-	{
-		result = ft_strdup(src);
-		return (result);
-	}
-	result = ft_strjoin(dest, src);
-	free(dest);
-	return (result);
-}
-// working
 t_tree_node	*parse_command(t_token **data)
 {
 	t_tree_node	*node;
 	t_tree_node	*current;
 	t_tree_node	*arg_node;
-	char		*value;
 
 	if (*data == NULL)
 		return (NULL);
@@ -69,23 +38,9 @@ t_tree_node	*parse_command(t_token **data)
 	current = node;
 	while (*data && ((*data)->token != PIPE))
 	{
-		value = NULL;
 		if ((*data)->token == REDIRECT_IN || (*data)->token == REDIRECT_OUT
 			|| (*data)->token == HEREDOC || (*data)->token == APPEND)
-		{
-			printf("Prev: %s\n", (*data)->prev->value);
-			value = str_join(value, (*data)->prev->value);
-			value = str_join(value, " ");
-			printf("Value: %s\n", (*data)->value);
-			value = str_join(value, (*data)->value);
-			value = str_join(value, " ");
-			printf("Next: %s\n", (*data)->next->value);
-			value = str_join(value, (*data)->next->value);
-			printf("Value: %s\n", value);
-			arg_node = create_tree_node(COMMAND_SUBSTITUTION, value);
-			free(value);
-			node = arg_node;
-		}
+			node = create_redirect_node(data);
 		else
 		{
 			arg_node = create_tree_node((*data)->token, (*data)->value);

@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:11:14 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/10 18:09:37 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:35:56 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void	swap_nodes(t_token *data)
 	t_token	*temp;
 	t_token	*last;
 
-	// t_token *node;
-	// node = data;
 	while (data)
 	{
 		if (data->token == REDIRECT_IN || data->token == REDIRECT_OUT
@@ -58,6 +56,21 @@ void	swap_nodes(t_token *data)
 	}
 }
 
+char	*concatenate_cmd_tokens(t_token **data)
+{
+	char	*value;
+
+	value = NULL;
+	while (*data && (*data)->token == CMD)
+	{
+		value = str_join(value, (*data)->value);
+		if ((*data)->next && (*data)->next->token == CMD)
+			value = str_join(value, " ");
+		*data = (*data)->next;
+	}
+	return (value);
+}
+
 t_token	*reorganize_cmd(t_token *data)
 {
 	t_token	*new_list;
@@ -66,16 +79,9 @@ t_token	*reorganize_cmd(t_token *data)
 	new_list = NULL;
 	while (data)
 	{
-		value = NULL;
 		if (data->token == CMD)
 		{
-			while (data && data->token == CMD)
-			{
-				value = str_join(value, data->value);
-				if (data->next && data->next->token == CMD)
-					value = str_join(value, " ");
-				data = data->next;
-			}
+			value = concatenate_cmd_tokens(&data);
 			new_list = set_token_list(new_list, value, 0);
 			free(value);
 		}
@@ -92,6 +98,7 @@ void	check_values(t_token *data)
 {
 	t_token	*new_list;
 
+	new_list = NULL;
 	if (is_in_order(data))
 	{
 		printf("SWAP\n");
@@ -104,7 +111,7 @@ void	check_values(t_token *data)
 		new_list = reorganize_cmd(data);
 		parse(new_list);
 	}
-	//printf("NEW LIST\n");
+	printf("NEW LIST\n");
 	print_token_list(new_list);
 	free_list(&new_list);
 }

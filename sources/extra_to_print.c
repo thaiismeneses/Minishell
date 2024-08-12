@@ -6,32 +6,11 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 11:37:25 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/08 13:54:31 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 10:40:06 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// void	print_tree(t_tree_node *node, int level)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (node == NULL)
-// 		return ;
-// 	while (i < level)
-// 	{
-// 		printf("  ");
-// 		i++;
-// 	}
-// 	printf("Type: %d, Value: %s\n", node->type,
-// 		node->value ? node->value : "NULL");
-// 	if (node->left)
-// 		print_tree(node->left, level + 1);
-// 	if (node->right)
-// 		print_tree(node->right, level + 1);
-// }
-
 
 void print_tree(t_tree_node *tree, int level) {
     if (!tree)
@@ -90,5 +69,4 @@ void	print_error(char *msg, char *value)
 	ft_putstr_fd("\'\n", 2);
 	if (errno != 0)
 		perror("");
-	// exit(1);
 }
