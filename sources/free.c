@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 10:42:20 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/12 10:46:45 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:06:13 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,18 @@ void	free_list(t_token **data)
 		current = temp;
 	}
 	*data = NULL;
+}
+
+void	free_env_list(t_env_node *head)
+{
+	t_env_node *temp;
+	while (head != NULL)
+	{
+		temp = head;
+		head = head->next;
+		free(temp->name_env);
+		free(temp->value_env);
+		free(temp->line_env);
+		free(temp);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:11:14 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/12 11:35:56 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 14:21:47 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	swap_nodes(t_token *data)
 {
 	t_token	*temp;
 	t_token	*last;
-
+	
 	while (data)
 	{
 		if (data->token == REDIRECT_IN || data->token == REDIRECT_OUT
@@ -101,7 +101,6 @@ void	check_values(t_token *data)
 	new_list = NULL;
 	if (is_in_order(data))
 	{
-		printf("SWAP\n");
 		swap_nodes(data);
 		new_list = reorganize_cmd(data);
 		parse(new_list);
