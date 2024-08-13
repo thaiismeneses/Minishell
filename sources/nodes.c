@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:13:06 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/12 11:35:33 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:52:32 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_tree_node	*create_tree_node(t_type_cmd type, char *value)
 {
 	t_tree_node	*node;
 
-	node = calloc(1, sizeof(t_tree_node));
+	node = malloc(sizeof(t_tree_node));
 	if (!node)
 	{
 		perror("Failed to allocate memory for tree node");

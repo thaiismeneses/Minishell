@@ -6,13 +6,16 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:15:49 by penascim          #+#    #+#             */
-/*   Updated: 2024/08/12 10:34:12 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:14:16 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+extern char **environ;
+
 
 static void	run(char *prompt)
 {
@@ -52,6 +55,9 @@ void	print_prompt(void)
 
 int	main(void)
 {
+	
+    char **envp = environ;
+	build_environ(envp);
 	print_prompt();
 	return (0);
 }

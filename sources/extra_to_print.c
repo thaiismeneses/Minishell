@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 11:37:25 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/12 10:40:06 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:12:43 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,11 @@ void	print_error(char *msg, char *value)
 	ft_putstr_fd("\'\n", 2);
 	if (errno != 0)
 		perror("");
+}
+void print_env_list(t_env_node *head) {
+    t_env_node *temp = head;
+    while (temp != NULL) {
+        printf("Name: %s\nValue: %s\nLine: %s\n\n", temp->name_env, temp->value_env, temp->line_env);
+        temp = temp->next;
+    }
 }

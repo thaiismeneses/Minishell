@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:24:06 by penascim          #+#    #+#             */
-/*   Updated: 2024/08/12 11:33:02 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:16:24 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,24 +57,13 @@ typedef struct s_tree_node
 	struct s_tree_node	*right;
 }						t_tree_node;
 
-// typedef struct s_scommand
-// {
-// 	char *command;
-// 	char **argument;
-// 	t_redirect *redirect;
-// }					t_s_command;
-
-// typedef struct s_command
-// {
-// 	t_s_command	*first;
-// }					t_command;
-
-// typedef	struct s_redirect
-// {
-// 	t_type_cmd	type;
-// 	char	*filename;
-// 	struct s_redirect *next;
-// }	t_redirect;
+typedef struct s_env_node
+{
+	char				*name_env;
+	char				*value_env;
+	char				*line_env;
+	struct s_env_node	*next;
+}						t_env_node;
 
 void					print_prompt(void);
 
@@ -125,6 +114,7 @@ int						has_error(t_token *data);
 // extra_to_print
 void					print_tree(t_tree_node *node, int level);
 void					print_token_list(t_token *head);
+void					print_env_list(t_env_node *head);
 
 // check_values
 int						is_in_order(t_token *data);
@@ -136,6 +126,7 @@ t_token					*reorganize_cmd(t_token *data);
 // free.c
 void					free_tree(t_tree_node *node);
 void					free_list(t_token **data);
+void					free_env_list(t_env_node *head);
 
 // node.c
 void					add_node(t_token **data, t_type_cmd type, char *value);
@@ -143,5 +134,10 @@ t_tree_node				*create_tree_node(t_type_cmd type, char *value);
 
 // signal.c
 void					mini_signal(void);
+
+// environ.c
+void					build_environ(char **envp);
+void					append_env_node(t_env_node **head, char *line_env);
+t_env_node				*create_env_node(const char *env_var);
 
 #endif
