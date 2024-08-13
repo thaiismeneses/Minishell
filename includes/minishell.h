@@ -21,6 +21,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <signal.h>
+# include <sys/ioctl.h>
 
 typedef enum e_type
 {
@@ -129,6 +131,9 @@ void					free_env_list(t_env_node *head);
 // node.c
 void					add_node(t_token **data, t_type_cmd type, char *value);
 t_tree_node				*create_tree_node(t_type_cmd type, char *value);
+
+// signal.c
+void					mini_signal(void);
 
 // environ.c
 void					build_environ(char **envp);
