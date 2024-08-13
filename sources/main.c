@@ -19,6 +19,7 @@ static void	run(char *prompt)
 	char	*cmd;
 	t_token	*tokens;
 
+	mini_signal();
 	while (42)
 	{
 		cmd = readline(prompt);
@@ -28,7 +29,7 @@ static void	run(char *prompt)
 		{
 			add_history(cmd);
 			tokens = tokenization(cmd, tokens);
-			print_token_list(tokens);
+			//print_token_list(tokens);
 			if (has_error(tokens))
 			{
 				check_values(tokens);
