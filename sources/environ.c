@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:13:19 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/12 17:21:31 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:05:36 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_env_node	*create_env_node(const char *env_var)
 {
-	t_env_node *new_node;
-	char	*delimiter;
-	
+	t_env_node	*new_node;
+	char		*delimiter;
+
 	delimiter = ft_strchr(env_var, '=');
 	new_node = malloc(sizeof(t_env_node));
 	if (!new_node)
@@ -25,7 +25,7 @@ t_env_node	*create_env_node(const char *env_var)
 		return (NULL);
 	}
 	new_node->line_env = ft_strdup(env_var);
-	new_node->next = NULL;	
+	new_node->next = NULL;
 	if (delimiter != NULL)
 	{
 		*delimiter = '\0';
@@ -37,7 +37,7 @@ t_env_node	*create_env_node(const char *env_var)
 		new_node->name_env = NULL;
 		new_node->value_env = NULL;
 	}
-	return new_node;
+	return (new_node);
 }
 
 void	append_env_node(t_env_node **head, char *line_env)
@@ -62,12 +62,11 @@ void	append_env_node(t_env_node **head, char *line_env)
 void	build_environ(char **envp)
 {
 	t_env_node	*env_list;
-	
+
 	env_list = NULL;
 	while (*envp != NULL)
 	{
 		append_env_node(&env_list, *envp);
 		envp++;
 	}
-	print_env_list(env_list);
 }

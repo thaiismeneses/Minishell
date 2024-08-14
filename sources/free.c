@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 10:42:20 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/12 17:06:13 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:05:07 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	free_list(t_token **data)
 
 void	free_env_list(t_env_node *head)
 {
-	t_env_node *temp;
+	t_env_node	*temp;
+
 	while (head != NULL)
 	{
 		temp = head;

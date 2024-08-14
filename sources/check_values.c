@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:11:14 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/12 14:21:47 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:04:28 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	swap_nodes(t_token *data)
 {
 	t_token	*temp;
 	t_token	*last;
-	
+
 	while (data)
 	{
 		if (data->token == REDIRECT_IN || data->token == REDIRECT_OUT
