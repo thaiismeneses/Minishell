@@ -83,7 +83,7 @@ void	parse(t_token *data)
 
 	last_token = get_last_token(data);
 	root = parse_expression(&last_token);
-	printf("Tree Construction Complete\n");
+	//printf("Tree Construction Complete\n");
 	//print_tree(root, 0);
 	free_list(&last_token);
 	free_tree(root);

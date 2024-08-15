@@ -69,5 +69,5 @@ void	build_environ(char **envp)
 		append_env_node(&env_list, *envp);
 		envp++;
 	}
-	print_env_list(env_list);
+	//print_env_list(env_list);
 }

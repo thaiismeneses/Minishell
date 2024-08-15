@@ -23,6 +23,7 @@
 # include <unistd.h>
 # include <signal.h>
 # include <sys/ioctl.h>
+# include <limits.h>
 
 typedef enum e_type
 {
@@ -64,6 +65,9 @@ typedef struct s_env_node
 	char				*line_env;
 	struct s_env_node	*next;
 }						t_env_node;
+
+//global
+extern int	g_status;
 
 void					print_prompt(void);
 
@@ -139,5 +143,11 @@ void					mini_signal(void);
 void					build_environ(char **envp);
 void					append_env_node(t_env_node **head, char *line_env);
 t_env_node				*create_env_node(const char *env_var);
+
+// builtins.c
+int						builtins(char **token);
+int					ft_exit(char **token);
+int						long_number(char *token);
+int					error_exit(char *token, int option);
 
 #endif

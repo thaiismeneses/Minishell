@@ -96,8 +96,11 @@ t_token	*reorganize_cmd(t_token *data)
 
 void	check_values(t_token *data)
 {
+	int i;
 	t_token	*new_list;
+	char	**matrix;
 
+	i = 0;
 	new_list = NULL;
 	if (is_in_order(data))
 	{
@@ -110,7 +113,16 @@ void	check_values(t_token *data)
 		new_list = reorganize_cmd(data);
 		parse(new_list);
 	}
-	printf("NEW LIST\n");
-	print_token_list(new_list);
+	//printf("NEW LIST\n");
+	//print_token_list(new_list);
+	//acho que vamos ter que transformar essa *new_list em uma matriz
+	while(new_list)
+	{
+		matrix = ft_split(new_list->value, ' ');
+		builtins(matrix);
+		i++;
+		new_list = new_list->next;
+		free(matrix);
+	}
 	free_list(&new_list);
 }

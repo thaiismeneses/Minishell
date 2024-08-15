@@ -14,15 +14,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int	g_status;
 extern char **environ;
-
 
 static void	run(char *prompt)
 {
 	char	*cmd;
 	t_token	*tokens;
 
-	mini_signal();
 	while (42)
 	{
 		cmd = readline(prompt);
@@ -55,9 +54,11 @@ void	print_prompt(void)
 
 int	main(void)
 {
-	
+	g_status = 0;
+
     char **envp = environ;
 	build_environ(envp);
+	mini_signal();
 	print_prompt();
 	return (0);
 }
