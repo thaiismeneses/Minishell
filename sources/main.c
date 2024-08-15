@@ -17,7 +17,7 @@
 int	g_status;
 extern char **environ;
 
-static void	run(char *prompt)
+static void	run(char *prompt, t_main *main)
 {
 	char	*cmd;
 	t_token	*tokens;
@@ -34,8 +34,9 @@ static void	run(char *prompt)
 			//print_token_list(tokens);
 			if (has_error(tokens))
 			{
-				check_values(tokens);
+				check_values(tokens, main);
 				heredoc(tokens);
+				exec_cmd(main);
 			}
 			free_list(&tokens);
 		}
@@ -44,21 +45,36 @@ static void	run(char *prompt)
 	rl_clear_history();
 }
 
-void	print_prompt(void)
+void	print_prompt(t_main *main)
 {
 	char	*prompt;
 
 	prompt = "minishell$ ";
-	run(prompt);
+	run(prompt, main);
+}
+static t_main *build_main(t_main *main)
+{
+	(void) main;
+	char **envp = environ;
+	t_main	*new_main;
+
+	new_main = malloc(sizeof(t_main));
+	if (!new_main)
+		exit (1);
+	new_main->env = build_environ(envp);
+	new_main->token = NULL;
+	new_main->token = NULL;
+	return (new_main);
 }
 
 int	main(void)
 {
 	g_status = 0;
+	t_main	*main;
 
-    char **envp = environ;
-	build_environ(envp);
+	main = NULL;
 	mini_signal();
-	print_prompt();
+	main = build_main(main);
+	print_prompt(main);
 	return (0);
 }

@@ -59,7 +59,7 @@ void	append_env_node(t_env_node **head, char *line_env)
 	}
 }
 
-void	build_environ(char **envp)
+t_env_node	*build_environ(char **envp)
 {
 	t_env_node	*env_list;
 	
@@ -70,4 +70,5 @@ void	build_environ(char **envp)
 		envp++;
 	}
 	//print_env_list(env_list);
+	return (env_list);
 }
