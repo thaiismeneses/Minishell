@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:58:59 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/12 11:14:41 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/15 18:10:02 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_tree_node	*parse_expression(t_token **data)
 	return (right_node);
 }
 
-void	parse(t_token *data)
+t_tree_node	*parse(t_token *data)
 {
 	t_tree_node	*root;
 	t_token		*last_token;
@@ -84,7 +84,7 @@ void	parse(t_token *data)
 	last_token = get_last_token(data);
 	root = parse_expression(&last_token);
 	printf("Tree Construction Complete\n");
-	//print_tree(root, 0);
+	print_tree(root, 0);
 	free_list(&last_token);
-	free_tree(root);
+	return (root);
 }
