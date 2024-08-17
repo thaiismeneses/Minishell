@@ -16,6 +16,7 @@
 
 int	g_status;
 extern char	**environ;
+
 static void	run(char *prompt, t_main *main)
 {
 	char	*cmd;

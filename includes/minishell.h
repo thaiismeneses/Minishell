@@ -69,13 +69,6 @@ typedef struct s_env_node
 
 typedef struct s_main
 {
-	t_token				*tokens;
-	t_tree_node			*tree;
-	t_env_node			*env_list;
-}						t_main;
-
-typedef struct s_main
-{
 	t_tree_node			*tree;
 	t_env_node			*env;
 	t_token				*token;
