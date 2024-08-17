@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:24:06 by penascim          #+#    #+#             */
-/*   Updated: 2024/08/12 17:16:24 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:00:11 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <unistd.h>
-# include <signal.h>
 # include <sys/ioctl.h>
+# include <sys/wait.h>
+# include <unistd.h>
 # include <limits.h>
 
 typedef enum e_type
@@ -68,6 +69,14 @@ typedef struct s_env_node
 
 typedef struct s_main
 {
+	t_token				*tokens;
+	t_tree_node			*tree;
+	t_env_node			*env_list;
+}						t_main;
+
+typedef struct s_main
+{
+	t_tree_node			*tree;
 	t_env_node			*env;
 	t_token				*token;
 }						t_main;
@@ -85,6 +94,7 @@ t_type_cmd				find_type(char *cmd, int i, int first_token);
 int						is_first_token(t_type_cmd type);
 
 // utils_token
+
 t_token					*set_token_list(t_token *data, char *value_cmd,
 							int type);
 t_token					*get_last_token(t_token *data);
@@ -97,15 +107,19 @@ int						index_single(char *cmd, int i);
 int						index_double(char *cmd, int i);
 
 // parse
-void					parse(t_token *data);
+t_tree_node				*parse(t_token *data);
 t_tree_node				*parse_command(t_token **data);
 t_tree_node				*parse_expression(t_token **data);
 
 // execute
 void					ft_free_tab(char **tab);
-char					*get_path(char *cmd, char **envp);
-void					print_error(char *msg, char *value);
-void					ft_execute(char *av, char **envp);
+char					*get_path(char *cmd);
+void					print_error_exc(char *msg);
+void					ft_execute(char *av, t_env_node *env_list);
+void					execute_pipe(t_tree_node *node, t_main *main);
+int						execute_cmd(t_tree_node *node, t_main *main);
+char					**convert_to_array(t_env_node *env_list);
+char					*my_env(char *find, char **envp);
 
 // check_error
 int						check_append(t_token *data);
@@ -125,6 +139,7 @@ int						has_error(t_token *data);
 void					print_tree(t_tree_node *node, int level);
 void					print_token_list(t_token *head);
 void					print_env_list(t_env_node *head);
+void					print_error(char *msg, char *value);
 
 // check_values
 int						is_in_order(t_token *data);

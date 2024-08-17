@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:15:49 by penascim          #+#    #+#             */
-/*   Updated: 2024/08/12 17:14:16 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:32:21 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 #include <stdlib.h>
 
 int	g_status;
-extern char **environ;
-
+extern char	**environ;
 static void	run(char *prompt, t_main *main)
 {
 	char	*cmd;
