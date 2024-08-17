@@ -6,13 +6,13 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 15:17:51 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/15 18:33:20 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:10:30 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-char **convert_to_array(t_env_node *env_list) 
+char **convert_to_array(t_env_node *env_list)
 {
     int count;
 	t_env_node *temp;

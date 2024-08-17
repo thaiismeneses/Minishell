@@ -6,11 +6,11 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:30:55 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/12 10:37:17 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:10:33 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	create_temp_file(void)
 {

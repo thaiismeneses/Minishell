@@ -6,11 +6,11 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:30:45 by thfranco          #+#    #+#             */
-/*   Updated: 2024/07/20 15:02:18 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:09:50 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	check_append(t_token *data)
 {

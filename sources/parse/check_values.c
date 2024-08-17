@@ -6,11 +6,11 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:11:14 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/15 19:00:35 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:09:53 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	is_in_order(t_token *data)
 {
@@ -33,7 +33,7 @@ void	swap_nodes(t_token *data)
 {
 	t_token	*temp;
 	t_token	*last;
-	
+
 	while (data)
 	{
 		if (data->token == REDIRECT_IN || data->token == REDIRECT_OUT
@@ -94,7 +94,7 @@ t_token	*reorganize_cmd(t_token *data)
 	return (new_list);
 }
 
-void	check_values(t_token *tokens, t_main *main)
+void	check_values(t_token *tokens)
 {
 	t_token	*new_list;
 	t_tree_node *tree;
@@ -104,18 +104,18 @@ void	check_values(t_token *tokens, t_main *main)
 	{
 		swap_nodes(tokens);
 		new_list = reorganize_cmd(tokens);
-		main->tokens = new_list;
+		// main->tokens = new_list;
 		tree = parse(new_list);
-		main->tree = tree;
-		execute_cmd(tree, main);
+		//main->tree = tree;
+		//execute_cmd(tree, main);
 	}
 	else
 	{
 		new_list = reorganize_cmd(tokens);
-		main->tokens = new_list;
+		//main->tokens = new_list;
 		tree = parse(new_list);
-		main->tree = tree;
-		execute_cmd(tree, main);
+		//main->tree = tree;
+		//execute_cmd(tree, main);
 	}
 	//printf("NEW LIST\n");
 	//print_token_list(new_list);

@@ -5,20 +5,20 @@ CFLAGS = -Wall -Wextra -Werror
 LIBS = libft/libft.a
 
 SRC =	sources/main.c\
-		sources/tokenization.c\
-		sources/utils_token.c\
-		sources/parse.c\
-		sources/index.c\
+		sources/parse/tokenization.c\
+		sources/parse/utils_token.c\
+		sources/parse/parse.c\
+		sources/parse/index.c\
 		sources/extra_to_print.c\
-		sources/check_errors.c\
-		sources/utils_errors.c\
-		sources/handle_heredoc.c\
-		sources/check_values.c\
-		sources/free.c\
-		sources/nodes.c\
-		sources/signals.c\
-		sources/environ.c\
-		sources/execute.c\
+		sources/parse/check_errors.c\
+		sources/parse/utils_errors.c\
+		sources/execute/handle_heredoc.c\
+		sources/parse/check_values.c\
+		sources/parse/free.c\
+		sources/parse/nodes.c\
+		sources/execute/signals.c\
+		sources/execute/environ.c\
+		# sources/execute/execute.c\
 
 OBJ = $(SRC:.c=.o)
 

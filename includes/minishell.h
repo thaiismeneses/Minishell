@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:24:06 by penascim          #+#    #+#             */
-/*   Updated: 2024/08/15 18:11:16 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:00:11 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void					print_error(char *msg, char *value);
 // check_values
 int						is_in_order(t_token *data);
 void					swap_nodes(t_token *data);
-void					check_values(t_token *tokens, t_main *main);
+void					check_values(t_token *tokens);
 char					*concatenate_cmd_tokens(t_token **data);
 t_token					*reorganize_cmd(t_token *data);
 
