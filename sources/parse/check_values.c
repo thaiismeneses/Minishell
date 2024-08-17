@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:11:14 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/17 15:18:48 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:46:38 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_token	*reorganize_cmd(t_token *data)
 	return (new_list);
 }
 
-void	check_values(t_token *data)
+void	check_values(t_token *data, t_main *main)
 {
 	t_token	*new_list;
 
@@ -112,5 +112,6 @@ void	check_values(t_token *data)
 	}
 	printf("NEW LIST\n");
 	print_token_list(new_list);
-	free_list(&new_list);
+	main->token = new_list;
+	//free_list(&new_list);
 }

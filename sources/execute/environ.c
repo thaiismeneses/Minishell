@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:13:19 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/17 15:20:07 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:48:26 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	append_env_node(t_env_node **head, char *line_env)
 	}
 }
 
-void	build_environ(char **envp)
+t_env_node	*build_environ(char **envp)
 {
 	t_env_node	*env_list;
 
@@ -69,4 +69,5 @@ void	build_environ(char **envp)
 		append_env_node(&env_list, *envp);
 		envp++;
 	}
+	return (env_list);
 }
