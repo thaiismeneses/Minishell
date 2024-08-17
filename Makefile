@@ -20,7 +20,7 @@ SRC =	sources/main.c\
 		sources/execute/environ.c\
 		sources/buitins.c\
 		sources/exit.c\
-		# sources/execute/execute.c\
+		sources/execute/execute.c\
 
 OBJ = $(SRC:.c=.o)
 

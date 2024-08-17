@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 15:17:51 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/17 14:10:30 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/17 18:01:43 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,9 +187,10 @@ int	execute_cmd(t_tree_node *node, t_main *main)
 {
 	if (node == NULL)
 		return (-1);
-	print_env_list(main->env_list);
+	print_env_list(main->env);
+	print_tree(main->tree,0);
 	if (node->type == CMD)
-		ft_execute(node->value, main->env_list);
+		ft_execute(node->value, main->env);
 	else if (node->type == PIPE)
 	{
 		execute_pipe(node->left, main);
