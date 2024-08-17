@@ -6,11 +6,11 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:51:59 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/12 11:18:32 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:10:14 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 t_token	*set_token_list(t_token *data, char *value_cmd, int type)
 {

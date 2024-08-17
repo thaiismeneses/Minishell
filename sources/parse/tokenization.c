@@ -6,11 +6,11 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:44:47 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/12 10:31:31 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:09:32 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static t_type_cmd	find_type_cont(char *cmd, int i, int first_token)
 {

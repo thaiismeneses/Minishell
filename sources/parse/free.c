@@ -6,11 +6,11 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 10:42:20 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/12 17:06:13 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:31:18 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	free_tree(t_tree_node *node)
 {
@@ -42,7 +42,8 @@ void	free_list(t_token **data)
 
 void	free_env_list(t_env_node *head)
 {
-	t_env_node *temp;
+	t_env_node	*temp;
+
 	while (head != NULL)
 	{
 		temp = head;

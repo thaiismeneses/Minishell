@@ -6,17 +6,17 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:13:19 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/12 17:21:31 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:10:27 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 t_env_node	*create_env_node(const char *env_var)
 {
 	t_env_node *new_node;
 	char	*delimiter;
-	
+
 	delimiter = ft_strchr(env_var, '=');
 	new_node = malloc(sizeof(t_env_node));
 	if (!new_node)
@@ -25,7 +25,7 @@ t_env_node	*create_env_node(const char *env_var)
 		return (NULL);
 	}
 	new_node->line_env = ft_strdup(env_var);
-	new_node->next = NULL;	
+	new_node->next = NULL;
 	if (delimiter != NULL)
 	{
 		*delimiter = '\0';
@@ -62,12 +62,11 @@ void	append_env_node(t_env_node **head, char *line_env)
 void	build_environ(char **envp)
 {
 	t_env_node	*env_list;
-	
+
 	env_list = NULL;
 	while (*envp != NULL)
 	{
 		append_env_node(&env_list, *envp);
 		envp++;
 	}
-	print_env_list(env_list);
 }
