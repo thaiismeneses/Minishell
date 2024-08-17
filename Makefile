@@ -19,6 +19,8 @@ SRC =	sources/main.c\
 		sources/execute/signals.c\
 		sources/execute/environ.c\
 		# sources/execute/execute.c\
+		sources/buitins.c\
+		sources/exit.c\
 
 OBJ = $(SRC:.c=.o)
 

@@ -24,6 +24,7 @@
 # include <sys/ioctl.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <limits.h>
 
 typedef enum e_type
 {
@@ -73,7 +74,17 @@ typedef struct s_main
 	t_env_node			*env_list;
 }						t_main;
 
-void					print_prompt(void);
+typedef struct s_main
+{
+	t_tree_node			*tree;
+	t_env_node			*env;
+	t_token				*token;
+}						t_main;
+
+//global
+extern int	g_status;
+
+void					print_prompt(t_main *main);
 
 // tokenization
 t_token					*tokenization(char *cmd, t_token *data);
@@ -82,7 +93,7 @@ char					*get_token(char *cmd, int i, int start);
 t_type_cmd				find_type(char *cmd, int i, int first_token);
 int						is_first_token(t_type_cmd type);
 
-// utils_token        paths = ft_split(get_env("PATH", envp), ':');
+// utils_token
 
 t_token					*set_token_list(t_token *data, char *value_cmd,
 							int type);
@@ -133,7 +144,7 @@ void					print_error(char *msg, char *value);
 // check_values
 int						is_in_order(t_token *data);
 void					swap_nodes(t_token *data);
-void					check_values(t_token *tokens);
+void					check_values(t_token *data, t_main *main);
 char					*concatenate_cmd_tokens(t_token **data);
 t_token					*reorganize_cmd(t_token *data);
 
@@ -141,6 +152,7 @@ t_token					*reorganize_cmd(t_token *data);
 void					free_tree(t_tree_node *node);
 void					free_list(t_token **data);
 void					free_env_list(t_env_node *head);
+void					free_main(t_main *main);
 
 // node.c
 void					add_node(t_token **data, t_type_cmd type, char *value);
@@ -150,8 +162,17 @@ t_tree_node				*create_tree_node(t_type_cmd type, char *value);
 void					mini_signal(void);
 
 // environ.c
-void					build_environ(char **envp);
+t_env_node				*build_environ(char **envp);
 void					append_env_node(t_env_node **head, char *line_env);
 t_env_node				*create_env_node(const char *env_var);
+
+// builtins.c
+void    				exec_cmd(t_main *main);
+int						builtins(char **token);
+
+//exit.c
+int						ft_exit(char **token);
+int						long_number(char *token);
+int						error_exit(char *token, int option);
 
 #endif
