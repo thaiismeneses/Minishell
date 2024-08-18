@@ -31,13 +31,12 @@ static void	run(char *prompt, t_main *main)
 		{
 			add_history(cmd);
 			tokens = tokenization(cmd, tokens);
-			//print_token_list(tokens);
 			if (has_error(tokens))
 			{
 				check_values(tokens, main);
 				heredoc(tokens);
 				exec_cmd(main);
-				//execute_cmd(main->tree, main);
+				execute_cmd(main->tree, main);
 			}
 			free_list(&tokens);
 		}
