@@ -18,8 +18,9 @@ SRC =	sources/main.c\
 		sources/parse/nodes.c\
 		sources/execute/signals.c\
 		sources/execute/environ.c\
-		sources/buitins.c\
-		sources/exit.c\
+		sources/buitins/buitins.c\
+		sources/buitins/exit.c\
+		sources/buitins/env.c\
 		# sources/execute/execute.c\
 
 OBJ = $(SRC:.c=.o)

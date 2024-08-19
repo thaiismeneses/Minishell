@@ -161,11 +161,15 @@ t_env_node				*create_env_node(const char *env_var);
 
 // builtins.c
 void    				exec_cmd(t_main *main);
-int						builtins(char **token);
+int 					builtins(char **token, t_main *main);
+void					free_matrix(char **matrix);
 
 //exit.c
 int						ft_exit(char **token);
 int						long_number(char *token);
 int						error_exit(char *token, int option);
+
+//env.c
+int						ft_env(t_main *main);
 
 #endif

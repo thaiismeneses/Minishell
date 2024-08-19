@@ -110,8 +110,8 @@ void	check_values(t_token *data, t_main *main)
 		new_list = reorganize_cmd(data);
 		parse(new_list);
 	}
-	printf("NEW LIST\n");
-	print_token_list(new_list);
+	//printf("NEW LIST\n");
+	//print_token_list(new_list);
 	main->token = new_list;
 	//free_list(&new_list);
 }
