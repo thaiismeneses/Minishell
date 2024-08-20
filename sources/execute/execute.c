@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 15:17:51 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/18 17:41:36 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:17:00 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void	ft_execute(char *av, t_env_node *env_list)
 		printf("fork error.\n");
 	else if (pid == 0)
 	{
+		//heandle redirections
 		if (execve(path, cmd, convert_to_array(env_list)) == -1)
 		{
 			print_error_exc("command not found: ", cmd[0]);
@@ -151,7 +152,7 @@ void	execute_pipe(t_tree_node *node, t_main *main)
 	pid_t	pid1;
 	pid_t	pid2;
 
-	printf("pipe\n");
+	//printf("pipe\n");
 	if (pipe(pipe_fd) == -1)
 		printf("pipe error.\n");
 	if ((pid1 = fork()) == -1)
@@ -186,6 +187,10 @@ int	execute_cmd(t_tree_node *node, t_main *main)
 		return (0);
 	if (node->type == CMD)
 		ft_execute(node->value, main->env);
+	//if (node->type == COMMAND_SUBSTITUTION)
+	//{
+	//	handle_redirects(node->value, main);
+	//}
 	else if (node->type == PIPE)
 	{
 		execute_pipe(node, main);

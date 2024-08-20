@@ -15,7 +15,7 @@
 #include <stdlib.h>
 
 int	g_status;
-extern char	**environ;
+extern char		**environ;
 
 static void	run(char *prompt, t_main *main)
 {
@@ -52,7 +52,8 @@ void	print_prompt(t_main *main)
 	prompt = "minishell$ ";
 	run(prompt, main);
 }
-static t_main *build_main(t_main *main)
+
+static t_main	*build_main(t_main *main)
 {
 	(void) main;
 	char **envp = environ;

@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:11:14 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/17 17:59:58 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:16:13 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,13 @@ char	*concatenate_cmd_tokens(t_token **data)
 	char	*value;
 
 	value = NULL;
-	while (*data && (*data)->token == CMD)
+	while (*data && ((*data)->token == CMD || (*data)->token == S_QUOTE
+			|| (*data)->token == D_QUOTE))
 	{
 		value = str_join(value, (*data)->value);
-		if ((*data)->next && (*data)->next->token == CMD)
+		if ((*data)->next && ((*data)->next->token == CMD
+				|| (*data)->next->token == S_QUOTE
+				|| (*data)->next->token == D_QUOTE))
 			value = str_join(value, " ");
 		*data = (*data)->next;
 	}
@@ -79,7 +82,8 @@ t_token	*reorganize_cmd(t_token *data)
 	new_list = NULL;
 	while (data)
 	{
-		if (data->token == CMD)
+		if (data->token == CMD || data->token == S_QUOTE
+			|| data->token == D_QUOTE)
 		{
 			value = concatenate_cmd_tokens(&data);
 			new_list = set_token_list(new_list, value, 0);
@@ -104,7 +108,6 @@ void	check_values(t_token *data, t_main *main)
 		swap_nodes(data);
 		new_list = reorganize_cmd(data);
 		main->tree = parse(new_list);
-		
 	}
 	else
 	{
@@ -114,5 +117,5 @@ void	check_values(t_token *data, t_main *main)
 	printf("NEW LIST\n");
 	print_token_list(new_list);
 	main->token = new_list;
-	//free_list(&new_list);
+	// free_list(&new_list);
 }
