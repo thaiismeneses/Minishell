@@ -24,6 +24,7 @@ SRC =	sources/main.c\
 		sources/buitins/export.c\
 		sources/buitins/unset.c\
 		sources/buitins/cd.c\
+		sources/buitins/cd_utils.c\
 		sources/buitins/pwd.c\
 		# sources/execute/execute.c\
 

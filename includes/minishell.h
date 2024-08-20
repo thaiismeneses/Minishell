@@ -188,5 +188,13 @@ void					remove_node_unset(char *token, t_main *main);
 void					start_pwd(t_main *main);
 
 //cd.c
+int 					ft_cd(char **token, t_main *main);
+void    				update_pwd(t_main *main);
+
+//cd_utils.c
+char    				*find_env(t_env_node *env, char *env_name);
+int    					home_path(t_main *main);
+int    					old_path(t_main *main);
+int 					parent_path(t_main *main);
 
 #endif

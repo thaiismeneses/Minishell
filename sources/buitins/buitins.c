@@ -18,6 +18,8 @@ int builtins(char **token, t_main *main)
         ft_putstr_fd(main->pwd, STDOUT_FILENO);
         ft_putstr_fd("\n", STDOUT_FILENO);
     }
+    if (!ft_strcmp(token[0], "cd"))
+        g_status = ft_cd(token, main);
     return(0);
 }
 void	free_matrix(char **matrix)
