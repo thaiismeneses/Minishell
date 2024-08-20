@@ -20,7 +20,9 @@ SRC =	sources/main.c\
 		sources/execute/environ.c\
 		sources/buitins/buitins.c\
 		sources/buitins/exit.c\
-		sources/buitins/env.c\
+		sources/buitins/env_var.c\
+		sources/buitins/export.c\
+		sources/buitins/unset.c\
 		# sources/execute/execute.c\
 
 OBJ = $(SRC:.c=.o)

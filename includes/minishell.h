@@ -169,7 +169,17 @@ int						ft_exit(char **token);
 int						long_number(char *token);
 int						error_exit(char *token, int option);
 
-//env.c
-int						ft_env(t_main *main);
+//env_var.c
+int 					ft_env(char **token, t_main *main);
+
+//export.c
+int 					ft_export(char **token, t_main *main);
+void    				utils_export(char **token, t_main *main, int type);
+int    					export_env(char **token, t_main *main);
+void					remove_node_export(char *token, t_main *main, int i);
+
+//unset.c
+int 					ft_unset(char **token, t_main *main);
+void					remove_node_unset(char *token, t_main *main);
 
 #endif

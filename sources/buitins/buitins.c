@@ -1,5 +1,6 @@
 #include "../../includes/minishell.h"
 
+//n sei se atualizo o valor de g_status msm
 int builtins(char **token, t_main *main)
 {
     if (!token || !token[0])
@@ -7,7 +8,11 @@ int builtins(char **token, t_main *main)
     if (!ft_strcmp(token[0], "exit"))
         g_status = ft_exit(token);
     if (!ft_strcmp(token[0], "env"))
-        g_status = ft_env(main);
+        g_status = ft_env(token, main);
+    if (!ft_strcmp(token[0], "export"))
+        g_status = ft_export(token, main);
+    if (!ft_strcmp(token[0], "unset"))
+        g_status = ft_unset(token, main);
     return(0);
 }
 void	free_matrix(char **matrix)
