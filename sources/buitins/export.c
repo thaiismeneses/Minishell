@@ -62,7 +62,7 @@ int    export_env(char **token, t_main *main)
     i = 0;
     temp = main->env;
     while (token[1][i] != '\0' && token[1][i] != '=')
-            i++;
+        i++;
     if (token[1][i] == '=')
     {
         while (temp != NULL)
@@ -77,10 +77,7 @@ int    export_env(char **token, t_main *main)
         append_env_node(&main->env, token[1]);
     }
     else
-    {
-        utils_export(token, main, 2);
-        return (1);
-    }
+        return(utils_export(token, main, 2), 1);
     return (0);
 }
 

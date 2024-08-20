@@ -13,6 +13,11 @@ int builtins(char **token, t_main *main)
         g_status = ft_export(token, main);
     if (!ft_strcmp(token[0], "unset"))
         g_status = ft_unset(token, main);
+    if (!ft_strcmp(token[0], "pwd"))
+    {
+        ft_putstr_fd(main->pwd, STDOUT_FILENO);
+        ft_putstr_fd("\n", STDOUT_FILENO);
+    }
     return(0);
 }
 void	free_matrix(char **matrix)

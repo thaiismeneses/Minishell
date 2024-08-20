@@ -72,6 +72,8 @@ typedef struct s_main
 	t_tree_node			*tree;
 	t_env_node			*env;
 	t_token				*token;
+	char				*pwd;
+	char				*old_pwd;
 }						t_main;
 
 //global
@@ -181,5 +183,10 @@ void					remove_node_export(char *token, t_main *main, int i);
 //unset.c
 int 					ft_unset(char **token, t_main *main);
 void					remove_node_unset(char *token, t_main *main);
+
+//pwd.c
+void					start_pwd(t_main *main);
+
+//cd.c
 
 #endif

@@ -23,6 +23,8 @@ SRC =	sources/main.c\
 		sources/buitins/env_var.c\
 		sources/buitins/export.c\
 		sources/buitins/unset.c\
+		sources/buitins/cd.c\
+		sources/buitins/pwd.c\
 		# sources/execute/execute.c\
 
 OBJ = $(SRC:.c=.o)
