@@ -200,4 +200,8 @@ int 					parent_path(t_main *main);
 //echo.c
 int 					ft_echo(char **token);
 
+//expansio.c
+int						expansion(char *token, t_main *main);
+void					str_slice(char *dest, const char *src);
+
 #endif

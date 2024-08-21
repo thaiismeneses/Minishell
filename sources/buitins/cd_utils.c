@@ -44,7 +44,7 @@ int parent_path(t_main *main)
 
     i = 0;
     path = main->old_pwd;
-    new_path = calloc(ft_strlen(path) + 1, sizeof (char));
+    new_path = ft_calloc(ft_strlen(path) + 1, sizeof (char));
     if (!new_path)
         return (1);
     while (path[i] != '\0')

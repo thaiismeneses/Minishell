@@ -42,10 +42,18 @@ void	free_matrix(char **matrix)
 
 void    exec_cmd(t_main *main)
 {
+    t_token *temp;
     char	**matrix;
 
+    temp = main->token;
+    while(temp)
+    {
+        expansion(temp->value, main)
+        temp = temp->next;
+    }
     while(main->token)
 	{
+        printf("main->token: %s\n", main->token->value);
 		matrix = ft_split(main->token->value, ' ');
 		builtins(matrix, main);
 		main->token = main->token->next;
