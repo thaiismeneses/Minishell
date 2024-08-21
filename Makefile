@@ -26,6 +26,7 @@ SRC =	sources/main.c\
 		sources/buitins/cd.c\
 		sources/buitins/cd_utils.c\
 		sources/buitins/pwd.c\
+		sources/buitins/echo.c\
 		# sources/execute/execute.c\
 
 OBJ = $(SRC:.c=.o)

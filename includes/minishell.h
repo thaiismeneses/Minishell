@@ -197,4 +197,7 @@ int    					home_path(t_main *main);
 int    					old_path(t_main *main);
 int 					parent_path(t_main *main);
 
+//echo.c
+int 					ft_echo(char **token);
+
 #endif

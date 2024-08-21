@@ -20,6 +20,8 @@ int builtins(char **token, t_main *main)
     }
     if (!ft_strcmp(token[0], "cd"))
         g_status = ft_cd(token, main);
+    if (!ft_strcmp(token[0], "echo"))
+        g_status = ft_echo(token);
     return(0);
 }
 void	free_matrix(char **matrix)
