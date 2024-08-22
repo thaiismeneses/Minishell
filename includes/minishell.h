@@ -128,6 +128,7 @@ void					heredoc(t_token *data);
 
 // utils_errors
 int						check_start_end(t_token *data);
+int 					check_quotes(t_token *token);
 int						has_error(t_token *data);
 
 // extra_to_print
@@ -163,6 +164,7 @@ t_env_node				*create_env_node(const char *env_var);
 
 // builtins.c
 void    				exec_cmd(t_main *main);
+void    				remove_quotes(t_token *data);
 int 					builtins(char **token, t_main *main);
 void					free_matrix(char **matrix);
 
