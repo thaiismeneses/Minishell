@@ -202,6 +202,7 @@ int 					ft_echo(char **token);
 
 //expansio.c
 int						expansion(char *token, t_main *main);
+void					expand_tokens(t_main *main);
 void					str_slice(char *dest, const char *src);
 
 #endif

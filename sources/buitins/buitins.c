@@ -59,16 +59,10 @@ void    exec_cmd(t_main *main)
 
     temp = main->token;
     while(temp)
-    {
-        expansion(temp->value, main)
-        temp = temp->next;
-    }
-    while(main->token)
 	{
-        printf("main->token: %s\n", main->token->value);
-		matrix = ft_split(main->token->value, ' ');
+		matrix = ft_split(temp->value, ' ');
 		builtins(matrix, main);
-		main->token = main->token->next;
+		temp = temp->next;
 		free_matrix(matrix);
-	}
+    }
 }

@@ -28,12 +28,30 @@ void str_slice(char *dest, const char *src)
     dest[j] = '\0';
 }
 
+void	expand_tokens(t_main *main)
+{
+    t_token *header;
+    t_token *temp;
+
+    header = main->token;
+    temp = header;
+	while(temp)
+    {
+        if (expansion(temp->value, main))
+            temp->token = 0;
+        temp = temp->next;
+    }
+    temp = reorganize_cmd(header);
+    free_list(&header);
+    main->token = temp;
+}
+
 int expansion(char *token, t_main *main) //precisa fazer a expansão do $?
 {
     char    *env_var;
     char    *value_var;
 
-    if(token[0] == '$' && ft_strlen(token) > 1)
+    if(token[0] == '$' && ft_strlen(token) > 1) //aspas duplas
     {
         env_var = ft_calloc(ft_strlen(token), sizeof(char));
         if (!env_var)
@@ -46,8 +64,9 @@ int expansion(char *token, t_main *main) //precisa fazer a expansão do $?
             free(token);
             token = ft_strdup(value_var);
             if (!token)
-                return (1);
+                return (0);
         }
+        return (1);
     }
     return (0);
 }

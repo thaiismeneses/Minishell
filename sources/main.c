@@ -36,6 +36,7 @@ static void	run(char *prompt, t_main *main)
 			{
 				check_values(tokens, main);
 				heredoc(tokens);
+				expand_tokens(main);
 				exec_cmd(main);
 			}
 			free_list(&tokens);
