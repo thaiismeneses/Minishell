@@ -21,6 +21,7 @@ SRC =	sources/main.c\
 		sources/buitins.c\
 		sources/exit.c\
 		sources/execute/execute.c\
+		sources/execute/redirects.c\
 
 OBJ = $(SRC:.c=.o)
 

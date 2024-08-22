@@ -6,7 +6,7 @@
     t_env_node *temp;
 
     temp = head;
-    while (temp != NULL) 
+    while (temp != NULL)
     {
         printf("Name: %s\nValue: %s\nLine: %s\n\n", temp->name_env, temp->value_env, temp->line_env);
         temp = temp->next;
@@ -27,12 +27,14 @@ int builtins(char **token)
 void    exec_cmd(t_main *main)
 {
     char	**matrix;
+    t_token *temp;
 
-    while(main->token)
+    temp = main->token;
+    while(temp)
 	{
-		matrix = ft_split(main->token->value, ' ');
+		matrix = ft_split(temp->value, ' ');
 		builtins(matrix);
-		main->token = main->token->next;
+		temp = temp->next;
 		free(matrix);
 	}
 }
