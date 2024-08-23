@@ -168,6 +168,7 @@ int	long_number(char *token);
 int	error_exit(char *token, int option);
 
 //redirects
-void	handle_redirections(t_tree_node *node);
-void execute_command_with_redirection(t_tree_node *node);
+
+void	handle_redirect(t_tree_node *node);
+
 #endif

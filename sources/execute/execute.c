@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 15:17:51 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/22 18:18:47 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/23 12:01:59 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,11 +189,7 @@ int	execute_cmd(t_tree_node *node, t_main *main)
 		ft_execute(node->value, main->env);
 	if (node->type == COMMAND_SUBSTITUTION)
 	{
-		//handle_redirections(node);
-		//printf("VALUE: %s\n", main->token->value);
-		//ft_execute(main->token->value, main->env);
-		//execute_command_with_redirection(node);
-
+		handle_redirect(node);
 	}
 	else if (node->type == PIPE)
 	{
