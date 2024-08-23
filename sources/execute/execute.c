@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 15:17:51 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/23 13:50:53 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/23 17:00:16 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,13 @@ void	print_error_exc(char *msg, char *cmd)
 	ft_putstr_fd("\n", 2);
 	// if (errno != 0)
 	// 	perror("");
-	// exit(1);
+
 }
 
-void	ft_execute(char *av, t_env_node *env_list)
+void	ft_execute(char *av, t_env_node *env_list, t_main *main)
 {
 	char	**cmd;
 	char	*path;
-	pid_t	pid;
 
 	cmd = ft_split(av, ' ');
 	path = get_path(cmd[0], env_list);
@@ -125,24 +124,28 @@ void	ft_execute(char *av, t_env_node *env_list)
 		ft_free_tab(cmd);
 		return ;
 	}
-	pid = fork();
-	if (pid == -1)
-		printf("fork error.\n");
-	else if (pid == 0)
+	if (!builtins(cmd, main))
 	{
-
-		if (execve(path, cmd, convert_to_array(env_list)) == -1)
+		pid_t	pid;
+		pid = fork();
+		if (pid == -1)
+			printf("fork error.\n");
+		else if (pid == 0)
 		{
-			print_error_exc("command not found: ", cmd[0]);
+			if (execve(path, cmd, convert_to_array(env_list)) == -1)
+			{
+				print_error_exc("command not found: ", cmd[0]);
+				ft_free_tab(cmd);
+				// free(path);
+				exit(127);
+			}
+		}
+		else
+		{
+			waitpid(pid, NULL, 0);
 			ft_free_tab(cmd);
 			// free(path);
 		}
-	}
-	else
-	{
-		waitpid(pid, NULL, 0);
-		ft_free_tab(cmd);
-		// free(path);
 	}
 }
 
@@ -186,7 +189,7 @@ int	execute_cmd(t_tree_node *node, t_main *main)
 	if (node == NULL)
 		return (0);
 	if (node->type == CMD)
-		ft_execute(node->value, main->env);
+		ft_execute(node->value, main->env, main);
 	if (node->type == COMMAND_SUBSTITUTION)
 	{
 		handle_redirect(node);

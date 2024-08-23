@@ -18,22 +18,23 @@ int builtins(char **token, t_main *main)
     if (!token || !token[0])
         return(0);
     if (!ft_strcmp(token[0], "exit"))
-        g_status = ft_exit(token);
+        return(ft_exit(token), 1);
     if (!ft_strcmp(token[0], "env"))
-        g_status = ft_env(token, main);
+        return(ft_env(token, main), 1);
     if (!ft_strcmp(token[0], "export"))
-        g_status = ft_export(token, main);
+        return(ft_export(token, main), 1);
     if (!ft_strcmp(token[0], "unset"))
-        g_status = ft_unset(token, main);
+        return(ft_unset(token, main), 1);
     if (!ft_strcmp(token[0], "pwd"))
     {
         ft_putstr_fd(main->pwd, STDOUT_FILENO);
         ft_putstr_fd("\n", STDOUT_FILENO);
+        return (1);
     }
     if (!ft_strcmp(token[0], "cd"))
-        g_status = ft_cd(token, main);
+        return(ft_cd(token, main), 1);
     if (!ft_strcmp(token[0], "echo"))
-        g_status = ft_echo(token);
+        return(ft_echo(token), 1);
     return(0);
 }
 void	free_matrix(char **matrix)
@@ -52,39 +53,39 @@ void	free_matrix(char **matrix)
 	matrix = NULL;
 }
 
-void    remove_quotes(t_token *data)
-{
-    int     i;
-    int     j;
-    char    quote;
-    char    *string_quote;
-    t_token *temp;
+// void    remove_quotes(t_token *data)
+// {
+//     int     i;
+//     int     j;
+//     char    quote;
+//     char    *string_quote;
+//     t_token *temp;
 
-    i = 0;
-    j = 0;
-    temp = data;
-    while (temp)
-    {
-        while(temp->value[i])
-        {
-            if (temp->value[i] == "\'" || temp->value[i] == "\"")
-            {
-                j = i + 1;
-                quote = temp->value[i];
-                while (temp->value[j] != '\0' && temp->value[j] != quote)
-                    j++;
-                if(temp->value[j] == quote)
-                {
-                    string_quote = ft_calloc(sizeof(char), ft_strlen(temp->value) - 1)
-                    free(temp->value);
-                    temp->value = string_quote;
-                }
-            }
-            i++;
-        }
-        temp = temp->next;
-    }
-}
+//     i = 0;
+//     j = 0;
+//     temp = data;
+//     while (temp)
+//     {
+//         while(temp->value[i])
+//         {
+//             if (temp->value[i] == "\'" || temp->value[i] == "\"")
+//             {
+//                 j = i + 1;
+//                 quote = temp->value[i];
+//                 while (temp->value[j] != '\0' && temp->value[j] != quote)
+//                     j++;
+//                 if(temp->value[j] == quote)
+//                 {
+//                     string_quote = ft_calloc(sizeof(char), ft_strlen(temp->value) - 1)
+//                     free(temp->value);
+//                     temp->value = string_quote;
+//                 }
+//             }
+//             i++;
+//         }
+//         temp = temp->next;
+//     }
+// }
 
 /*char *remove_quotes_from_string(const char *str) {
     size_t len = strlen(str);
@@ -135,7 +136,7 @@ void    exec_cmd(t_main *main)
     char	**matrix;
 
     temp = main->token;
-    remove_quotes(main->token);
+    //remove_quotes(main->token);
     while(temp)
 	{
 		matrix = ft_split(temp->value, ' ');
