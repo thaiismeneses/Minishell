@@ -36,6 +36,7 @@ static void	run(char *prompt, t_main *main)
 			{
 				check_values(tokens, main);
 				heredoc(tokens);
+				expand_tokens(main);
 				exec_cmd(main);
 			}
 			free_list(&tokens);
@@ -63,7 +64,7 @@ static t_main *build_main(t_main *main)
 		exit (1);
 	new_main->env = build_environ(envp);
 	new_main->token = NULL;
-	new_main->token = NULL;
+	start_pwd(new_main);
 	return (new_main);
 }
 

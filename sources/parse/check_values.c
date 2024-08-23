@@ -56,42 +56,46 @@ void	swap_nodes(t_token *data)
 	}
 }
 
-char	*concatenate_cmd_tokens(t_token **data)
+char    *concatenate_cmd_tokens(t_token **data)
 {
-	char	*value;
+    char    *value;
 
-	value = NULL;
-	while (*data && (*data)->token == CMD)
-	{
-		value = str_join(value, (*data)->value);
-		if ((*data)->next && (*data)->next->token == CMD)
-			value = str_join(value, " ");
-		*data = (*data)->next;
-	}
-	return (value);
+    value = NULL;
+    while (*data && ((*data)->token == CMD || (*data)->token == S_QUOTE
+            || (*data)->token == D_QUOTE))
+    {
+        value = str_join(value, (*data)->value);
+        if ((*data)->next && ((*data)->next->token == CMD
+                || (*data)->next->token == S_QUOTE
+                || (*data)->next->token == D_QUOTE))
+            value = str_join(value, " ");
+        *data = (*data)->next;
+    }
+    return (value);
 }
 
-t_token	*reorganize_cmd(t_token *data)
+t_token    *reorganize_cmd(t_token *data)
 {
-	t_token	*new_list;
-	char	*value;
+    t_token    *new_list;
+    char    *value;
 
-	new_list = NULL;
-	while (data)
-	{
-		if (data->token == CMD)
-		{
-			value = concatenate_cmd_tokens(&data);
-			new_list = set_token_list(new_list, value, 0);
-			free(value);
-		}
-		else
-		{
-			new_list = set_token_list(new_list, data->value, data->token);
-			data = data->next;
-		}
-	}
-	return (new_list);
+    new_list = NULL;
+    while (data)
+    {
+        if (data->token == CMD || data->token == S_QUOTE
+            || data->token == D_QUOTE)
+        {
+            value = concatenate_cmd_tokens(&data);
+            new_list = set_token_list(new_list, value, 0);
+            free(value);
+        }
+        else
+        {
+            new_list = set_token_list(new_list, data->value, data->token);
+            data = data->next;
+        }
+    }
+    return (new_list);
 }
 
 void	check_values(t_token *data, t_main *main)
@@ -110,8 +114,8 @@ void	check_values(t_token *data, t_main *main)
 		new_list = reorganize_cmd(data);
 		parse(new_list);
 	}
-	printf("NEW LIST\n");
-	print_token_list(new_list);
+	//printf("NEW LIST\n");
+	//print_token_list(new_list);
 	main->token = new_list;
 	//free_list(&new_list);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfuruno- <lfuruno-@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/22 09:34:38 by lfuruno-          #+#    #+#             */
+/*   Updated: 2024/08/22 09:34:42 by lfuruno-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void    handle_sigint(int sig)
@@ -22,6 +34,7 @@ void    handle_sigint(int sig)
 		}
 		rl_replace_line("", 1);
 		rl_on_new_line();
+		g_status = 130;
 	}
 	return ;
 }
