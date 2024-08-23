@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 19:24:06 by penascim          #+#    #+#             */
-/*   Updated: 2024/08/17 14:00:11 by thfranco         ###   ########.fr       */
+/*   Created: 2024/08/18 17:29:14 by thfranco          #+#    #+#             */
+/*   Updated: 2024/08/18 17:29:14 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -24,7 +25,6 @@
 # include <sys/ioctl.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <limits.h>
 
 typedef enum e_type
 {
@@ -41,31 +41,31 @@ typedef enum e_type
 	D_QUOTE,
 	COMMAND_SUBSTITUTION,
 	NONE,
-}						t_type_cmd;
+}				t_type_cmd;
 
 typedef struct s_token
 {
-	char				*value;
-	t_type_cmd			token;
+	char		*value;
+	t_type_cmd	token;
 	struct s_token		*next;
 	struct s_token		*prev;
-}						t_token;
+}				t_token;
 
 typedef struct s_tree_node
 {
-	t_type_cmd			type;
-	char				*value;
-	struct s_tree_node	*left;
-	struct s_tree_node	*right;
-}						t_tree_node;
+	t_type_cmd	type;
+	char		*value;
+	struct s_tree_node		*left;
+	struct s_tree_node		*right;
+}				t_tree_node;
 
 typedef struct s_env_node
 {
-	char				*name_env;
-	char				*value_env;
-	char				*line_env;
+	char		*name_env;
+	char		*value_env;
+	char		*line_env;
 	struct s_env_node	*next;
-}						t_env_node;
+}				t_env_node;
 
 typedef struct s_main
 {
@@ -76,55 +76,54 @@ typedef struct s_main
 	char				*old_pwd;
 }						t_main;
 
-//global
-extern int	g_status;
+// global
+extern int g_status;
 
-void					print_prompt(t_main *main);
+void	print_prompt(t_main *main);
 
 // tokenization
-t_token					*tokenization(char *cmd, t_token *data);
-int						type_index(t_type_cmd type, char *cmd, int i);
-char					*get_token(char *cmd, int i, int start);
-t_type_cmd				find_type(char *cmd, int i, int first_token);
-int						is_first_token(t_type_cmd type);
+t_token	*tokenization(char *cmd, t_token *data);
+int	type_index(t_type_cmd type, char *cmd, int i);
+char	*get_token(char *cmd, int i, int start);
+t_type_cmd	find_type(char *cmd, int i, int first_token);
+int	is_first_token(t_type_cmd type);
 
 // utils_token
 
-t_token					*set_token_list(t_token *data, char *value_cmd,
-							int type);
-t_token					*get_last_token(t_token *data);
-char					*str_join(char *dest, char *src);
-char					*join_cmd(char *dest, char *src, int space);
+t_token	*set_token_list(t_token *data, char *value_cmd, int type);
+t_token	*get_last_token(t_token *data);
+char	*str_join(char *dest, char *src);
+char	*join_cmd(char *dest, char *src, int space);
 
 // index
-int						index_envvar(char *cmd, int i);
-int						index_single(char *cmd, int i);
-int						index_double(char *cmd, int i);
+int	index_envvar(char *cmd, int i);
+int	index_single(char *cmd, int i);
+int	index_double(char *cmd, int i);
 
 // parse
-t_tree_node				*parse(t_token *data);
-t_tree_node				*parse_command(t_token **data);
-t_tree_node				*parse_expression(t_token **data);
+t_tree_node	*parse(t_token *data);
+t_tree_node	*parse_command(t_token **data);
+t_tree_node	*parse_expression(t_token **data);
 
 // execute
-void					ft_free_tab(char **tab);
-char					*get_path(char *cmd);
-void					print_error_exc(char *msg);
-void					ft_execute(char *av, t_env_node *env_list);
-void					execute_pipe(t_tree_node *node, t_main *main);
-int						execute_cmd(t_tree_node *node, t_main *main);
-char					**convert_to_array(t_env_node *env_list);
-char					*my_env(char *find, char **envp);
+void	ft_free_tab(char **tab);
+char	*get_path(char *cmd, t_env_node *env_list);
+void	print_error_exc(char *msg, char *cmd);
+void	ft_execute(char *av, t_env_node *env_list, t_main *main);
+void	execute_pipe(t_tree_node *node, t_main *main);
+int	execute_cmd(t_tree_node *node, t_main *main);
+char	**convert_to_array(t_env_node *env_list);
+char	*my_env(char *find, t_env_node *env_list);
 
 // check_error
-int						check_append(t_token *data);
-int						check_redirect_out(t_token *data);
-int						check_heredoc(t_token *data);
-int						check_redirect_in(t_token *data);
-int						check_pipe(t_token *data);
+int	check_append(t_token *data);
+int	check_redirect_out(t_token *data);
+int	check_heredoc(t_token *data);
+int	check_redirect_in(t_token *data);
+int	check_pipe(t_token *data);
 
 // handle_heredoc
-void					heredoc(t_token *data);
+void	heredoc(t_token *data);
 
 // utils_errors
 int						check_start_end(t_token *data);
@@ -132,35 +131,35 @@ int 					check_quotes(t_token *token);
 int						has_error(t_token *data);
 
 // extra_to_print
-void					print_tree(t_tree_node *node, int level);
-void					print_token_list(t_token *head);
-void					print_env_list(t_env_node *head);
-void					print_error(char *msg, char *value);
+void	print_tree(t_tree_node *node, int level);
+void	print_token_list(t_token *head);
+void	print_env_list(t_env_node *head);
+void	print_error(char *msg, char *value);
 
 // check_values
-int						is_in_order(t_token *data);
-void					swap_nodes(t_token *data);
-void					check_values(t_token *data, t_main *main);
-char					*concatenate_cmd_tokens(t_token **data);
-t_token					*reorganize_cmd(t_token *data);
+int	is_in_order(t_token *data);
+void	swap_nodes(t_token *data);
+void	check_values(t_token *data, t_main *main);
+char	*concatenate_cmd_tokens(t_token **data);
+t_token	*reorganize_cmd(t_token *data);
 
 // free.c
-void					free_tree(t_tree_node *node);
-void					free_list(t_token **data);
-void					free_env_list(t_env_node *head);
-void					free_main(t_main *main);
+void	free_tree(t_tree_node *node);
+void	free_list(t_token **data);
+void	free_env_list(t_env_node *head);
+void	free_main(t_main *main);
 
 // node.c
-void					add_node(t_token **data, t_type_cmd type, char *value);
-t_tree_node				*create_tree_node(t_type_cmd type, char *value);
+void	add_node(t_token **data, t_type_cmd type, char *value);
+t_tree_node	*create_tree_node(t_type_cmd type, char *value);
 
 // signal.c
-void					mini_signal(void);
+void	mini_signal(void);
 
 // environ.c
-t_env_node				*build_environ(char **envp);
-void					append_env_node(t_env_node **head, char *line_env);
-t_env_node				*create_env_node(const char *env_var);
+t_env_node	*build_environ(char **envp);
+void	append_env_node(t_env_node **head, char *line_env);
+t_env_node	*create_env_node(const char *env_var);
 
 // builtins.c
 void    				exec_cmd(t_main *main);
@@ -206,5 +205,9 @@ int 					ft_echo(char **token);
 int						expansion(char *token, t_main *main);
 void					expand_tokens(t_main *main);
 void					str_slice(char *dest, const char *src);
+
+//redirects
+
+void	handle_redirect(t_tree_node *node);
 
 #endif

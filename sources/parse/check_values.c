@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:11:14 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/17 15:46:38 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/23 13:53:50 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,18 @@ char    *concatenate_cmd_tokens(t_token **data)
 {
     char    *value;
 
-    value = NULL;
-    while (*data && ((*data)->token == CMD || (*data)->token == S_QUOTE
-            || (*data)->token == D_QUOTE))
-    {
-        value = str_join(value, (*data)->value);
-        if ((*data)->next && ((*data)->next->token == CMD
-                || (*data)->next->token == S_QUOTE
-                || (*data)->next->token == D_QUOTE))
-            value = str_join(value, " ");
-        *data = (*data)->next;
-    }
-    return (value);
+	value = NULL;
+	while (*data && ((*data)->token == CMD || (*data)->token == S_QUOTE
+			|| (*data)->token == D_QUOTE))
+	{
+		value = str_join(value, (*data)->value);
+		if ((*data)->next && ((*data)->next->token == CMD
+				|| (*data)->next->token == S_QUOTE
+				|| (*data)->next->token == D_QUOTE))
+			value = str_join(value, " ");
+		*data = (*data)->next;
+	}
+	return (value);
 }
 
 t_token    *reorganize_cmd(t_token *data)
@@ -79,23 +79,23 @@ t_token    *reorganize_cmd(t_token *data)
     t_token    *new_list;
     char    *value;
 
-    new_list = NULL;
-    while (data)
-    {
-        if (data->token == CMD || data->token == S_QUOTE
-            || data->token == D_QUOTE)
-        {
-            value = concatenate_cmd_tokens(&data);
-            new_list = set_token_list(new_list, value, 0);
-            free(value);
-        }
-        else
-        {
-            new_list = set_token_list(new_list, data->value, data->token);
-            data = data->next;
-        }
-    }
-    return (new_list);
+	new_list = NULL;
+	while (data)
+	{
+		if (data->token == CMD || data->token == S_QUOTE
+			|| data->token == D_QUOTE)
+		{
+			value = concatenate_cmd_tokens(&data);
+			new_list = set_token_list(new_list, value, 0);
+			free(value);
+		}
+		else
+		{
+			new_list = set_token_list(new_list, data->value, data->token);
+			data = data->next;
+		}
+	}
+	return (new_list);
 }
 
 void	check_values(t_token *data, t_main *main)
@@ -107,15 +107,16 @@ void	check_values(t_token *data, t_main *main)
 	{
 		swap_nodes(data);
 		new_list = reorganize_cmd(data);
-		parse(new_list);
+		main->tree = parse(new_list);
+		main->token = new_list;
 	}
 	else
 	{
 		new_list = reorganize_cmd(data);
-		parse(new_list);
+		main->tree = parse(new_list);
+		main->token = new_list;
 	}
-	//printf("NEW LIST\n");
-	//print_token_list(new_list);
-	main->token = new_list;
-	//free_list(&new_list);
+	print_token_list(main->token);
+
+	// free_list(&new_list);
 }

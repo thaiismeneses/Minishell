@@ -15,7 +15,7 @@
 #include <stdlib.h>
 
 int	g_status;
-extern char	**environ;
+extern char		**environ;
 
 static void	run(char *prompt, t_main *main)
 {
@@ -31,13 +31,13 @@ static void	run(char *prompt, t_main *main)
 		{
 			add_history(cmd);
 			tokens = tokenization(cmd, tokens);
-			//print_token_list(tokens);
 			if (has_error(tokens))
 			{
 				check_values(tokens, main);
 				heredoc(tokens);
 				expand_tokens(main);
-				exec_cmd(main);
+				//exec_cmd(main);
+				execute_cmd(main->tree, main);
 			}
 			free_list(&tokens);
 		}
@@ -53,7 +53,8 @@ void	print_prompt(t_main *main)
 	prompt = "minishell$ ";
 	run(prompt, main);
 }
-static t_main *build_main(t_main *main)
+
+static t_main	*build_main(t_main *main)
 {
 	(void) main;
 	char **envp = environ;
@@ -64,6 +65,7 @@ static t_main *build_main(t_main *main)
 		exit (1);
 	new_main->env = build_environ(envp);
 	new_main->token = NULL;
+	new_main->tree = NULL;
 	start_pwd(new_main);
 	return (new_main);
 }

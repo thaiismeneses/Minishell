@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:13:19 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/17 15:48:26 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/23 13:51:10 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_env_node	*create_env_node(const char *env_var)
 {
-	t_env_node *new_node;
-	char	*delimiter;
+	t_env_node	*new_node;
+	char		*delimiter;
 
 	delimiter = ft_strchr(env_var, '=');
 	new_node = malloc(sizeof(t_env_node));
@@ -37,7 +37,7 @@ t_env_node	*create_env_node(const char *env_var)
 		new_node->name_env = NULL;
 		new_node->value_env = NULL;
 	}
-	return new_node;
+	return (new_node);
 }
 
 void	append_env_node(t_env_node **head, char *line_env)
