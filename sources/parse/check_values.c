@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:11:14 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/22 17:41:50 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/23 13:53:50 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void	swap_nodes(t_token *data)
 	}
 }
 
-char	*concatenate_cmd_tokens(t_token **data)
+char    *concatenate_cmd_tokens(t_token **data)
 {
-	char	*value;
+    char    *value;
 
 	value = NULL;
 	while (*data && ((*data)->token == CMD || (*data)->token == S_QUOTE
@@ -74,10 +74,10 @@ char	*concatenate_cmd_tokens(t_token **data)
 	return (value);
 }
 
-t_token	*reorganize_cmd(t_token *data)
+t_token    *reorganize_cmd(t_token *data)
 {
-	t_token	*new_list;
-	char	*value;
+    t_token    *new_list;
+    char    *value;
 
 	new_list = NULL;
 	while (data)

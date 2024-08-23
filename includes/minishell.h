@@ -69,10 +69,12 @@ typedef struct s_env_node
 
 typedef struct s_main
 {
-	t_tree_node *tree;
-	t_env_node *env;
-	t_token *token;
-}				t_main;
+	t_tree_node			*tree;
+	t_env_node			*env;
+	t_token				*token;
+	char				*pwd;
+	char				*old_pwd;
+}						t_main;
 
 // global
 extern int g_status;
@@ -124,8 +126,9 @@ int	check_pipe(t_token *data);
 void	heredoc(t_token *data);
 
 // utils_errors
-int	check_start_end(t_token *data);
-int	has_error(t_token *data);
+int						check_start_end(t_token *data);
+int 					check_quotes(t_token *token);
+int						has_error(t_token *data);
 
 // extra_to_print
 void	print_tree(t_tree_node *node, int level);
@@ -159,13 +162,49 @@ void	append_env_node(t_env_node **head, char *line_env);
 t_env_node	*create_env_node(const char *env_var);
 
 // builtins.c
-void	exec_cmd(t_main *main);
-int	builtins(char **token);
+void    				exec_cmd(t_main *main);
+void    				remove_quotes(t_token *data);
+int 					builtins(char **token, t_main *main);
+void					free_matrix(char **matrix);
 
-// exit.c
-int	ft_exit(char **token);
-int	long_number(char *token);
-int	error_exit(char *token, int option);
+//exit.c
+int						ft_exit(char **token);
+int						long_number(char *token);
+int						error_exit(char *token, int option);
+
+//env_var.c
+int 					ft_env(char **token, t_main *main);
+
+//export.c
+int 					ft_export(char **token, t_main *main);
+void    				utils_export(char **token, t_main *main, int type);
+int    					export_env(char **token, t_main *main);
+void					remove_node_export(char *token, t_main *main, int i);
+
+//unset.c
+int 					ft_unset(char **token, t_main *main);
+void					remove_node_unset(char *token, t_main *main);
+
+//pwd.c
+void					start_pwd(t_main *main);
+
+//cd.c
+int 					ft_cd(char **token, t_main *main);
+void    				update_pwd(t_main *main);
+
+//cd_utils.c
+char    				*find_env(t_env_node *env, char *env_name);
+int    					home_path(t_main *main);
+int    					old_path(t_main *main);
+int 					parent_path(t_main *main);
+
+//echo.c
+int 					ft_echo(char **token);
+
+//expansio.c
+int						expansion(char *token, t_main *main);
+void					expand_tokens(t_main *main);
+void					str_slice(char *dest, const char *src);
 
 //redirects
 

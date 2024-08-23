@@ -18,8 +18,16 @@ SRC =	sources/main.c\
 		sources/parse/nodes.c\
 		sources/execute/signals.c\
 		sources/execute/environ.c\
-		sources/buitins.c\
-		sources/exit.c\
+		sources/buitins/buitins.c\
+		sources/buitins/exit.c\
+		sources/buitins/env_var.c\
+		sources/buitins/export.c\
+		sources/buitins/unset.c\
+		sources/buitins/cd.c\
+		sources/buitins/cd_utils.c\
+		sources/buitins/pwd.c\
+		sources/buitins/echo.c\
+		sources/expansion/expansion.c\
 		sources/execute/execute.c\
 		sources/execute/redirects.c\
 
