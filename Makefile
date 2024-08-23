@@ -28,7 +28,8 @@ SRC =	sources/main.c\
 		sources/buitins/pwd.c\
 		sources/buitins/echo.c\
 		sources/expansion/expansion.c\
-		# sources/execute/execute.c\
+		sources/execute/execute.c\
+		sources/execute/redirects.c\
 
 OBJ = $(SRC:.c=.o)
 
