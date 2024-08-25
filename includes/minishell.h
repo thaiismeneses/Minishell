@@ -162,10 +162,8 @@ void	append_env_node(t_env_node **head, char *line_env);
 t_env_node	*create_env_node(const char *env_var);
 
 // builtins.c
-void    				exec_cmd(t_main *main);
-void    				remove_quotes(t_token *data);
+void    				remove_quotes(t_main *main);
 int 					builtins(char **token, t_main *main);
-void					free_matrix(char **matrix);
 
 //exit.c
 int						ft_exit(char **token);
