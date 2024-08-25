@@ -61,13 +61,10 @@ char    *concatenate_cmd_tokens(t_token **data)
     char    *value;
 
 	value = NULL;
-	while (*data && ((*data)->token == CMD || (*data)->token == S_QUOTE
-			|| (*data)->token == D_QUOTE))
+	while (*data && ((*data)->token == CMD))
 	{
 		value = str_join(value, (*data)->value);
-		if ((*data)->next && ((*data)->next->token == CMD
-				|| (*data)->next->token == S_QUOTE
-				|| (*data)->next->token == D_QUOTE))
+		if ((*data)->next && ((*data)->next->token == CMD))
 			value = str_join(value, " ");
 		*data = (*data)->next;
 	}
@@ -82,8 +79,7 @@ t_token    *reorganize_cmd(t_token *data)
 	new_list = NULL;
 	while (data)
 	{
-		if (data->token == CMD || data->token == S_QUOTE
-			|| data->token == D_QUOTE)
+		if (data->token == CMD)
 		{
 			value = concatenate_cmd_tokens(&data);
 			new_list = set_token_list(new_list, value, 0);
@@ -116,7 +112,6 @@ void	check_values(t_token *data, t_main *main)
 		main->tree = parse(new_list);
 		main->token = new_list;
 	}
-	print_token_list(main->token);
-
+	//print_token_list(main->token);
 	// free_list(&new_list);
 }
