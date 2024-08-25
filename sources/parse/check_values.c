@@ -56,9 +56,9 @@ void	swap_nodes(t_token *data)
 	}
 }
 
-char    *concatenate_cmd_tokens(t_token **data)
+char	*concatenate_cmd_tokens(t_token **data)
 {
-    char    *value;
+	char	*value;
 
 	value = NULL;
 	while (*data && ((*data)->token == CMD))
@@ -71,10 +71,10 @@ char    *concatenate_cmd_tokens(t_token **data)
 	return (value);
 }
 
-t_token    *reorganize_cmd(t_token *data)
+t_token	*reorganize_cmd(t_token *data)
 {
-    t_token    *new_list;
-    char    *value;
+	t_token	*new_list;
+	char	*value;
 
 	new_list = NULL;
 	while (data)
@@ -103,15 +103,15 @@ void	check_values(t_token *data, t_main *main)
 	{
 		swap_nodes(data);
 		new_list = reorganize_cmd(data);
-		main->tree = parse(new_list);
 		main->token = new_list;
+		remove_quotes(main);
+		main->tree = parse(main->token);
 	}
 	else
 	{
 		new_list = reorganize_cmd(data);
-		main->tree = parse(new_list);
 		main->token = new_list;
+		remove_quotes(main);
+		main->tree = parse(main->token);
 	}
-	//print_token_list(main->token);
-	// free_list(&new_list);
 }

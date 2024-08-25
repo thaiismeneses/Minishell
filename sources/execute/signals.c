@@ -12,10 +12,10 @@
 
 #include "../../includes/minishell.h"
 
-void    handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
-    if (sig == SIGINT)
-    {
+	if (sig == SIGINT)
+	{
 		if (RL_ISSTATE(RL_STATE_READCMD))
 		{
 			if (ioctl(STDIN_FILENO, TIOCSTI, "\n") == -1)
@@ -39,13 +39,13 @@ void    handle_sigint(int sig)
 	return ;
 }
 
-void    mini_signal(void)
+void	mini_signal(void)
 {
-    struct sigaction sa;
+	struct sigaction	sa;
 
-    sa.sa_handler = handle_sigint;
-    sa.sa_flags = 0;
-    sigemptyset(&sa.sa_mask);
-    sigaction(SIGINT, &sa, NULL);
-    signal(SIGQUIT, SIG_IGN);
+	sa.sa_handler = handle_sigint;
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }
