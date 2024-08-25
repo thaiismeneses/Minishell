@@ -204,8 +204,12 @@ int						expansion(char *token, t_main *main);
 void					expand_tokens(t_main *main);
 void					str_slice(char *dest, const char *src);
 
-//redirects
+//utils_redirect
+char *before_redirect(char *value);
+char* find_redirect(char *value);
+char *after_redirect(char *value);
 
-void	handle_redirect(t_tree_node *node);
+//redirects
+void	handle_redirect(t_tree_node *node, t_main *main);
 
 #endif

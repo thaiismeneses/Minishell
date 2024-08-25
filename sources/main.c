@@ -36,7 +36,7 @@ static void	run(char *prompt, t_main *main)
 				check_values(tokens, main);
 				heredoc(tokens);
 				//expand_tokens(main);
-				remove_quotes(main);
+				//remove_quotes(main);
 				execute_cmd(main->tree, main);
 			}
 			free_list(&tokens);

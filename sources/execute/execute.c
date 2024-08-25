@@ -192,7 +192,7 @@ int	execute_cmd(t_tree_node *node, t_main *main)
 		ft_execute(node->value, main->env, main);
 	if (node->type == COMMAND_SUBSTITUTION)
 	{
-		handle_redirect(node);
+		handle_redirect(node, main);
 	}
 	else if (node->type == PIPE)
 	{

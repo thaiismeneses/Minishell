@@ -103,15 +103,19 @@ void	check_values(t_token *data, t_main *main)
 	{
 		swap_nodes(data);
 		new_list = reorganize_cmd(data);
-		main->tree = parse(new_list);
 		main->token = new_list;
+		remove_quotes(main);
+		main->tree = parse(main->token);
 	}
 	else
 	{
 		new_list = reorganize_cmd(data);
-		main->tree = parse(new_list);
 		main->token = new_list;
+		remove_quotes(main);
+		main->tree = parse(main->token);
 	}
+
 	//print_token_list(main->token);
+	//print_tree(main->tree, 0);
 	// free_list(&new_list);
 }

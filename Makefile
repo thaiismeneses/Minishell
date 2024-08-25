@@ -30,6 +30,7 @@ SRC =	sources/main.c\
 		sources/expansion/expansion.c\
 		sources/execute/execute.c\
 		sources/execute/redirects.c\
+		sources/execute/utils_redirect.c\
 
 OBJ = $(SRC:.c=.o)
 
