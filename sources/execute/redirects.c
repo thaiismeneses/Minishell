@@ -15,7 +15,7 @@
 void	handle_output_redirect(char *value, char *output_file, t_main *main)
 {
 	int	fd_out;
-	int save_stdout;
+	int	save_stdout;
 
 	save_stdout = dup(STDOUT_FILENO);
 	fd_out = open(output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -34,7 +34,7 @@ void	handle_output_redirect(char *value, char *output_file, t_main *main)
 void	handle_input_redirect(char *value, char *input_file, t_main *main)
 {
 	int	fd_in;
-	int save_stdin;
+	int	save_stdin;
 
 	save_stdin = dup(STDOUT_FILENO);
 	fd_in = open(input_file, O_RDONLY);
@@ -53,7 +53,7 @@ void	handle_input_redirect(char *value, char *input_file, t_main *main)
 void	handle_append_redirect(char *value, char *output_file, t_main *main)
 {
 	int	fd_out;
-	int save_stdout;
+	int	save_stdout;
 
 	save_stdout = dup(STDOUT_FILENO);
 	fd_out = open(output_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -71,16 +71,13 @@ void	handle_append_redirect(char *value, char *output_file, t_main *main)
 
 void	handle_redirect(t_tree_node *node, t_main *main)
 {
-	char *value;
+	char	*value;
 	char	*redirect;
-	char *file_name;
+	char	*file_name;
 
 	redirect = find_redirect(node->value);
-	printf("redirect: %s\n", redirect);
 	value = before_redirect(node->value);
-	printf("value: %s\n", value);
 	file_name = after_redirect(node->value);
-	printf("file_name: %s\n", file_name);
 	if (redirect[0] == '>')
 	{
 		if (redirect[1] == '>')
@@ -90,6 +87,4 @@ void	handle_redirect(t_tree_node *node, t_main *main)
 	}
 	else if (redirect[0] == '<')
 		handle_input_redirect(value, file_name, main);
-
 }
-

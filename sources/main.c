@@ -5,14 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 19:15:49 by penascim          #+#    #+#             */
+/*   Created: 2024/06/04 19:15:49 by thfranco          #+#    #+#             */
 /*   Updated: 2024/08/17 14:32:21 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 int	g_status;
 extern char		**environ;
@@ -37,7 +35,7 @@ static void	run(char *prompt, t_main *main)
 				heredoc(tokens);
 				//expand_tokens(main);
 				//remove_quotes(main);
-				execute_cmd(main->tree, main);
+				execute(main->tree, main);
 			}
 			free_list(&tokens);
 		}

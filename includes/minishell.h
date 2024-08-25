@@ -111,7 +111,7 @@ char	*get_path(char *cmd, t_env_node *env_list);
 void	print_error_exc(char *msg, char *cmd);
 void	ft_execute(char *av, t_env_node *env_list, t_main *main);
 void	execute_pipe(t_tree_node *node, t_main *main);
-int	execute_cmd(t_tree_node *node, t_main *main);
+int	execute(t_tree_node *node, t_main *main);
 char	**convert_to_array(t_env_node *env_list);
 char	*my_env(char *find, t_env_node *env_list);
 

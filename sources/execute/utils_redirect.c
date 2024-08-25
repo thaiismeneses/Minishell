@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 12:56:05 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/25 14:03:32 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/25 15:20:59 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,31 @@ char	*before_redirect(char *value)
 	return (before);
 }
 
+int	find_index(char *value)
+{
+	int	i;
+
+	i = 0;
+	while (value[i] && value[i] != '<' && value[i] != '>')
+		i++;
+	if (value[i] == '\0')
+		return (-1);
+	if (value[i++] == '>' && value[i] == '>')
+		i++;
+	return (i);
+}
+
 char	*after_redirect(char *value)
 {
 	char	*after;
 	int		i;
 	int		j;
 
-	i = 0;
+	i = find_index(value);
 	j = 0;
-	while (value[i] != '<' && value[i] != '>' && value[i] != '\0')
-		i++;
-	if (value[i] == '\0')
-		return (NULL);
 	after = malloc(sizeof(char) * ft_strlen(value));
 	if (!after)
 		return (NULL);
-	i++;
-	if (value[i++] == '>')
-		i++;
 	while (value[i] != '\0')
 	{
 		while (isblank(value[i]))
