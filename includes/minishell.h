@@ -199,8 +199,8 @@ int 					parent_path(t_main *main);
 //echo.c
 int 					ft_echo(char **token);
 
-//expansio.c
-int						expansion(char *token, t_main *main);
+//expansion.c
+int						expansion(t_token *node, t_main *main);
 void					expand_tokens(t_main *main);
 void					str_slice(char *dest, const char *src);
 
