@@ -34,6 +34,7 @@ void	swap_nodes(t_token *data)
 	t_token	*temp;
 	t_token	*last;
 
+	print_token_list(data);
 	while (data)
 	{
 		if (data->token == REDIRECT_IN || data->token == REDIRECT_OUT
@@ -99,11 +100,13 @@ void	check_values(t_token *data, t_main *main)
 	t_token	*new_list;
 
 	new_list = NULL;
+
 	if (is_in_order(data))
 	{
 		swap_nodes(data);
 		new_list = reorganize_cmd(data);
 		main->token = new_list;
+		print_token_list(new_list);
 		expand_tokens(main);
 		remove_quotes(main);
 		main->tree = parse(main->token);
