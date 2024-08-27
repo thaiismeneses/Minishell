@@ -67,3 +67,17 @@ void	ft_free_tab(char **tab)
 	}
 	free(tab);
 }
+
+void free_main(t_main *main)
+{
+    if (!main)
+        return;
+    free_env_list(main->env);
+    free_list(&(main->token));
+    free_tree(main->tree);
+    free(main->pwd);
+    free(main->old_pwd);
+    free(main);
+}
+
+
