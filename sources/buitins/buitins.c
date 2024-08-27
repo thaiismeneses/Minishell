@@ -24,6 +24,18 @@ void	remove_quotes(t_main *main)
 	head = data;
 	while (data)
 	{
+        if (!(ft_strcmp(data->value, "rm")) || !(ft_strcmp(data->value, "grep")))
+        {
+            while(data)
+            {
+                if (data->token == S_QUOTE || data->token == D_QUOTE)
+                {
+                    data->token = 0;
+                    break ;
+                }
+                data = data->next;
+            }
+        }
 		if (data->token == S_QUOTE || data->token == D_QUOTE)
 		{
 			quote = data->value[0];
@@ -46,6 +58,7 @@ void	remove_quotes(t_main *main)
 	}
 	main->token = reorganize_cmd(head);
 	free_list(&head);
+    print_token_list(main->token);
 }
 
 //n sei se atualizo o valor de g_status msm

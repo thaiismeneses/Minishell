@@ -104,6 +104,7 @@ void	check_values(t_token *data, t_main *main)
 		swap_nodes(data);
 		new_list = reorganize_cmd(data);
 		main->token = new_list;
+		expand_tokens(main);
 		remove_quotes(main);
 		main->tree = parse(main->token);
 	}
@@ -111,6 +112,7 @@ void	check_values(t_token *data, t_main *main)
 	{
 		new_list = reorganize_cmd(data);
 		main->token = new_list;
+		expand_tokens(main);
 		remove_quotes(main);
 		main->tree = parse(main->token);
 	}
