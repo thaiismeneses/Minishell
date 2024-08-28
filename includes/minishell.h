@@ -202,14 +202,15 @@ int 					ft_echo(char **token);
 //expansion.c
 int						expansion(t_token *node, t_main *main);
 void					expand_tokens(t_main *main);
-void					str_slice(char *dest, const char *src);
+void					subst_env_var(t_token *node, int start, int length, t_main *main);
+//void					str_slice(char *dest, const char *src);
 
 //utils_redirect
-char *before_redirect(char *value);
-char* find_redirect(char *value);
-char *after_redirect(char *value);
+char 					*before_redirect(char *value);
+char					*find_redirect(char *value);
+char 					*after_redirect(char *value);
 
 //redirects
-void	handle_redirect(t_tree_node *node, t_main *main);
+void					handle_redirect(t_tree_node *node, t_main *main);
 
 #endif

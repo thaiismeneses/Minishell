@@ -58,7 +58,6 @@ void	remove_quotes(t_main *main)
 	}
 	main->token = reorganize_cmd(head);
 	free_list(&head);
-    print_token_list(main->token);
 }
 
 //n sei se atualizo o valor de g_status msm
