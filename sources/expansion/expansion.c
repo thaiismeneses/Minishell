@@ -51,7 +51,7 @@ int	expansion(t_token *node, t_main *main)
 	}
 	return (0);
 }*/
-void subst_env_var(t_token *node, int start, int length, t_main *main)
+int subst_env_var(t_token *node, int start, int length, t_main *main)
 {
     char    *env_name;
     char	*value_var;
@@ -61,7 +61,7 @@ void subst_env_var(t_token *node, int start, int length, t_main *main)
 
     env_name = ft_substr(node->value, start, length);
     if (!env_name)
-	    return ;
+	    return (1);
     value_var = find_env(main->env, env_name);
     free(env_name);
     if (value_var)
@@ -75,7 +75,9 @@ void subst_env_var(t_token *node, int start, int length, t_main *main)
         free(after);
         free(node->value);
         node->value = before;
+        return (1);
     }
+    return (0);
 }
 int expansion(t_token *node, t_main *main)
 {
@@ -110,8 +112,8 @@ int expansion(t_token *node, t_main *main)
             i++;
             while (node->value[i] && (ft_isalnum(node->value[i]) || node->value[i] == '_'))
                 i++;
-            subst_env_var(node, start, i - start, main);
-            expansion(temp, main);
+            if (subst_env_var(node, start, i - start, main))
+                expansion(temp, main);
         }
         else
             i++;
