@@ -32,6 +32,7 @@ int ft_echo(char **token)
         i++;
     }
     if (newline == 1)
-        ft_putstr_fd("\n", STDOUT_FILENO);  
+        ft_putstr_fd("\n", STDOUT_FILENO);
+    last_status(0);
     return (0);
 }
