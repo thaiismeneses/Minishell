@@ -29,11 +29,52 @@ int	is_in_order(t_token *data)
 	return (0);
 }
 
-void	swap_nodes(t_token *data)
+
+static t_token	*swap_init_redirect(t_token *data)
 {
 	t_token	*temp;
 	t_token	*last;
 
+	printf("COMEÇO SWAP INIT\n");
+	print_token_list(data);
+	while (data)
+	{
+		if ((data->token == REDIRECT_IN || data->token == REDIRECT_OUT
+			|| data->token == APPEND || data->token == HEREDOC) &&
+			data->next->next && data->next->next->token == CMD)
+			{
+				temp = data;
+				if (data->prev)
+					data->prev->next = data->next->next;
+				if (data->prev)
+					data->next->next->prev = data->prev;
+				last = get_last_token(data);
+				printf("LAST: %s\n", last->value);
+				printf("TEMP: %s\n", temp->value);
+				last->next = temp;
+				temp->prev = last;
+				printf("TEMP->PREV: %s\n", temp->prev->value);
+				temp->next->next = NULL;
+				print_token_list(last);
+				data = data->next;
+		}
+		else
+			data = data->next;
+	}
+	print_token_list(data);
+	printf("FINAL SWAP INIT\n");
+	return(last);
+}
+
+void swap_nodes(t_token *data)
+{
+	t_token	*temp;
+	t_token	*last;
+
+	data = swap_init_redirect(data);
+	if (is_in_order(data))
+		return ;
+	printf("INIT SWAPNODES\n");
 	print_token_list(data);
 	while (data)
 	{
