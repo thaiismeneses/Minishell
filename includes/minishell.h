@@ -222,6 +222,7 @@ int 					ft_echo(char **token);
 void					str_slice(char *dest, const char *src);
 int						expansion(t_token *node, t_main *main);
 void					expand_tokens(t_main *main);
+int						last_status(int status);
 
 //utils_redirect
 char	*before_redirect(char *value);
