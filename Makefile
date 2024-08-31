@@ -35,6 +35,7 @@ SRC =	sources/main.c\
 		sources/execute/pipe.c\
 		sources/execute/redirects.c\
 		sources/execute/utils_redirect.c\
+		sources/parse/swap.c\
 
 OBJ = $(SRC:.c=.o)
 
