@@ -40,7 +40,7 @@ void	handle_input_redirect(char *value, char *input_file, t_main *main)
 	fd_in = open(input_file, O_RDONLY);
 	if (fd_in < 0)
 	{
-		perror("Error to open file");
+		perror("Error to open file input");
 		exit(1);
 	}
 	dup2(fd_in, STDIN_FILENO);
@@ -86,5 +86,11 @@ void	handle_redirect(t_tree_node *node, t_main *main)
 			handle_output_redirect(value, file_name, main);
 	}
 	else if (redirect[0] == '<')
-		handle_input_redirect(value, file_name, main);
+	{
+		if (redirect[1] == '<')
+			heredoc(main->token);
+		else
+			handle_input_redirect(value, file_name, main);
+	}
+
 }
