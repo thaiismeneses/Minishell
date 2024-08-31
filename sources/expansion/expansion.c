@@ -12,44 +12,77 @@
 
 #include "../../includes/minishell.h"
 
-void	str_slice(char *dest, const char *src)
+int	last_status(int status)
 {
-	int	i;
-	int	j;
+	static int last;
 
-	i = 1;
-	j = 0;
-	while (src[i])
-	{
-		dest[j] = src[i];
-		i++;
-		j++;
-	}
-	dest[j] = '\0';
+	if (status > -1)
+		last = status;
+	return (last);
 }
 
-int	expansion(t_token *node, t_main *main) //precisa fazer a expansão do $?
+int subst_env_var(t_token *node, int start, int length, t_main *main)
 {
-	char	*env_var;
-	char	*value_var;
+    char    *env_name;
+    char	*value_var;
+    char	*new_value;
+    char	*before;
 
-	if (node->value[0] == '$' && ft_strlen(node->value) > 1) //aspas duplas
-	{
-		env_var = ft_calloc(ft_strlen(node->value), sizeof(char));
-		if (!env_var)
-			return (1);
-		str_slice(env_var, node->value);
-		value_var = find_env(main->env, env_var);
-		free(env_var);
-		if (value_var)
-		{
-			node->value = ft_strdup(value_var);
-			if (!node->value)
-				return (0);
-		}
-		return (1);
-	}
-	return (0);
+    env_name = ft_substr(node->value, start, length);
+    if (!env_name)
+	    return (1);
+    value_var = find_env(main->env, env_name);
+    free(env_name);
+    if (value_var)
+    {
+        before = ft_substr(node->value, 0, start - 1);
+        new_value = ft_strjoin(before, value_var);
+        free(before);
+        free(node->value);
+        node->value = new_value;
+        return (1);
+    }
+    else
+    {
+        before = ft_substr(node->value, 0, start - 1);
+        new_value = ft_strjoin(before, "\0");
+        free(before);
+        free(node->value);
+        node->value = new_value;
+        return (1);
+    }
+    return (0);
+}
+int expansion(t_token *node, t_main *main)
+{
+    int i;
+    int start;
+    t_token *temp;
+
+    i = 0;
+    temp = node;
+    while(node->value[i] != '\0')
+    {
+        if (node->value[i] == '$' && node->value[i + 1] == '?')
+        {
+            free(node->value);
+            node->value = ft_itoa(last_status(-1));
+        }
+        else if (node->value[i] == '$' && (ft_isalpha(node->value[i + 1]) 
+        || node->value[i + 1] == '_'))
+        {
+            start = i + 1;
+            i++;
+            while (node->value[i] && (ft_isalnum(node->value[i]) ||
+             node->value[i] == '_'))
+                i++;
+            if (subst_env_var(node, start, i - start, main))
+                expansion(temp, main);
+        }
+        else
+            i++;
+    }
+    return (0);
 }
 
 void	expand_tokens(t_main *main)
@@ -61,7 +94,7 @@ void	expand_tokens(t_main *main)
 	header = main->token;
 	while (temp)
 	{
-		if (expansion(temp, main))
+		if (!expansion(temp, main) && temp->value[0] != '\"')
 			temp->token = 0;
 		temp = temp->next;
 	}

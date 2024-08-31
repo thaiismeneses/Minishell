@@ -12,6 +12,13 @@
 
 #include "../../includes/minishell.h"
 
+void	err_signal(char *err)
+{
+	perror(err);
+	g_status = 1;
+	last_status(130);
+}
+
 void	handle_sigint(int sig)
 {
 	if (sig == SIGINT)
@@ -20,7 +27,7 @@ void	handle_sigint(int sig)
 		{
 			if (ioctl(STDIN_FILENO, TIOCSTI, "\n") == -1)
 			{
-				perror("ioctl");
+				err_signal("ioctl");
 				return ;
 			}
 		}
@@ -28,13 +35,13 @@ void	handle_sigint(int sig)
 		{
 			if (write(STDIN_FILENO, "\n", 1) == -1)
 			{
-				perror("write");
+				err_signal("write");
 				return ;
 			}
 		}
+		last_status(130);
 		rl_replace_line("", 1);
 		rl_on_new_line();
-		g_status = 130;
 	}
 	return ;
 }

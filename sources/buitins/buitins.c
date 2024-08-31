@@ -60,7 +60,6 @@ void	remove_quotes(t_main *main)
 	free_list(&head);
 }
 
-//n sei se atualizo o valor de g_status msm
 int	builtins(char **token, t_main *main)
 {
 	if (!token || !token[0])
