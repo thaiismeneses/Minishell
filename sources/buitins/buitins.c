@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   buitins.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfuruno- <lfuruno-@student.42.rio>         +#+  +:+       +#+        */
+/*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 09:33:05 by lfuruno-          #+#    #+#             */
-/*   Updated: 2024/08/22 09:33:12 by lfuruno-         ###   ########.fr       */
+/*   Updated: 2024/08/31 14:27:18 by thfranco         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../../includes/minishell.h"
 
@@ -24,7 +24,7 @@ void	remove_quotes(t_main *main)
 	head = data;
 	while (data)
 	{
-        if (!(ft_strcmp(data->value, "rm")) || !(ft_strcmp(data->value, "grep")))
+        if (!(ft_strcmp(data->value, "rm")) || !(ft_strcmp(data->value, "grep")) ||  !(ft_strcmp(data->value, "echo")))
         {
             while(data)
             {

@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 17:29:14 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/18 17:29:14 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/30 15:46:03 by thfranco         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -155,7 +155,7 @@ void	print_error(char *msg, char *value);
 
 // check_values
 int	is_in_order(t_token *data);
-void	swap_nodes(t_token *data);
+t_token	*swap_nodes(t_token *data);
 char	*concatenate_cmd_tokens(t_token **data);
 t_token	*reorganize_cmd(t_token *data);
 void	check_values(t_token *data, t_main *main);
@@ -236,5 +236,6 @@ void	handle_input_redirect(char *value, char *input_file, t_main *main);
 void	handle_append_redirect(char *value, char *output_file, t_main *main);
 void	handle_redirect(t_tree_node *node, t_main *main);
 
+char **new_split(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 12:56:05 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/25 15:20:59 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/27 15:13:48 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,11 @@ char	*find_redirect(char *value)
 	while (*value != '\0')
 	{
 		if (*value == '<')
+		{
+			if (*(value + 1) == '<')
+				return ("<<");
 			return ("<");
+		}
 		if (*value == '>')
 		{
 			if (*(value + 1) == '>')

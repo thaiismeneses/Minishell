@@ -14,8 +14,9 @@
 
 int	index_envvar(char *cmd, int i)
 {
+	i++;
 	while (cmd[i] && !ft_isspace(cmd[i]))
-		i++;
+		;
 	return (i);
 }
 

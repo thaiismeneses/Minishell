@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   check_values.c                                     :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:11:14 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/23 13:53:50 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/08/31 14:27:37 by thfranco         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../../includes/minishell.h"
 
@@ -27,33 +27,6 @@ int	is_in_order(t_token *data)
 		data = data->next;
 	}
 	return (0);
-}
-
-void	swap_nodes(t_token *data)
-{
-	t_token	*temp;
-	t_token	*last;
-
-	while (data)
-	{
-		if (data->token == REDIRECT_IN || data->token == REDIRECT_OUT
-			|| data->token == APPEND || data->token == HEREDOC)
-		{
-			if (data->next->next && data->next->next->token == CMD)
-			{
-				temp = data;
-				data->prev->next = data->next->next;
-				data->next->next->prev = data->prev;
-				last = get_last_token(data);
-				last->next = temp;
-				temp->prev = last;
-				temp->next->next = NULL;
-			}
-			data = data->next;
-		}
-		else
-			data = data->next;
-	}
 }
 
 char	*concatenate_cmd_tokens(t_token **data)
@@ -99,9 +72,10 @@ void	check_values(t_token *data, t_main *main)
 	t_token	*new_list;
 
 	new_list = NULL;
+
 	if (is_in_order(data))
 	{
-		swap_nodes(data);
+		data = swap_nodes(data);
 		new_list = reorganize_cmd(data);
 		main->token = new_list;
 		expand_tokens(main);
@@ -112,6 +86,7 @@ void	check_values(t_token *data, t_main *main)
 	{
 		new_list = reorganize_cmd(data);
 		main->token = new_list;
+		//print_token_list(main->token);
 		expand_tokens(main);
 		remove_quotes(main);
 		main->tree = parse(main->token);
