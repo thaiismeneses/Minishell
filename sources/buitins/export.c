@@ -66,6 +66,7 @@ void    utils_export(char **token, t_main *main, int type)
         ft_putstr_fd("': not a valid identifier\n", STDOUT_FILENO);
     }
 }
+
 int    export_env(char **token, t_main *main)
 {
     int i;

@@ -27,7 +27,13 @@ int ft_cd(char **token, t_main *main)
     int ret;
 
     ret = 0;
-    if (!token[1] || token[1][0] == '\0' || !ft_strcmp(token[1], "~"))
+    if (token[2])
+    {
+        ft_putstr_fd("cd: too many arguments\n", STDOUT_FILENO);
+        last_status(1);
+        return (1);
+    }
+    else if (!token[1] || token[1][0] == '\0' || !ft_strcmp(token[1], "~"))
         ret = home_path(main);
     else if (!ft_strcmp(token[1], "-"))
         ret = old_path(main);
@@ -39,6 +45,7 @@ int ft_cd(char **token, t_main *main)
         {
             ft_putstr_fd("cd: ", STDOUT_FILENO);
             perror(token[1]);
+            last_status(1);
             return (1);
         }
     }

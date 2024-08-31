@@ -20,8 +20,10 @@ static void	run(char *prompt, t_main *main)
 	char	*cmd;
 	t_token	*tokens;
 
+	last_status(0);
 	while (42)
 	{
+		g_status = 0;
 		cmd = readline(prompt);
 		if (!cmd)
 			cmd = ft_strdup("exit");
@@ -33,8 +35,6 @@ static void	run(char *prompt, t_main *main)
 			{
 				check_values(tokens, main);
 				heredoc(tokens);
-				expand_tokens(main);
-				//remove_quotes(main);
 				execute(main->tree, main);
 			}
 			free_list(&tokens);

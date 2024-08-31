@@ -235,4 +235,5 @@ void	handle_input_redirect(char *value, char *input_file, t_main *main);
 void	handle_append_redirect(char *value, char *output_file, t_main *main);
 void	handle_redirect(t_tree_node *node, t_main *main);
 
+
 #endif
