@@ -48,5 +48,6 @@ int ft_unset(char **token, t_main *main)
         remove_node_unset(token[i], main);
         i++;
     }
+    last_status(0);
     return (0);
 }

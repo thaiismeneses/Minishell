@@ -181,6 +181,7 @@ void	append_env_node(t_env_node **head, char *line_env);
 t_env_node	*build_environ(char **envp);
 
 // builtins.c
+int						last_status(int status);
 void    				remove_quotes(t_main *main);
 int 					builtins(char **token, t_main *main);
 
@@ -222,7 +223,6 @@ int 					ft_echo(char **token);
 void					str_slice(char *dest, const char *src);
 int						expansion(t_token *node, t_main *main);
 void					expand_tokens(t_main *main);
-int						last_status(int status);
 
 //utils_redirect
 char	*before_redirect(char *value);

@@ -52,18 +52,21 @@ void    utils_export(char **token, t_main *main, int type)
             ft_putstr_fd("\n", STDOUT_FILENO);
             temp = temp->next;
         }
+        last_status(0);
     }
     if (type == 2) 
     {
         ft_putstr_fd("export: '", STDOUT_FILENO);
         ft_putstr_fd(token[1], STDOUT_FILENO);
         ft_putstr_fd("': need '=' after variable name\n", STDOUT_FILENO);
+        last_status(1);
     }
     if (type == 3)
     {
         ft_putstr_fd("export: '", STDOUT_FILENO);
         ft_putstr_fd(token[1], STDOUT_FILENO);
         ft_putstr_fd("': not a valid identifier\n", STDOUT_FILENO);
+        last_status(1);
     }
 }
 
@@ -91,6 +94,7 @@ int    export_env(char **token, t_main *main)
     }
     else
         return(utils_export(token, main, 2), 1);
+    last_status(0);
     return (0);
 }
 
@@ -108,7 +112,7 @@ int ft_export(char **token, t_main *main)
     }
     else
     {
-       if (!export_env(token, main))
+        if (!export_env(token, main))
             return (1);
     }
     return(0);

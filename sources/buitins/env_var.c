@@ -22,6 +22,7 @@ int ft_env(char **token, t_main *main)
         ft_putstr_fd("env: '", STDOUT_FILENO);
 	    ft_putstr_fd(token[1], STDOUT_FILENO);
         ft_putstr_fd("': No such file or directory\n", STDOUT_FILENO);
+        last_status(127);
         return (1);
     }
     while (temp != NULL) 
@@ -30,5 +31,6 @@ int ft_env(char **token, t_main *main)
         ft_putstr_fd("\n", STDOUT_FILENO);
         temp = temp->next;
     }
+    last_status(0);
     return (0);
 }

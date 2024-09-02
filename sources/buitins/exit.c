@@ -56,10 +56,14 @@ int    ft_exit(char **token)
 
     exit_code = 0;
     if(token[1] && token[2])
+    {
+        last_status(1);
         return(error_exit(token[1], 1));
+    }
     else if (token[1] && !is_number(token[1]))
     {
         error_exit(token[1], 2);
+        last_status(2);
         exit(2);
     }
     else
@@ -67,6 +71,7 @@ int    ft_exit(char **token)
         ft_putstr_fd("exit\n", STDOUT_FILENO);
         if (token[1])
             exit_code = ft_atol(token[1]);
+        last_status(exit_code);
         exit(exit_code);
     }
 }

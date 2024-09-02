@@ -71,6 +71,6 @@ int	has_error(t_token *data)
 	if (check_append(data) || check_redirect_in(data)
 		|| check_redirect_out(data) || check_heredoc(data) || check_pipe(data)
 		|| check_start_end(data) || check_quotes(data))
-		return (0);
+		return (last_status(2), 0);
 	return (1);
 }
