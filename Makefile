@@ -55,7 +55,7 @@ $(NAME): $(OBJ)
 	@echo "$(blink)$(G) ✅ $(NAME) successfully compiled $(Reset)"
 
 val: re
-	valgrind --leak-check=full --track-origins=yes --suppressions=supressions.supp -s ./minishell
+	valgrind --show-leak-kinds=all --leak-check=full --track-origins=yes --suppressions=supressions.supp -s ./minishell
 
 clean:
 	@make -s clean -C libft/

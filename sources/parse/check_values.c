@@ -37,6 +37,8 @@ char	*concatenate_cmd_tokens(t_token **data)
 	while (*data && ((*data)->token == CMD))
 	{
 		value = str_join(value, (*data)->value);
+		free((*data)->value);
+		(*data)->value = NULL;
 		if ((*data)->next && ((*data)->next->token == CMD))
 			value = str_join(value, " ");
 		*data = (*data)->next;
@@ -72,8 +74,6 @@ void	check_values(t_token *data, t_main *main)
 	t_token	*new_list;
 
 	new_list = NULL;
-
-
 	if (is_in_order(data))
 	{
 		data = swap_nodes(data);
@@ -91,4 +91,5 @@ void	check_values(t_token *data, t_main *main)
 		remove_quotes(main);
 		main->tree = parse(main->token);
 	}
+	free_list(&new_list);
 }

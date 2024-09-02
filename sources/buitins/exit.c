@@ -50,7 +50,7 @@ int is_number(char *token)
     return (1);
 }
 
-int    ft_exit(char **token)
+int    ft_exit(char **token, t_main *main)
 {
     int exit_code;
 
@@ -64,6 +64,7 @@ int    ft_exit(char **token)
     {
         error_exit(token[1], 2);
         last_status(2);
+        free_main(main);
         exit(2);
     }
     else
@@ -72,6 +73,7 @@ int    ft_exit(char **token)
         if (token[1])
             exit_code = ft_atol(token[1]);
         last_status(exit_code);
+        free_main(main);
         exit(exit_code);
     }
 }

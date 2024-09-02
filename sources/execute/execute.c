@@ -12,20 +12,26 @@
 
 #include "../../includes/minishell.h"
 
-void	handle_exec_error(char **cmd)
+void	handle_exec_error(char **cmd, t_main *main)
 {
 	print_error_exc("command not found: ", cmd[0]);
 	ft_free_tab(cmd);
+	free_list(&main->token);
+	free_tree(main->tree);
 	exit(127);
 }
 
-void	execute_child_process(char *path, char **cmd, t_env_node *env_list)
+void	execute_child_process(char *path, char **cmd, t_env_node *env_list, t_main *main)
 {
 	if (execve(path, cmd, convert_to_array(env_list)) == -1)
-		handle_exec_error(cmd);
+	{
+		free(path);
+		path = NULL;
+		handle_exec_error(cmd, main);
+	}
 }
 
-void	execute_command(char *path, char **cmd, t_env_node *env_list)
+void	execute_command(char *path, char **cmd, t_env_node *env_list, t_main *main)
 {
 	pid_t	pid;
 
@@ -33,7 +39,7 @@ void	execute_command(char *path, char **cmd, t_env_node *env_list)
 	if (pid == -1)
 		printf("fork error.\n");
 	else if (pid == 0)
-		execute_child_process(path, cmd, env_list);
+		execute_child_process(path, cmd, env_list, main);
 	else
 	{
 		waitpid(pid, NULL, 0);
@@ -54,16 +60,22 @@ void	ft_execute(char *av, t_env_node *env_list, t_main *main)
 	{
 		print_error_exc("command does not exist: ", cmd[0]);
 		ft_free_tab(cmd);
+		free_list(&main->token);
+		free_tree(main->tree);
 		return ;
 	}
 	if (!builtins(cmd, main))
-		execute_command(path, cmd, env_list);
+		execute_command(path, cmd, env_list, main);
+	free(path);
+	path = NULL;
 }
 
 int	execute(t_tree_node *node, t_main *main)
 {
 	if (node == NULL)
+	{
 		return (0);
+	}
 	if (node->type == CMD)
 		ft_execute(node->value, main->env, main);
 	if (node->type == COMMAND_SUBSTITUTION)

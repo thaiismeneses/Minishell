@@ -107,9 +107,9 @@ t_tree_node	*parse_expression(t_token **data);
 t_tree_node	*parse(t_token *data);
 
 // execute
-void	handle_exec_error(char **cmd);
-void	execute_child_process(char *path, char **cmd, t_env_node *env_list);
-void	execute_command(char *path, char **cmd, t_env_node *env_list);
+void	handle_exec_error(char **cmd, t_main *main);
+void	execute_child_process(char *path, char **cmd, t_env_node *env_list, t_main *main);
+void	execute_command(char *path, char **cmd, t_env_node *env_list, t_main *main);
 void	ft_execute(char *av, t_env_node *env_list, t_main *main);
 int	execute(t_tree_node *node, t_main *main);
 
@@ -188,7 +188,7 @@ int 					builtins(char **token, t_main *main);
 //exit.c
 int						error_exit(char *token, int option);
 int						is_number(char *token);
-int						ft_exit(char **token);
+int						ft_exit(char **token, t_main *main);
 
 //env_var.c
 int 					ft_env(char **token, t_main *main);

@@ -101,5 +101,6 @@ char	*get_path(char *cmd, t_env_node *env_list)
 		else
 			free(path);
 	}
+	ft_free_tab(paths);
 	return (cmd);
 }
