@@ -86,7 +86,7 @@ int expansion(t_token *node, t_main *main)
             node->value = ft_itoa(last_status(-1));
             i += ft_strlen(node->value);
         }
-        else if (node->value[i] == '$' && (ft_isalpha(node->value[i + 1]) 
+        else if (node->value[i] == '$' && (ft_isalpha(node->value[i + 1])
         || node->value[i + 1] == '_'))
         {
             expand = 1;
