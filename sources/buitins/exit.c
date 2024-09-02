@@ -50,6 +50,13 @@ int is_number(char *token)
     return (1);
 }
 
+long    get_number(long number)
+{
+    while(number < 0)
+        number = 256 + number;
+    return (number);
+}
+
 int    ft_exit(char **token)
 {
     int exit_code;
@@ -70,7 +77,7 @@ int    ft_exit(char **token)
     {
         ft_putstr_fd("exit\n", STDOUT_FILENO);
         if (token[1])
-            exit_code = ft_atol(token[1]);
+            exit_code = get_number(ft_atol(token[1]));
         last_status(exit_code);
         exit(exit_code);
     }
