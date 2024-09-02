@@ -30,7 +30,7 @@ int    home_path(t_main *main)
     path = find_env(main->env, "HOME");
     if (!path)
 	{
-        ft_putstr_fd("cd: HOME is not set\n", STDOUT_FILENO);
+        ft_putstr_fd("minishell: cd: HOME is not set\n", STDOUT_FILENO);
 		return (1);
 	}
 	if (chdir(path))

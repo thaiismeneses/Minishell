@@ -27,7 +27,7 @@ SRC =	sources/main.c\
 		sources/buitins/cd_utils.c\
 		sources/buitins/pwd.c\
 		sources/buitins/echo.c\
-		sources/expansion/expansion.c\
+		sources/execute/expansion.c\
 		sources/execute/execute.c\
 		sources/execute/utils_print_error.c\
 		sources/execute/utils_execute.c\

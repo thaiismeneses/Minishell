@@ -29,7 +29,7 @@ int ft_cd(char **token, t_main *main)
     ret = 0;
     if (token[2])
     {
-        ft_putstr_fd("cd: too many arguments\n", STDOUT_FILENO);
+        ft_putstr_fd("minishell: cd: too many arguments\n", STDOUT_FILENO);
         last_status(1);
         return (1);
     }

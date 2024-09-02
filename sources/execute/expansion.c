@@ -12,14 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-int	last_status(int status)
-{
-	static int last;
-
-	if (status > -1)
-		last = status;
-	return (last);
-}
 char	*strjoin_shell(char const *s1, char const *s2)
 {
 	char	*result;
@@ -77,6 +69,8 @@ int expansion(t_token *node, t_main *main)
 
     i = 0;
     expand = 0;
+    if (node->value[0] == '\'')
+        return(expand);
     while(node->value[i] != '\0')
     {
         if (node->value[i] == '$' && node->value[i + 1] == '?')
@@ -112,7 +106,7 @@ void	expand_tokens(t_main *main)
 	header = main->token;
 	while (temp)
 	{
-		if (expansion(temp, main) && temp->value[0] != '\"')
+		if (expansion(temp, main))
 			temp->token = 0;
 		temp = temp->next;
 	}

@@ -12,6 +12,15 @@
 
 #include "../../includes/minishell.h"
 
+int	last_status(int status)
+{
+	static int last;
+
+	if (status > -1)
+		last = status;
+	return (last);
+}
+
 void	remove_quotes(t_main *main)
 {
 	int	i;
@@ -76,11 +85,11 @@ int	builtins(char **token, t_main *main)
 	{
 		ft_putstr_fd(main->pwd, STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
-		return (1);
+		return (last_status(0), 1);
 	}
 	if (!ft_strcmp(token[0], "cd"))
 		return (ft_cd(token, main), 1);
 	if (!ft_strcmp(token[0], "echo"))
 		return (ft_echo(token), 1);
-	return (0);
+	return (last_status(0), 0);
 }

@@ -48,13 +48,7 @@ void	ft_execute(char *av, t_env_node *env_list, t_main *main)
 	int	i;
 
 	i = 0;
-	printf("%s\n",av);
 	cmd = new_split(av);
-	while (cmd[i])
-	{
-		printf("cmd[%d]: %s\n", i, cmd[i]);
-		i++;
-	}
 	path = get_path(cmd[0], env_list);
 	if (path == NULL)
 	{
