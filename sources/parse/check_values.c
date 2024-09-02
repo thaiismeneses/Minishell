@@ -73,6 +73,7 @@ void	check_values(t_token *data, t_main *main)
 
 	new_list = NULL;
 
+
 	if (is_in_order(data))
 	{
 		data = swap_nodes(data);
@@ -86,7 +87,6 @@ void	check_values(t_token *data, t_main *main)
 	{
 		new_list = reorganize_cmd(data);
 		main->token = new_list;
-		//print_token_list(main->token);
 		expand_tokens(main);
 		remove_quotes(main);
 		main->tree = parse(main->token);
