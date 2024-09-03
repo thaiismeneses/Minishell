@@ -15,9 +15,12 @@
 void	handle_exec_error(char **cmd, t_main *main)
 {
 	print_error_exc("command not found: ", cmd[0]);
-	ft_free_tab(cmd);
-	free_list(&main->token);
-	free_tree(main->tree);
+	if (cmd)
+		ft_free_tab(cmd);
+	if (main->token)
+		free_list(&main->token);
+	if (main->tree)
+		free_tree(main->tree);
 	exit(127);
 }
 
@@ -26,7 +29,6 @@ void	execute_child_process(char *path, char **cmd, t_env_node *env_list, t_main 
 	if (execve(path, cmd, convert_to_array(env_list)) == -1)
 	{
 		free(path);
-		path = NULL;
 		handle_exec_error(cmd, main);
 	}
 }
@@ -51,7 +53,7 @@ void	ft_execute(char *av, t_env_node *env_list, t_main *main)
 {
 	char	**cmd;
 	char	*path;
-	
+
 	cmd = new_split(av);
 	path = get_path(cmd[0], env_list);
 	if (path == NULL)
@@ -65,24 +67,17 @@ void	ft_execute(char *av, t_env_node *env_list, t_main *main)
 	if (!builtins(cmd, main))
 		execute_command(path, cmd, env_list, main);
 	free(path);
-	path = NULL;
 }
 
 int	execute(t_tree_node *node, t_main *main)
 {
 	if (node == NULL)
-	{
 		return (0);
-	}
 	if (node->type == CMD)
 		ft_execute(node->value, main->env, main);
 	if (node->type == COMMAND_SUBSTITUTION)
-	{
 		handle_redirect(node, main);
-	}
 	else if (node->type == PIPE)
-	{
 		execute_pipe(node, main);
-	}
 	return (0);
 }

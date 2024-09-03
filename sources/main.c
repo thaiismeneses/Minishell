@@ -40,7 +40,6 @@ static void	run(char *prompt, t_main *main)
 		}
 		free_list(&main->token);
 		free_tree(main->tree);
-		free(cmd);
 	}
 	rl_clear_history();
 }

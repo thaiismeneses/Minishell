@@ -35,7 +35,7 @@ t_type_cmd	find_type(char *cmd, int i, int first_token)
 		return (REDIRECT_OUT);
 	else if (cmd[i] == '|')
 		return (PIPE);
-	else if (cmd[i] == '$' && (ft_isalpha(cmd[i + 1]) 
+	else if (cmd[i] == '$' && (ft_isalpha(cmd[i + 1])
 	|| cmd[i + 1] == '?' || cmd[i + 1] == '_'))
 		return (ENV_VAR);
 	else
@@ -93,5 +93,6 @@ t_token	*tokenization(char *cmd, t_token *data)
 		first_token = is_first_token(type);
 		free(value);
 	}
+	free(cmd);
 	return (data);
 }

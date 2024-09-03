@@ -83,17 +83,16 @@ void free_main(t_main *main)
     if (!main)
         return;
     free_env_list(main->env);
-    free_list(&(main->token));
-    free_tree(main->tree);
-    free(main->pwd);
-    free(main->old_pwd);
-    free(main);
 	main->env = NULL;
+    free_list(&(main->token));
 	main->token = NULL;
+    free_tree(main->tree);
 	main->tree = NULL;
+    free(main->pwd);
 	main->pwd = NULL;
+    free(main->old_pwd);
 	main->old_pwd = NULL;
-	main = NULL;
+    free(main);
 }
 
 
