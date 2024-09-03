@@ -51,28 +51,28 @@ int    old_path(t_main *main)
 int parent_path(t_main *main)
 {
     int     i;
-    char    *path;
     char    *new_path;
 
-    i = 0;
-    path = main->old_pwd;
-    new_path = ft_calloc(ft_strlen(path) + 1, sizeof (char));
+    new_path = ft_strdup(main->pwd);
     if (!new_path)
         return (1);
-    while (path[i] != '\0')
-        i++;
-    while (i > 0 && path[i] != '/')
+    i = ft_strlen(new_path);
+    while (i > 0 && new_path[i] != '/')
         i--;
     if (i == 0)
-        ft_strncpy(new_path, path, ft_strlen(path));
-    if (i > 0)
-        ft_strncpy(new_path, path, i);
-    new_path[i] = '\0';
-    if (chdir(new_path))
     {
+        ft_strncpy(new_path, "/", 1);
+        new_path[1] = '\0';
+    }
+    else
+        new_path[i] = '\0';
+
+    if (chdir(new_path) != 0)
+    {
+        perror("cd");
         free(new_path);
-		return (1);
+        return (1);
     }
     free(new_path);
-	return (0);
+    return (0);
 }

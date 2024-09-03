@@ -27,7 +27,6 @@ void	execute_child_process(char *path, char **cmd, t_env_node *env_list)
 
 void	execute_command(char *path, char **cmd, t_env_node *env_list)
 {
-	int		status;
 	pid_t	pid;
 
 	pid = fork();
@@ -37,14 +36,7 @@ void	execute_command(char *path, char **cmd, t_env_node *env_list)
 		execute_child_process(path, cmd, env_list);
 	else
 	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			status = WEXITSTATUS(status);
-		if (status == 139)
-			status = 1;
-		if ((!ft_strcmp(cmd[0], "cat") || !ft_strcmp(cmd[0], "grep")) && status == 4)
-			status = 130;
-		last_status(status);
+		waitpid(pid, NULL, 0);
 		ft_free_tab(cmd);
 	}
 }
@@ -53,16 +45,13 @@ void	ft_execute(char *av, t_env_node *env_list, t_main *main)
 {
 	char	**cmd;
 	char	*path;
-	int	i;
 
-	i = 0;
 	cmd = new_split(av);
 	path = get_path(cmd[0], env_list);
 	if (path == NULL)
 	{
 		print_error_exc("command does not exist: ", cmd[0]);
 		ft_free_tab(cmd);
-		last_status(127);
 		return ;
 	}
 	if (!builtins(cmd, main))
