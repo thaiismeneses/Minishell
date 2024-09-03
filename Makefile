@@ -2,6 +2,7 @@ NAME = minishell
 CC = cc
 RM = rm -rf
 CFLAGS = -Wall -Wextra -Werror
+DBUG = -g
 LIBS = libft/libft.a
 
 SRC =	sources/main.c\
@@ -46,6 +47,9 @@ Y = \033[33m
 blink = \033[6;7;1;3m
 
 all: $(NAME)
+
+debug: CFLAGS += $(DBUG)
+debug: $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "-----------------------Compilation of $(NAME)----------------------------------------"

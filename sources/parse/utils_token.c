@@ -31,7 +31,6 @@ t_token	*get_last_token(t_token *data)
 char	*str_join(char *dest, char *src)
 {
 	char	*result;
-
 	if (!src)
 		return (dest);
 	if (!dest)

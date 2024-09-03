@@ -51,9 +51,7 @@ void	ft_execute(char *av, t_env_node *env_list, t_main *main)
 {
 	char	**cmd;
 	char	*path;
-	int	i;
-
-	i = 0;
+	
 	cmd = new_split(av);
 	path = get_path(cmd[0], env_list);
 	if (path == NULL)

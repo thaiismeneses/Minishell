@@ -19,6 +19,10 @@ int	is_in_order(t_token *data)
 		if (data && (data->token == REDIRECT_IN || data->token == REDIRECT_OUT
 				|| data->token == APPEND || data->token == HEREDOC))
 		{
+			if (data->next && data->next->token == CMD && data->next->next == NULL)
+			{
+				return (0);
+			}
 			if (data->next->next && data->next->next->token == CMD)
 			{
 				return (1);
@@ -52,6 +56,7 @@ t_token	*reorganize_cmd(t_token *data)
 	char	*value;
 
 	new_list = NULL;
+	value = NULL;
 	while (data)
 	{
 		if (data->token == CMD)
@@ -75,21 +80,12 @@ void	check_values(t_token *data, t_main *main)
 
 	new_list = NULL;
 	if (is_in_order(data))
-	{
 		data = swap_nodes(data);
-		new_list = reorganize_cmd(data);
-		main->token = new_list;
-		expand_tokens(main);
-		remove_quotes(main);
-		main->tree = parse(main->token);
-	}
-	else
-	{
-		new_list = reorganize_cmd(data);
-		main->token = new_list;
-		expand_tokens(main);
-		remove_quotes(main);
-		main->tree = parse(main->token);
-	}
+	new_list = reorganize_cmd(data);
+	main->token = new_list;
+	expand_tokens(main);
+	remove_quotes(main);
+	main->tree = parse(main->token);
+
 	free_list(&new_list);
 }
