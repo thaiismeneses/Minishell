@@ -28,11 +28,7 @@ int ft_cd(char **token, t_main *main)
 
     ret = 0;
     if (token[2])
-    {
-        ft_putstr_fd("minishell: cd: too many arguments\n", STDOUT_FILENO);
-        last_status(1);
-        return (1);
-    }
+        return (handle_too_many_args());
     else if (!token[1] || token[1][0] == '\0' || !ft_strcmp(token[1], "~"))
         ret = home_path(main);
     else if (!ft_strcmp(token[1], "-"))

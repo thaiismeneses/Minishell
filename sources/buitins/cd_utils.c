@@ -12,6 +12,13 @@
 
 #include "../../includes/minishell.h"
 
+int handle_too_many_args(void)
+{
+    ft_putstr_fd("minishell: cd: too many arguments\n", STDOUT_FILENO);
+    last_status(1);
+    return 1;
+}
+
 char    *find_env(t_env_node *env, char *env_name)
 {
     while(env)
