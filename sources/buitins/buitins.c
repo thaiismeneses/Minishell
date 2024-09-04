@@ -21,11 +21,31 @@ int	last_status(int status)
 	return (last);
 }
 
-void	remove_quotes(t_main *main)
+void	process_quote(t_token *data)
 {
 	int	i;
 	char	quote;
 	char	*temp;
+
+	quote = data->value[0];
+	i = 1;
+	while (data->value[i] != '\0')
+	{
+		if (data->value[i++] == quote)
+			break ;
+	}
+	temp = ft_substr(data->value, 1, i - 2);
+	if (temp)
+	{
+		free(data->value);
+		data->value = ft_strdup(temp);
+		data->token = 0;
+		free(temp);
+	}
+}
+
+void	remove_quotes(t_main *main)
+{
 	t_token	*data;
 	t_token	*head;
 
@@ -44,27 +64,10 @@ void	remove_quotes(t_main *main)
                 }
                 data = data->next;
             }
-			if (!data)
-				break ;
         }
-		else if (data->token == S_QUOTE || data->token == D_QUOTE)
-		{
-			quote = data->value[0];
-			i = 1;
-			while (data->value[i] != '\0')
-			{
-				if (data->value[i++] == quote)
-					break ;
-			}
-			temp = ft_substr(data->value, 1, i - 2);
-			if (temp)
-			{
-				free(data->value);
-				data->value = ft_strdup(temp);
-				data->token = 0;
-				free(temp);
-			}
-		}
+
+		if (data->token == S_QUOTE || data->token == D_QUOTE)
+			process_quote(data);
 		data = data->next;
 	}
 	main->token = reorganize_cmd(head);

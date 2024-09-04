@@ -193,6 +193,7 @@ t_env_node	*build_environ(char **envp);
 
 // builtins.c
 int						last_status(int status);
+void					process_quote(t_token *data);
 void    				remove_quotes(t_main *main);
 int 					builtins(char **token, t_main *main);
 
@@ -206,7 +207,8 @@ int 					ft_env(char **token, t_main *main);
 
 //export.c
 void					remove_node_export(char *token, t_main *main, int i);
-void    				utils_export(char **token, t_main *main, int type);
+void					errors_export(char **token, int type);
+void					util_export(t_main *main);
 int    					export_env(char **token, t_main *main);
 int 					ft_export(char **token, t_main *main);
 
@@ -222,6 +224,7 @@ void    				update_pwd(t_main *main);
 int 					ft_cd(char **token, t_main *main);
 
 //cd_utils.c
+int 					handle_too_many_args(void);
 char    				*find_env(t_env_node *env, char *env_name);
 int    					home_path(t_main *main);
 int    					old_path(t_main *main);
