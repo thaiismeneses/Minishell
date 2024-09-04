@@ -50,6 +50,7 @@ int is_number(char *token)
     return (1);
 }
 
+
 long    get_number(long number)
 {
     while(number < 0)
@@ -57,7 +58,7 @@ long    get_number(long number)
     return (number);
 }
 
-int    ft_exit(char **token)
+int    ft_exit(char **token, t_main *main)
 {
     int exit_code;
 
@@ -71,6 +72,9 @@ int    ft_exit(char **token)
     {
         error_exit(token[1], 2);
         last_status(2);
+		    ft_free_tab(token);
+        free_main(main);
+        exit(2);
     }
     else
     {
@@ -78,6 +82,9 @@ int    ft_exit(char **token)
         if (token[1])
             exit_code = get_number(ft_atol(token[1]));
         last_status(exit_code);
+		    ft_free_tab(token);
+        free_main(main);
+        exit(exit_code);
     }
     exit(last_status(-1));
 }

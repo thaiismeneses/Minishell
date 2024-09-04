@@ -43,6 +43,16 @@ typedef enum e_type
 	NONE,
 }				t_type_cmd;
 
+typedef struct s_vars {
+	int	i;
+	int	r;
+	int	len;
+	int	cw;
+	int	inside_quotes;
+	char	quote_char;
+} t_vars;
+
+
 typedef struct s_token
 {
 	char		*value;
@@ -72,6 +82,7 @@ typedef struct s_main
 	t_tree_node			*tree;
 	t_env_node			*env;
 	t_token				*token;
+	t_vars				vars;
 	char				*pwd;
 	char				*old_pwd;
 }						t_main;
@@ -107,9 +118,9 @@ t_tree_node	*parse_expression(t_token **data);
 t_tree_node	*parse(t_token *data);
 
 // execute
-void	handle_exec_error(char **cmd);
-void	execute_child_process(char *path, char **cmd, t_env_node *env_list);
-void	execute_command(char *path, char **cmd, t_env_node *env_list);
+void	handle_exec_error(char **cmd, t_main *main);
+void	execute_child_process(char *path, char **cmd, t_env_node *env_list, t_main *main);
+void	execute_command(char *path, char **cmd, t_env_node *env_list, t_main *main);
 void	ft_execute(char *av, t_env_node *env_list, t_main *main);
 int	execute(t_tree_node *node, t_main *main);
 
@@ -189,7 +200,7 @@ int 					builtins(char **token, t_main *main);
 //exit.c
 int						error_exit(char *token, int option);
 int						is_number(char *token);
-int						ft_exit(char **token);
+int						ft_exit(char **token, t_main *main);
 
 //env_var.c
 int 					ft_env(char **token, t_main *main);
@@ -239,6 +250,17 @@ void	handle_input_redirect(char *value, char *input_file, t_main *main);
 void	handle_append_redirect(char *value, char *output_file, t_main *main);
 void	handle_redirect(t_tree_node *node, t_main *main);
 
+//utils_execute_two
+int	store_word(char **result, t_vars *vars, char *str, int start);
+int	count_words(char *str);
+void	initialize_vars(char *str, t_vars *vars, char ***result);
 char **new_split(char *str);
+
+//utils_execute_three
+int	skip_whitespace(char *str, int i);
+char	**to_malloc_matriz(char **str, int len);
+int	handle_quotes(char *str, int *i, char *quote_char, int *inside_quotes);
+int	process_word(char *str, int *i, int *inside_quotes, char quote_char);
 int	last_status(int status);
+
 #endif
