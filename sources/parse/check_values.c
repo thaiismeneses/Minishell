@@ -86,6 +86,5 @@ void	check_values(t_token *data, t_main *main)
 	expand_tokens(main);
 	remove_quotes(main);
 	main->tree = parse(main->token);
-
 	free_list(&new_list);
 }
