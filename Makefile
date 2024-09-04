@@ -33,6 +33,7 @@ SRC =	sources/main.c\
 		sources/execute/utils_print_error.c\
 		sources/execute/utils_execute.c\
 		sources/execute/utils_execute_two.c\
+		sources/execute/utils_execute_three.c\
 		sources/execute/pipe.c\
 		sources/execute/redirects.c\
 		sources/execute/utils_redirect.c\

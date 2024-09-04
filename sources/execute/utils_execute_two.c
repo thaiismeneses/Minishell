@@ -6,135 +6,201 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 14:51:56 by thfranco          #+#    #+#             */
-/*   Updated: 2024/09/04 17:29:40 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/09/04 19:46:23 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/minishell.h"
 
-#include <stdlib.h>
+// int	skip_whitespace(char *str, int i)
+// {
+// 	while (str[i] == ' ' || str[i] == '\t')
+// 		i++;
+// 	return (i);
+// }
 
-int is_quote(char c)
+// char	**to_malloc_matriz(char **str, int len)
+// {
+// 	str = (char **)malloc(sizeof(char *) * (len + 1));
+// 	if (!str)
+// 		return (NULL);
+// 	return (str);
+// }
+
+// int	handle_quotes(char *str, int *i, char *quote_char, int *inside_quotes)
+// {
+// 	if (str[*i] == '"' || str[*i] == '\'')
+// 	{
+// 		*quote_char = str[*i];
+// 		*inside_quotes = 1;
+// 		(*i)++;
+// 		return (1);
+// 	}
+// 	return (0);
+// }
+// int	process_word(char *str, int *i, int *inside_quotes, char quote_char)
+// {
+// 	int	len;
+
+// 	len = 0;
+// 	while (str[*i] != '\0' && (*inside_quotes || (str[*i] != ' '
+// 				&& str[*i] != '\t')))
+// 	{
+// 		if (*inside_quotes && str[*i] == quote_char)
+// 		{
+// 			*inside_quotes = 0;
+// 			(*i)++;
+// 			break ;
+// 		}
+// 		(*i)++;
+// 		len++;
+// 	}
+// 	return (len);
+// }
+
+// int	store_word(char **result, int r, char *str, int start, int len)
+// {
+// 	int	j;
+
+// 	result[r] = (char *)malloc(sizeof(char) * (len + 1));
+// 	if (!result[r])
+// 		return (-1);
+// 	j = 0;
+// 	while (j < len)
+// 	{
+// 		result[r][j] = str[start + j];
+// 		j++;
+// 	}
+// 	result[r][j] = '\0';
+// 	return (0);
+// }
+
+// int	count_words(char *str)
+// {
+// 	int		w;
+// 	int		inside_quotes;
+// 	char	quote_char;
+
+// 	int vars[5];
+// 	w = 0;
+// 	vars[0] = 0;
+// 	inside_quotes = 0;
+// 	quote_char = '\0';
+// 	while (str[vars[0]] != '\0')
+// 	{
+// 		vars[0] = skip_whitespace(str, vars[0]);
+// 		handle_quotes(str, &vars[0], &quote_char, &inside_quotes);
+// 		if (str[vars[0]] != '\0')
+// 			w++;
+// 		vars[3] = process_word(str, &vars[0], &inside_quotes, quote_char);
+// 	}
+// 	return (w);
+// }
+// void	initialize_vars(char *str, int *vars, int *inside_quotes,
+// 		char *quote_char, char ***result)
+// {
+// 	vars[4] = count_words(str);
+// 	vars[0] = 0;
+// 	vars[2] = 0;
+// 	*inside_quotes = 0;
+// 	*quote_char = '\0';
+// 	*result = to_malloc_matriz(*result, vars[4]);
+// }
+
+// char	**new_split(char *str)
+// {
+// 	char	**result;
+// 	int		inside_quotes;
+// 	char	quote_char;
+// 	int		start;
+// 	int		vars[5];
+
+// 	initialize_vars(str, vars, &inside_quotes, &quote_char, &result);
+// 	while (str[vars[0]] != '\0')
+// 	{
+// 		vars[0] = skip_whitespace(str, vars[0]);
+// 		handle_quotes(str, &vars[0], &quote_char, &inside_quotes);
+// 		start = vars[0];
+// 		vars[3] = process_word(str, &vars[0], &inside_quotes, quote_char);
+// 		if (vars[3] > 0)
+// 		{
+// 			if (store_word(result, vars[2], str, start, vars[3]) == -1)
+// 				return (NULL);
+// 			vars[2]++;
+// 		}
+// 	}
+// 	result[vars[2]] = NULL;
+// 	return (result);
+// }
+int	store_word(char **result, t_vars *vars, char *str, int start)
 {
-	return (c == '"' || c == '\'');
+	int	j;
+
+	result[vars->r] = (char *)malloc(sizeof(char) * (vars->len + 1));
+	if (!result[vars->r])
+		return (-1);
+	j = 0;
+	while (j < vars->len)
+	{
+		result[vars->r][j] = str[start + j];
+		j++;
+	}
+	result[vars->r][j] = '\0';
+	return (0);
 }
 
-int	skip_whitespace(char *str, int i)
+int	count_words(char *str)
 {
-	while (str[i] == ' ' || str[i] == '\t')
-		i++;
-	return (i);
-}
-
-int count_words(char *str)
-{
-	int w;
-	int inside_quotes;
-	char quote_char;
+	t_vars	vars;
+	int		w;
 
 	w = 0;
-	while (*str != '\0')
+	vars.i = 0;
+	vars.inside_quotes = 0;
+	vars.quote_char = '\0';
+	while (str[vars.i] != '\0')
 	{
-		while (*str == ' ' || *str == '\t')
-			str++;
-		quote_char = *str;
-		inside_quotes = 1;
-		str++;
-		if (*str != '\0')
+		vars.i = skip_whitespace(str, vars.i);
+		handle_quotes(str, &vars.i, &vars.quote_char, &vars.inside_quotes);
+		if (str[vars.i] != '\0')
 			w++;
-		while (*str != '\0' && (inside_quotes || (*str != ' ' && *str != '\t')))
+		vars.len = process_word(str, &vars.i, &vars.inside_quotes,
+				vars.quote_char);
+	}
+	return (w);
+}
+
+void	initialize_vars(char *str, t_vars *vars, char ***result)
+{
+	vars->cw = count_words(str);
+	vars->i = 0;
+	vars->r = 0;
+	vars->inside_quotes = 0;
+	vars->quote_char = '\0';
+	*result = to_malloc_matriz(*result, vars->cw);
+}
+
+char	**new_split(char *str)
+{
+	char	**result;
+	t_vars	vars;
+	int		start;
+
+	initialize_vars(str, &vars, &result);
+	while (str[vars.i] != '\0')
+	{
+		vars.i = skip_whitespace(str, vars.i);
+		handle_quotes(str, &vars.i, &vars.quote_char, &vars.inside_quotes);
+		start = vars.i;
+		vars.len = process_word(str, &vars.i, &vars.inside_quotes,
+				vars.quote_char);
+		if (vars.len > 0)
 		{
-			if (inside_quotes && *str == quote_char)
-			{
-				inside_quotes = 0;
-				str++;
-				break;
-			}
-			str++;
+			if (store_word(result, &vars, str, start) == -1)
+				return (NULL);
+			vars.r++;
 		}
 	}
-	return w;
-}
-
-char	**to_malloc_matriz(char **str, int len)
-{
-	str = (char **)malloc(sizeof(char*) * (len + 1));
-	if (!str)
-		return (NULL);
-	return (str);
-}
-
-int handle_quotes(char *str, int *i, char *quote_char, int *inside_quotes)
-{
-    if (str[*i] == '"' || str[*i] == '\'')
-    {
-        *quote_char = str[*i];
-        *inside_quotes = 1;
-        (*i)++;
-        return 1;
-    }
-    return 0;
-}
-int process_word(char *str, int *i, int *inside_quotes, char quote_char)
-{
-    int len = 0;
-
-    while (str[*i] != '\0' && (*inside_quotes || (str[*i] != ' ' && str[*i] != '\t')))
-    {
-        if (*inside_quotes && str[*i] == quote_char)
-        {
-            *inside_quotes = 0;
-            (*i)++;
-            break;
-        }
-        (*i)++;
-        len++;
-    }
-
-    return len;
-}
-
-char **new_split(char *str)
-{
-    int i;
-    int j;
-    int r;
-    int len;
-    int cw;
-    char **result;
-    int inside_quotes;
-    char quote_char;
-
-    cw = count_words(str);
-    i = 0;
-    r = 0;
-    inside_quotes = 0;
-    quote_char = '\0';
-    result = NULL;
-    result = to_malloc_matriz(result, cw);
-    while (str[i] != '\0')
-    {
-		i = skip_whitespace(str, i);
-        handle_quotes(str, &i, &quote_char, &inside_quotes);
-        int start = i;
-
-        // Chama a função process_word
-        len = process_word(str, &i, &inside_quotes, quote_char);
-
-        if (len > 0) // Adiciona a palavra apenas se ela tiver comprimento > 0
-        {
-            result[r] = (char *)malloc(sizeof(char) * (len + 1));
-            if (!result[r])
-                return (NULL);
-            j = 0;
-            while (j < len)
-            {
-                result[r][j] = str[start + j];
-                j++;
-            }
-            result[r][j] = '\0'; // Adiciona o terminador nulo ao final da string
-            r++;
-        }
-    }
-    result[r] = NULL;
-    return result;
+	result[vars.r] = NULL;
+	return (result);
 }

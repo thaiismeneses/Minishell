@@ -43,6 +43,16 @@ typedef enum e_type
 	NONE,
 }				t_type_cmd;
 
+typedef struct s_vars {
+	int	i;
+	int	r;
+	int	len;
+	int	cw;
+	int	inside_quotes;
+	char	quote_char;
+} t_vars;
+
+
 typedef struct s_token
 {
 	char		*value;
@@ -236,6 +246,17 @@ void	handle_input_redirect(char *value, char *input_file, t_main *main);
 void	handle_append_redirect(char *value, char *output_file, t_main *main);
 void	handle_redirect(t_tree_node *node, t_main *main);
 
+//utils_execute_two
+int	store_word(char **result, t_vars *vars, char *str, int start);
+int	count_words(char *str);
+void	initialize_vars(char *str, t_vars *vars, char ***result);
 char **new_split(char *str);
+
+//utils_execute_three
+int	skip_whitespace(char *str, int i);
+char	**to_malloc_matriz(char **str, int len);
+int	handle_quotes(char *str, int *i, char *quote_char, int *inside_quotes);
+int	process_word(char *str, int *i, int *inside_quotes, char quote_char);
+
 int	last_status(int status);
 #endif

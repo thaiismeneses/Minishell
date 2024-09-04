@@ -36,7 +36,7 @@ t_type_cmd	find_type(char *cmd, int i, int first_token)
 	else if (cmd[i] == '|')
 		return (PIPE);
 	else if (cmd[i] == '$' && (ft_isalpha(cmd[i + 1])
-	|| cmd[i + 1] == '?' || cmd[i + 1] == '_'))
+			|| cmd[i + 1] == '?' || cmd[i + 1] == '_'))
 		return (ENV_VAR);
 	else
 	{

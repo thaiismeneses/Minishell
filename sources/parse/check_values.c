@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   check_values.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 18:11:14 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/31 14:27:37 by thfranco         ###   ########.fr       */
+/*   Created: 2024/09/04 19:52:48 by thfranco          #+#    #+#             */
+/*   Updated: 2024/09/04 19:52:48 by thfranco         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -19,7 +19,8 @@ int	is_in_order(t_token *data)
 		if (data && (data->token == REDIRECT_IN || data->token == REDIRECT_OUT
 				|| data->token == APPEND || data->token == HEREDOC))
 		{
-			if (data->next && data->next->token == CMD && data->next->next == NULL)
+			if (data->next && data->next->token == CMD
+				&& data->next->next == NULL)
 			{
 				return (0);
 			}
