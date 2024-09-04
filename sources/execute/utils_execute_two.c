@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 14:51:56 by thfranco          #+#    #+#             */
-/*   Updated: 2024/09/04 19:46:23 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/09/04 20:36:36 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@
 // 	result[vars[2]] = NULL;
 // 	return (result);
 // }
+
 int	store_word(char **result, t_vars *vars, char *str, int start)
 {
 	int	j;
@@ -197,7 +198,10 @@ char	**new_split(char *str)
 		if (vars.len > 0)
 		{
 			if (store_word(result, &vars, str, start) == -1)
+			{
+				ft_free_tab(result);
 				return (NULL);
+			}
 			vars.r++;
 		}
 	}

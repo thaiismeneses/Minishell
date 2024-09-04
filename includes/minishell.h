@@ -82,6 +82,7 @@ typedef struct s_main
 	t_tree_node			*tree;
 	t_env_node			*env;
 	t_token				*token;
+	t_vars				vars;
 	char				*pwd;
 	char				*old_pwd;
 }						t_main;
@@ -257,6 +258,6 @@ int	skip_whitespace(char *str, int i);
 char	**to_malloc_matriz(char **str, int len);
 int	handle_quotes(char *str, int *i, char *quote_char, int *inside_quotes);
 int	process_word(char *str, int *i, int *inside_quotes, char quote_char);
-
 int	last_status(int status);
+
 #endif

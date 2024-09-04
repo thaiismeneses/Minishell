@@ -64,6 +64,7 @@ int    ft_exit(char **token, t_main *main)
     {
         error_exit(token[1], 2);
         last_status(2);
+		ft_free_tab(token);
         free_main(main);
         exit(2);
     }
@@ -73,6 +74,7 @@ int    ft_exit(char **token, t_main *main)
         if (token[1])
             exit_code = ft_atol(token[1]);
         last_status(exit_code);
+		ft_free_tab(token);
         free_main(main);
         exit(exit_code);
     }
