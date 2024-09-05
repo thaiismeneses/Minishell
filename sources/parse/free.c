@@ -17,9 +17,13 @@ void	free_tree(t_tree_node *node)
 	if (node == NULL)
 		return ;
 	free_tree(node->left);
+	node->left = NULL;
 	free_tree(node->right);
+	node->right = NULL;
 	free(node->value);
+	node->value = NULL;
 	free(node);
+	node = NULL;
 }
 
 void	free_list(t_token **data)
@@ -34,6 +38,7 @@ void	free_list(t_token **data)
 	{
 		temp = current->next;
 		free(current->value);
+		current->value = NULL;
 		free(current);
 		current = temp;
 	}
@@ -49,9 +54,13 @@ void	free_env_list(t_env_node *head)
 		temp = head;
 		head = head->next;
 		free(temp->name_env);
+		temp->name_env = NULL;
 		free(temp->value_env);
+		temp->value_env = NULL;
 		free(temp->line_env);
+		temp->line_env = NULL;
 		free(temp);
+		temp = NULL;
 	}
 }
 
@@ -66,6 +75,7 @@ void	ft_free_tab(char **tab)
 		i++;
 	}
 	free(tab);
+	tab = NULL;
 }
 
 void free_main(t_main *main)
@@ -73,10 +83,15 @@ void free_main(t_main *main)
     if (!main)
         return;
     free_env_list(main->env);
+	main->env = NULL;
     free_list(&(main->token));
+	main->token = NULL;
     free_tree(main->tree);
+	main->tree = NULL;
     free(main->pwd);
+	main->pwd = NULL;
     free(main->old_pwd);
+	main->old_pwd = NULL;
     free(main);
 }
 

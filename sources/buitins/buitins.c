@@ -65,6 +65,7 @@ void	remove_quotes(t_main *main)
                 data = data->next;
             }
         }
+
 		if (data->token == S_QUOTE || data->token == D_QUOTE)
 			process_quote(data);
 		data = data->next;
@@ -78,7 +79,7 @@ int	builtins(char **token, t_main *main)
 	if (!token || !token[0])
 		return (0);
 	if (!ft_strcmp(token[0], "exit"))
-		return (ft_exit(token), 1);
+		return (ft_exit(token, main), 1);
 	if (!ft_strcmp(token[0], "env"))
 		return (ft_env(token, main), 1);
 	if (!ft_strcmp(token[0], "export"))

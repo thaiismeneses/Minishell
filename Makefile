@@ -2,6 +2,7 @@ NAME = minishell
 CC = cc
 RM = rm -rf
 CFLAGS = -Wall -Wextra -Werror
+DBUG = -g
 LIBS = libft/libft.a
 
 SRC =	sources/main.c\
@@ -32,6 +33,7 @@ SRC =	sources/main.c\
 		sources/execute/utils_print_error.c\
 		sources/execute/utils_execute.c\
 		sources/execute/utils_execute_two.c\
+		sources/execute/utils_execute_three.c\
 		sources/execute/pipe.c\
 		sources/execute/redirects.c\
 		sources/execute/utils_redirect.c\
@@ -47,6 +49,9 @@ blink = \033[6;7;1;3m
 
 all: $(NAME)
 
+debug: CFLAGS += $(DBUG)
+debug: $(NAME)
+
 $(NAME): $(OBJ)
 	@echo "-----------------------Compilation of $(NAME)----------------------------------------"
 	@make bonus -s -C libft/
@@ -55,7 +60,7 @@ $(NAME): $(OBJ)
 	@echo "$(blink)$(G) ✅ $(NAME) successfully compiled $(Reset)"
 
 val: re
-	valgrind --leak-check=full --track-origins=yes --suppressions=supressions.supp -s ./minishell
+	valgrind --show-leak-kinds=all --leak-check=full --track-origins=yes --suppressions=supressions.supp -s ./minishell
 
 clean:
 	@make -s clean -C libft/

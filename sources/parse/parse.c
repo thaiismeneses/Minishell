@@ -17,7 +17,10 @@ t_tree_node	*create_redirect_node(t_token **data)
 	char		*value;
 	t_tree_node	*arg_node;
 
-	value = join_cmd(NULL, (*data)->prev->value, 1);
+	value = NULL;
+	arg_node = NULL;
+	if ((*data)->prev)
+		value = join_cmd(value, (*data)->prev->value, 1);
 	value = join_cmd(value, (*data)->value, 1);
 	value = join_cmd(value, (*data)->next->value, 0);
 	arg_node = create_tree_node(COMMAND_SUBSTITUTION, value);
