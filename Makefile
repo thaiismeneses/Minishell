@@ -3,6 +3,7 @@ CC = cc
 RM = rm -rf
 CFLAGS = -Wall -Wextra -Werror
 DBUG = -g
+EFENCE = -lefence
 LIBS = libft/libft.a
 
 SRC =	sources/main.c\
@@ -51,6 +52,10 @@ all: $(NAME)
 
 debug: CFLAGS += $(DBUG)
 debug: $(NAME)
+
+efence: CFLAGS += $(DBUG)
+efence: LIBS += $(EFENCE)
+efence: $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "-----------------------Compilation of $(NAME)----------------------------------------"

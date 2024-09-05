@@ -12,9 +12,9 @@
 
 #include "../../includes/minishell.h"
 
-void	print_error_exc(char *msg, char *cmd)
+void	print_error_exc(char *msg, char **cmd)
 {
 	ft_putstr_fd(msg, 2);
-	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(cmd[0], 2);
 	ft_putstr_fd("\n", 2);
 }
