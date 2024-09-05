@@ -90,6 +90,7 @@ int	builtins(char **token, t_main *main)
 	{
 		ft_putstr_fd(main->pwd, STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
+		ft_free_tab(token);
 		return (last_status(0), 1);
 	}
 	if (!ft_strcmp(token[0], "cd"))

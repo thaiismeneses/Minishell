@@ -156,7 +156,7 @@ int 					check_quotes(t_token *token);
 int						has_error(t_token *data);
 
 //utils_print_error
-void	print_error_exc(char *msg, char *cmd);
+void	print_error_exc(char *msg, char **cmd);
 
 // extra_to_print
 void	print_tree(t_tree_node *node, int level);

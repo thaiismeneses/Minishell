@@ -69,7 +69,9 @@ void	ft_free_tab(char **tab)
 	int	i;
 
 	i = 0;
-	while (tab[i] != NULL)
+	if (tab == NULL)
+		return ;
+	while (tab[i])
 	{
 		free(tab[i]);
 		i++;
