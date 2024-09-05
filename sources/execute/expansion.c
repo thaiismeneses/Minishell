@@ -61,10 +61,34 @@ int subst_env_var(t_token *node, int start, int length, t_main *main)
     node->value = new_value;
     return (1);
 }
+int handle_exit_status(t_token *node)
+{
+    int expand;
+
+    expand = 1;
+    free(node->value);
+    node->value = ft_itoa(last_status(-1));
+    return (expand);
+}
+
+int handle_expansion(t_token *node, int i, t_main *main)
+{
+    int start;
+    int expand;
+
+    expand = 1;
+    start = i + 1;
+    i++;
+    while (node->value[i] && (ft_isalnum(node->value[i]) ||
+         node->value[i] == '_'))
+            i++;
+    subst_env_var(node, start, i - start, main);
+    return (expand);
+}
+
 int expansion(t_token *node, t_main *main)
 {
     int i;
-    int start;
     int expand;
 
     i = 0;
@@ -75,21 +99,13 @@ int expansion(t_token *node, t_main *main)
     {
         if (node->value[i] == '$' && node->value[i + 1] == '?')
         {
-            expand = 1;
-            free(node->value);
-            node->value = ft_itoa(last_status(-1));
+            expand = handle_exit_status(node);
             i += ft_strlen(node->value);
         }
         else if (node->value[i] == '$' && (ft_isalpha(node->value[i + 1])
         || node->value[i + 1] == '_'))
         {
-            expand = 1;
-            start = i + 1;
-            i++;
-            while (node->value[i] && (ft_isalnum(node->value[i]) ||
-             node->value[i] == '_'))
-                i++;
-            subst_env_var(node, start, i - start, main);
+            expand = handle_expansion(node, i, main);
             i = -1;
         }
         i++;
