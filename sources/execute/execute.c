@@ -32,7 +32,8 @@ void	execute_child_process(char *path, char **cmd,
 	{
 		if (path)
 			free(path);
-		ft_free_tab(env_array);
+		if (env_array)
+			ft_free_tab(env_array);
 		handle_exec_error(cmd, main);
 	}
 }
@@ -43,6 +44,7 @@ void	execute_command(char *path, char **cmd,
 	int		status;
 	pid_t	pid;
 
+	status = 0;
 	pid = fork();
 	if (pid == -1)
 		printf("fork error.\n");
@@ -55,7 +57,8 @@ void	execute_command(char *path, char **cmd,
 			status = WEXITSTATUS(status);
 		if (status == 139)
 			status = 1;
-		if ((!ft_strcmp(cmd[0], "cat") || !ft_strcmp(cmd[0], "grep")) && status == 4)
+		if ((!ft_strcmp(cmd[0], "cat") || !ft_strcmp(cmd[0], "grep"))
+			&& g_status == SIGINT)
 			status = 130;
 		last_status(status);
 	}
@@ -78,8 +81,11 @@ void	ft_execute(char *av, t_env_node *env_list, t_main *main)
 	else if (!builtins(cmd, main))
 		execute_command(path, cmd, env_list, main);
 	free(path);
-	ft_free_tab(cmd);
-	cmd = NULL;
+	if (cmd)
+	{
+		ft_free_tab(cmd);
+		cmd = NULL;
+	}
 }
 
 int	execute(t_tree_node *node, t_main *main)

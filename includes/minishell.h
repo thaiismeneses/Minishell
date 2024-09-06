@@ -234,7 +234,6 @@ int 					parent_path(t_main *main);
 int 					ft_echo(char **token);
 
 //expansion.c
-char					*strjoin_shell(char const *s1, char const *s2);
 int 					subst_env_var(t_token *node, int start, int length, t_main *main);
 int 					handle_exit_status(t_token *node);
 int 					handle_expansion(t_token *node, int i, t_main *main);

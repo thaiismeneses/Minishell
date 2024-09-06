@@ -15,6 +15,7 @@
 t_token	*set_token_list(t_token *data, char *value_cmd, int type)
 {
 	add_node(&data, type, value_cmd);
+	
 	return (data);
 }
 
