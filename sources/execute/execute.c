@@ -14,9 +14,7 @@
 
 void	handle_exec_error(char **cmd, t_main *main)
 {
-	print_error_exc("command not found: ", cmd[0]);
-	if (cmd)
-		ft_free_tab(cmd);
+	print_error_exc("command not found: ", cmd);
 	if (main->token)
 		free_list(&main->token);
 	if (main->tree)
@@ -27,9 +25,14 @@ void	handle_exec_error(char **cmd, t_main *main)
 void	execute_child_process(char *path, char **cmd,
 	t_env_node *env_list, t_main *main)
 {
-	if (execve(path, cmd, convert_to_array(env_list)) == -1)
+	char **env_array;
+
+	env_array = convert_to_array(env_list);
+	if (execve(path, cmd, env_array) == -1)
 	{
-		free(path);
+		if (path)
+			free(path);
+		ft_free_tab(env_array);
 		handle_exec_error(cmd, main);
 	}
 }
@@ -55,7 +58,6 @@ void	execute_command(char *path, char **cmd,
 		if ((!ft_strcmp(cmd[0], "cat") || !ft_strcmp(cmd[0], "grep")) && status == 4)
 			status = 130;
 		last_status(status);
-		ft_free_tab(cmd);
 	}
 }
 
@@ -68,15 +70,16 @@ void	ft_execute(char *av, t_env_node *env_list, t_main *main)
 	path = get_path(cmd[0], env_list);
 	if (path == NULL)
 	{
-		print_error_exc("command does not exist: ", cmd[0]);
-		ft_free_tab(cmd);
+		print_error_exc("command does not exist: ", cmd);
 		free_list(&main->token);
 		free_tree(main->tree);
 		return ;
 	}
-	if (!builtins(cmd, main))
+	else if (!builtins(cmd, main))
 		execute_command(path, cmd, env_list, main);
 	free(path);
+	ft_free_tab(cmd);
+	cmd = NULL;
 }
 
 int	execute(t_tree_node *node, t_main *main)
@@ -89,5 +92,7 @@ int	execute(t_tree_node *node, t_main *main)
 		handle_redirect(node, main);
 	else if (node->type == PIPE)
 		execute_pipe(node, main);
+	free_list(&main->token);
+	free_tree(main->tree);
 	return (0);
 }
