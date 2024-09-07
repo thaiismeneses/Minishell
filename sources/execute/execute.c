@@ -19,6 +19,9 @@ void	handle_exec_error(char **cmd, t_main *main)
 		free_list(&main->token);
 	if (main->tree)
 		free_tree(main->tree);
+	if (cmd)
+		ft_free_tab(cmd);
+	cmd = NULL;
 	exit(127);
 }
 
@@ -32,7 +35,8 @@ void	execute_child_process(char *path, char **cmd,
 	{
 		if (path)
 			free(path);
-		ft_free_tab(env_array);
+		if (env_array)
+			ft_free_tab(env_array);
 		handle_exec_error(cmd, main);
 	}
 }
@@ -43,9 +47,12 @@ void	execute_command(char *path, char **cmd,
 	int		status;
 	pid_t	pid;
 
+	status = 0;
 	pid = fork();
 	if (pid == -1)
+	{
 		printf("fork error.\n");
+	}
 	else if (pid == 0)
 		execute_child_process(path, cmd, env_list, main);
 	else
@@ -55,10 +62,12 @@ void	execute_command(char *path, char **cmd,
 			status = WEXITSTATUS(status);
 		if (status == 139)
 			status = 1;
-		if ((!ft_strcmp(cmd[0], "cat") || !ft_strcmp(cmd[0], "grep")) && status == 4)
+		if ((!ft_strcmp(cmd[0], "cat") || !ft_strcmp(cmd[0], "grep"))
+			&& g_status == SIGINT)
 			status = 130;
 		last_status(status);
 	}
+
 }
 
 void	ft_execute(char *av, t_env_node *env_list, t_main *main)
@@ -73,13 +82,19 @@ void	ft_execute(char *av, t_env_node *env_list, t_main *main)
 		print_error_exc("command does not exist: ", cmd);
 		free_list(&main->token);
 		free_tree(main->tree);
+		if (cmd)
+			ft_free_tab(cmd);
+		cmd = NULL;
 		return ;
 	}
-	else if (!builtins(cmd, main))
+	else if (!builtins(cmd, path, main))
 		execute_command(path, cmd, env_list, main);
-	free(path);
-	ft_free_tab(cmd);
+	if (cmd)
+		ft_free_tab(cmd);
 	cmd = NULL;
+	if (path)
+		free(path);
+	path = NULL;
 }
 
 int	execute(t_tree_node *node, t_main *main)
@@ -92,7 +107,5 @@ int	execute(t_tree_node *node, t_main *main)
 		handle_redirect(node, main);
 	else if (node->type == PIPE)
 		execute_pipe(node, main);
-	free_list(&main->token);
-	free_tree(main->tree);
 	return (0);
 }

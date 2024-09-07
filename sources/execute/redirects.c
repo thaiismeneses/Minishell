@@ -92,4 +92,8 @@ void	handle_redirect(t_tree_node *node, t_main *main)
 		else
 			handle_input_redirect(value, file_name, main);
 	}
+	free(value);
+	free(file_name);
+	//free(redirect);
+
 }
