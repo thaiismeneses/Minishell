@@ -85,8 +85,12 @@ char	*get_path(char *cmd, t_env_node *env_list)
 	char	*path;
 	char	**paths;
 	char	*part_path;
+	char	*env;
 
-	paths = ft_split(my_env("PATH", env_list), ':');
+	env = my_env("PATH", env_list);
+	if (!env)
+		return (ft_strdup(cmd));
+	paths = ft_split(env, ':');
 	i = -1;
 	while (paths[++i])
 	{
@@ -98,9 +102,8 @@ char	*get_path(char *cmd, t_env_node *env_list)
 			ft_free_tab(paths);
 			return (path);
 		}
-		else
-			free(path);
+		free(path);
 	}
 	ft_free_tab(paths);
-	return (cmd);
+	return (ft_strdup(cmd));
 }

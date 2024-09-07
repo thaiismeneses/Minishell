@@ -15,7 +15,6 @@
 t_token	*set_token_list(t_token *data, char *value_cmd, int type)
 {
 	add_node(&data, type, value_cmd);
-	
 	return (data);
 }
 
@@ -55,4 +54,11 @@ char	*join_cmd(char *dest, char *src, int space)
 	else
 		dest = str_join(dest, src);
 	return (dest);
+}
+
+int has_heredoc(t_token *data)
+{
+	if (data->token == HEREDOC)
+		return (1);
+	return (0);
 }

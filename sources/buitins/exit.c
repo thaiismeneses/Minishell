@@ -58,7 +58,7 @@ long    get_number(long number)
     return (number);
 }
 
-int    ft_exit(char **token, t_main *main)
+int    ft_exit(char **token, char *path, t_main *main)
 {
     int exit_code;
 
@@ -74,6 +74,8 @@ int    ft_exit(char **token, t_main *main)
         last_status(2);
 		ft_free_tab(token);
 		token = NULL;
+		free(path);
+		path = NULL;
         free_main(main);
         exit(2);
     }
@@ -85,6 +87,8 @@ int    ft_exit(char **token, t_main *main)
         last_status(exit_code);
 		ft_free_tab(token);
 		token = NULL;
+		free(path);
+		path = NULL;
         free_main(main);
         exit(exit_code);
     }

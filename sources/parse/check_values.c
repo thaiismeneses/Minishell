@@ -84,9 +84,10 @@ void	check_values(t_token *data, t_main *main)
 		data = swap_nodes(data);
 	new_list = reorganize_cmd(data);
 	main->token = new_list;
-	expand_tokens(main);
+	if (!has_heredoc(main->token))
+		expand_tokens(main);
 	remove_quotes(main);
 	main->tree = parse(main->token);
-	free_list(&new_list);
 	free_list(&data);
+	free_list(&new_list);
 }

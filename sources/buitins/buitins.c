@@ -74,12 +74,12 @@ void	remove_quotes(t_main *main)
 	free_list(&head);
 }
 
-int	builtins(char **token, t_main *main)
+int	builtins(char **token, char *path, t_main *main)
 {
 	if (!token || !token[0])
 		return (0);
 	if (!ft_strcmp(token[0], "exit"))
-		return (ft_exit(token, main), 1);
+		return (ft_exit(token, path, main), 1);
 	if (!ft_strcmp(token[0], "env"))
 		return (ft_env(token, main), 1);
 	if (!ft_strcmp(token[0], "export"))
