@@ -37,6 +37,8 @@ static void	run(char *prompt, t_main *main)
 				execute(main->tree, main);
 			}
 		}
+		free_list(&main->token);
+		free_tree(main->tree);
 	}
 	rl_clear_history();
 }

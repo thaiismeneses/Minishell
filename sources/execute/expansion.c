@@ -12,29 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-char	*strjoin_shell(char const *s1, char const *s2)
-{
-	char	*result;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	result = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (result == NULL)
-		return (NULL);
-	while (s1[i])
-		result[j++] = s1[i++];
-	i = 0;
-	while (s2[i])
-	{
-		result[j + i] = s2[i];
-		i++;
-	}
-	result[j + i] = '\0';
-	return (result);
-}
-
 int subst_env_var(t_token *node, int start, int length, t_main *main)
 {
     char    *env_name;
@@ -51,23 +28,28 @@ int subst_env_var(t_token *node, int start, int length, t_main *main)
     before = ft_substr(node->value, 0, start - 1);
     after = ft_strdup(&node->value[start + length]);
     if (value_var)
-        new_value = strjoin_shell(before, value_var);
+        new_value = str_join(before, value_var);
     else
-        new_value = strjoin_shell(before, "\0");
-    new_value = strjoin_shell(new_value, after);
-    free(before);
+        new_value = str_join(before, "\0");
+    new_value = str_join(new_value, after);
     free(after);
     free(node->value);
-    node->value = new_value;
+    node->value = ft_strdup(new_value);
+    free(new_value);
     return (1);
 }
+
 int handle_exit_status(t_token *node)
 {
     int expand;
+    char    *temp;
 
     expand = 1;
-    free(node->value);
-    node->value = ft_itoa(last_status(-1));
+    temp = ft_itoa(last_status(-1));
+    if (node->value)
+        free(node->value);
+    node->value = ft_strdup(temp);
+    free (temp);
     return (expand);
 }
 
@@ -100,7 +82,7 @@ int expansion(t_token *node, t_main *main)
         if (node->value[i] == '$' && node->value[i + 1] == '?')
         {
             expand = handle_exit_status(node);
-            i += ft_strlen(node->value);
+            i = -1;
         }
         else if (node->value[i] == '$' && (ft_isalpha(node->value[i + 1])
         || node->value[i + 1] == '_'))
@@ -128,4 +110,5 @@ void	expand_tokens(t_main *main)
 	}
 	temp = reorganize_cmd(header);
 	main->token = temp;
+
 }

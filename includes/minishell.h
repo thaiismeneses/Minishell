@@ -104,6 +104,7 @@ t_token	*set_token_list(t_token *data, char *value_cmd, int type);
 t_token	*get_last_token(t_token *data);
 char	*str_join(char *dest, char *src);
 char	*join_cmd(char *dest, char *src, int space);
+int has_heredoc(t_token *data);
 
 // index
 int	index_envvar(char *cmd, int i);
@@ -195,12 +196,12 @@ t_env_node	*build_environ(char **envp);
 int						last_status(int status);
 void					process_quote(t_token *data);
 void    				remove_quotes(t_main *main);
-int 					builtins(char **token, t_main *main);
+int 					builtins(char **token, char *path,t_main *main);
 
 //exit.c
 int						error_exit(char *token, int option);
 int						is_number(char *token);
-int						ft_exit(char **token, t_main *main);
+int						ft_exit(char **token, char *path, t_main *main);
 
 //env_var.c
 int 					ft_env(char **token, t_main *main);
@@ -234,7 +235,6 @@ int 					parent_path(t_main *main);
 int 					ft_echo(char **token);
 
 //expansion.c
-char					*strjoin_shell(char const *s1, char const *s2);
 int 					subst_env_var(t_token *node, int start, int length, t_main *main);
 int 					handle_exit_status(t_token *node);
 int 					handle_expansion(t_token *node, int i, t_main *main);
