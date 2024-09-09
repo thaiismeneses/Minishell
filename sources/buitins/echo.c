@@ -27,7 +27,8 @@ int ft_echo(char **token)
     while (token[i])
     {
         ft_putstr_fd(token[i], STDOUT_FILENO);
-        if (token[i + 1])
+        if (token[i + 1] && (ft_strcmp(token[i], "\'")) && (ft_strcmp(token[i], "\""))
+        && (ft_strcmp(token[i + 1], "\'")) && (ft_strcmp(token[i + 1], "\"")))
             ft_putstr_fd(" ", STDOUT_FILENO);
         i++;
     }
