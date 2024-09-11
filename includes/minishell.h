@@ -244,7 +244,7 @@ void					expand_tokens(t_main *main);
 //utils_redirect
 char	*before_redirect(char *value);
 int	find_index(char *value);
-char	*after_redirect(char *value);
+char	*after_redirect(char *value, int *i);
 char	*find_redirect(char *value);
 
 //redirects

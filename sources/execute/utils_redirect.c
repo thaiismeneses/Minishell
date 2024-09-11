@@ -44,26 +44,31 @@ int	find_index(char *value)
 	return (i);
 }
 
-char	*after_redirect(char *value)
+char	*after_redirect(char *value, int *i)
 {
 	char	*after;
-	int		i;
+	// int		i;
 	int		j;
+	int size;
 
-	i = find_index(value);
+	size = *i;
+	//i = find_index(value);
 	j = 0;
-	after = malloc(sizeof(char) * ft_strlen(value));
+	while (isblank(value[size]))
+		size++;
+	after = malloc(sizeof(char) * (ft_strlen(value + size) + 1));
 	if (!after)
 		return (NULL);
-	while (value[i] != '\0')
+	while (value[size] != '\0')
 	{
-		while (isblank(value[i]))
-			i++;
-		after[j] = value[i];
-		i++;
+		while (isblank(value[size]))
+			size++;
+		after[j] = value[size];
+		size++;
 		j++;
 	}
 	after[j] = '\0';
+	*i = size;
 	return (after);
 }
 
