@@ -68,7 +68,7 @@ int	check_quotes(t_token *data)
 
 int	has_error(t_token *data)
 {
-	if (check_append(data) || check_redirect_in(data)
+	if (data->value == NULL || check_append(data) || check_redirect_in(data)
 		|| check_redirect_out(data) || check_heredoc(data) || check_pipe(data)
 		|| check_start_end(data) || check_quotes(data))
 		{

@@ -55,16 +55,20 @@ void    update_pwd(t_main *main)
 
 int ft_cd(char **token, t_main *main)
 {
+    int i;
     int ret;
 
+    i = 0;
     ret = 0;
-    if (token[2])
+    while (token[i])
+        i++;
+    if (i > 2)
         return (handle_too_many_args());
-    else if (!token[1] || token[1][0] == '\0' || !ft_strcmp(token[1], "~"))
+    else if (i == 1 || token[1][0] == '\0' || !ft_strcmp(token[1], "~"))
         ret = home_path(main);
-    else if (!ft_strcmp(token[1], "-"))
+    else if (i == 1 && !ft_strcmp(token[1], "-"))
         ret = old_path(main);
-    else if (!ft_strcmp(token[1], ".."))
+    else if (i == 1 && !ft_strcmp(token[1], ".."))
         ret = parent_path(main);
     else
     {

@@ -74,13 +74,6 @@ void	remove_quotes(t_main *main)
 
 int	builtins(char **token, char *path, t_main *main)
 {
-	int i = 0;
-
-	while (token[i])
-	{
-		printf("Token[%i]: %s\n", i, token[i]);
-		i++;
-	}
 	if (!token || !token[0])
 		return (0);
 	if (!ft_strcmp(token[0], "exit"))
