@@ -69,78 +69,94 @@
 // 	close(save_stdout);
 // }
 
+
+void	execute_redirects(int fd_in, int fd_out, char *cmd, t_main *main)
+{
+	int save_in;
+	int save_out;
+
+	save_in = dup(STDIN_FILENO);
+	save_out = dup(STDOUT_FILENO);
+	if (fd_in != 0)
+	{
+		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
+	}
+	if (fd_out != 1)
+	{
+		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
+	}
+	ft_execute(cmd, main->env, main);
+	dup2(save_in, STDIN_FILENO);
+	dup2(save_out, STDOUT_FILENO);
+	close(save_in);
+	close(save_out);
+}
+
 void	handle_redirect(t_tree_node *node, t_main *main)
 {
 	char	*value;
+	char *comando;
 	int		i;
 	int	fd_in;
 	int fd_out;
 	char *outfile;
 	char *infile;
-	(void)main;
 
 	i = 0;
 	outfile = NULL;
 	infile = NULL;
 	value = ft_strdup(node->value);
 	printf("STRING: %s\n", value);
+	comando = before_redirect(value);
+	printf ("COMANDO: %s\n", comando);
 	fd_in = 0;
 	fd_out = 1;
 	while (value[i] != '\0')
 	{
-		if (value[i] == '>')
+		if (value[i] == '>' && value[i + 1] == '>')
+		{
+			i += 2;
+			printf("ANTES REDIRECT i: %d\n", i);
+			outfile = after_redirect(value, &i);
+			printf ("OUTFILE: %s\n", outfile);
+			if (fd_out != 1)
+				close(fd_out);
+			fd_out = open(outfile, O_WRONLY | O_CREAT | O_APPEND, 00777);
+			printf("FD_OUT APPEND: %d\n", fd_out);
+		}
+		else if (value[i] == '>')
 		{
 			i++;
-			if (value[i] == '>')
-			{
-				i++;
-				printf("ANTES REDIRECT i: %d\n", i);
-				outfile = after_redirect(value, &i);
-				printf("DEPOIS REDIRECT i: %d\n", i);
-				printf ("OUTFILE: %s\n", outfile);
-				if (fd_out != 1)
-					close(fd_out);
-				fd_out = open(outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-				printf("FD_OUT APPEND: %d\n", fd_out);
-
-			}
-			else
-			{
-				outfile = after_redirect(value, &i);
-				printf ("OUTFILE: %s\n", outfile);
-				if (fd_out != 1)
-					close(fd_out);
-				fd_out = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				printf("FD_OUT: %d\n", fd_out);
-
-			}
+			outfile = after_redirect(value, &i);
+			printf ("OUTFILE: %s\n", outfile);
+			if (fd_out != 1)
+				close(fd_out);
+			fd_out = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 00777);
+			printf("FD_OUT: %d\n", fd_out);
+		}
+		else if (value[i] == '<' && value[i + 1] == '<')
+		{
+			i += 2;
+			infile = after_redirect(value, &i);
+			printf ("OUTFILE: %s\n", infile);
+			if (fd_in != 1)
+				close(fd_in);
+			//heredoc
 		}
 		else if (value[i] == '<')
 		{
 			i++;
-			if (value[i] == '<')
-			{
-				i++;
-				infile = after_redirect(value, &i);
-				printf ("OUTFILE: %s\n", infile);
-				if (fd_in != 1)
-					close(fd_in);
-				//heredoc
-			}
-			else
-			{
-				if (fd_in != 0)
-					close(fd_in);
+			infile = after_redirect(value, &i);
+			if (!access(infile, F_OK | R_OK))
 				fd_in = open(infile, O_RDONLY);
-				printf("FD_IN: %d\n", fd_in);
-			}
+			printf("FD_IN: %d\n", fd_in);
 		}
-		else
-		{
-			printf("i: %d\n", i);
-			i++;
-		}
+		printf("i: %d\n", i);
+		i++;
 	}
+	execute_redirects(fd_in, fd_out, comando, main);
 	// free(value);
 	// free(file_name);
 	//free(redirect);

@@ -47,22 +47,18 @@ int	find_index(char *value)
 char	*after_redirect(char *value, int *i)
 {
 	char	*after;
-	// int		i;
 	int		j;
 	int size;
 
 	size = *i;
-	//i = find_index(value);
 	j = 0;
 	while (isblank(value[size]))
 		size++;
-	after = malloc(sizeof(char) * (ft_strlen(value + size) + 1));
+	after = malloc(sizeof(char) * (size + 1));
 	if (!after)
 		return (NULL);
-	while (value[size] != '\0')
+	while (value[size] != '\0' && !isblank(value[size]))
 	{
-		while (isblank(value[size]))
-			size++;
 		after[j] = value[size];
 		size++;
 		j++;
