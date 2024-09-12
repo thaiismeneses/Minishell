@@ -48,6 +48,7 @@ void	remove_quotes(t_main *main)
 {
 	t_token	*data;
 	t_token	*head;
+	t_token	*remove;
 
 	data = main->token;
 	head = data;
@@ -55,17 +56,14 @@ void	remove_quotes(t_main *main)
 	{
         if (!(ft_strcmp(data->value, "rm")) || !(ft_strcmp(data->value, "grep")) ||  !(ft_strcmp(data->value, "echo")))
         {
-            while(data)
+			remove = data;
+            while(remove)
             {
-                if (data->token == S_QUOTE || data->token == D_QUOTE)
-                {
-                    data->token = 0;
-                    break ;
-                }
-                data = data->next;
+                if (remove->token == S_QUOTE || remove->token == D_QUOTE)
+                    remove->token = 0;
+                remove = remove->next;
             }
         }
-
 		if (data->token == S_QUOTE || data->token == D_QUOTE)
 			process_quote(data);
 		data = data->next;

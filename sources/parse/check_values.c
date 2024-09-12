@@ -50,7 +50,6 @@ char	*concatenate_cmd_tokens(t_token **data)
 	}
 	return (value);
 }
-
 t_token	*reorganize_cmd(t_token *data)
 {
 	t_token	*new_list;

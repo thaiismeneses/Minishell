@@ -48,7 +48,7 @@ int	type_index(t_type_cmd type, char *cmd, int i)
 	else if (type == CMD || type == ARG)
 	{
 		while (cmd[i] != 0 && !(ft_isspace(cmd[i])) && cmd[i] != '<'
-			&& cmd[i] != '>' && cmd[i] != '|')
+			&& cmd[i] != '>' && cmd[i] != '|' && cmd[i] != '\'' && cmd[i] != '\"')
 			i++;
 	}
 	else
