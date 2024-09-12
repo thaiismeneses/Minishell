@@ -30,6 +30,7 @@ void	execute_child_process(char *path, char **cmd,
 {
 	char **env_array;
 
+	signal(SIGQUIT, SIG_DFL);
 	env_array = convert_to_array(env_list);
 	if (execve(path, cmd, env_array) == -1)
 	{
@@ -58,16 +59,14 @@ void	execute_command(char *path, char **cmd,
 	else
 	{
 		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
+		if (WIFEXITED(status) == 0)
 			status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status) == 0)
+			status = 130;
 		if (status == 139)
 			status = 1;
-		if ((!ft_strcmp(cmd[0], "cat") || !ft_strcmp(cmd[0], "grep"))
-			&& g_status == SIGINT)
-			status = 130;
 		last_status(status);
 	}
-
 }
 
 void	ft_execute(char *av, t_env_node *env_list, t_main *main)
