@@ -94,6 +94,43 @@ void	execute_redirects(int fd_in, int fd_out, char *cmd, t_main *main)
 	close(save_out);
 }
 
+char *reorganize_redirect(char *cmd)
+{
+	char *new_cmd;
+	char **cmd_splited;
+	char *redirect_and_file;
+	int i;
+
+	i = 0;
+	new_cmd = NULL;
+	redirect_and_file = NULL;
+	cmd_splited = ft_split(cmd, ' ');
+	while (cmd_splited[i] != NULL)
+	{
+		if (cmd_splited [i][0] == '>' || cmd_splited[i][0] == '<')
+		{
+			if (cmd_splited[i + 1] != NULL)
+			{
+				redirect_and_file = str_join(redirect_and_file, cmd_splited[i]);
+				redirect_and_file = str_join(redirect_and_file, " ");
+				redirect_and_file = str_join(redirect_and_file, cmd_splited[i + 1]);
+				redirect_and_file = str_join(redirect_and_file, " ");
+				i += 2;
+			}
+		}
+		else if (cmd_splited[i][0] != '>' || cmd_splited[i][0] != '<')
+		{
+			new_cmd = str_join(new_cmd, cmd_splited[i]);
+			new_cmd = str_join(new_cmd, " ");
+			i++;
+		}
+	}
+	ft_free_tab(cmd_splited);
+	new_cmd = str_join(new_cmd, redirect_and_file);
+	free (redirect_and_file);
+	return(new_cmd);
+}
+
 void	handle_redirect(t_tree_node *node, t_main *main)
 {
 	char	*value;
@@ -103,14 +140,15 @@ void	handle_redirect(t_tree_node *node, t_main *main)
 	int fd_out;
 	char *outfile;
 	char *infile;
-
+	int heredoc_fd;
 	i = 0;
 	outfile = NULL;
 	infile = NULL;
-	value = ft_strdup(node->value);
+	value = reorganize_redirect(node->value);
 	printf("STRING: %s\n", value);
 	comando = before_redirect(value);
 	printf ("COMANDO: %s\n", comando);
+	heredoc_fd = -1;
 	fd_in = 0;
 	fd_out = 1;
 	while (value[i] != '\0')
@@ -141,9 +179,15 @@ void	handle_redirect(t_tree_node *node, t_main *main)
 			i += 2;
 			infile = after_redirect(value, &i);
 			printf ("OUTFILE: %s\n", infile);
-			if (fd_in != 1)
+			if (heredoc_fd != -1)
+				close(heredoc_fd);
+			heredoc_fd = create_temp_file();
+			heredoc_aux(infile, heredoc_fd);
+			close(heredoc_fd);
+			if (fd_in != 0)
 				close(fd_in);
-			//heredoc
+			fd_in = open("heredoc", O_RDONLY);
+
 		}
 		else if (value[i] == '<')
 		{
@@ -157,7 +201,9 @@ void	handle_redirect(t_tree_node *node, t_main *main)
 		i++;
 	}
 	execute_redirects(fd_in, fd_out, comando, main);
-	// free(value);
-	// free(file_name);
-	//free(redirect);
+	free(infile);
+	free(outfile);
+	free(comando);
+	free(value);
+	unlink("heredoc");
 }

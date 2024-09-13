@@ -148,8 +148,8 @@ int	check_pipe(t_token *data);
 // handle_heredoc
 int	create_temp_file(void);
 void	display_file_content(void);
-void	heredoc_aux(t_token *data, int fd);
-void	heredoc(t_token *data);
+void	heredoc_aux(char *target, int fd);
+int	heredoc(char *target);
 
 // utils_errors
 int						check_start_end(t_token *data);
