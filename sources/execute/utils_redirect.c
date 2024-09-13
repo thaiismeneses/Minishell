@@ -21,6 +21,12 @@ char	*before_redirect(char *value)
 	before = malloc(sizeof(char) * ft_strlen(value));
 	if (!before)
 		return (NULL);
+	if (value[0] == '<' || value[0] == '>')
+	{
+		before[i++] = value[0];
+		before[i++] = '\0';
+		return (before);
+	}
 	while (value[i] != '<' && value[i] != '>' && value[i] != '\0')
 	{
 		before[i] = value[i];

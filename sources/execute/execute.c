@@ -106,5 +106,9 @@ int	execute(t_tree_node *node, t_main *main)
 		handle_redirect(node, main);
 	else if (node->type == PIPE)
 		execute_pipe(node, main);
+	if (main->token)
+		free_list(&main->token);
+	if (main->tree)
+		free_tree(main->tree);
 	return (0);
 }

@@ -48,7 +48,7 @@ void	display_file_content(void)
 	close(fd);
 }
 
-void	heredoc_aux(t_token *data, int fd)
+void	heredoc_aux(char *target, int fd)
 {
 	char	*line;
 
@@ -57,10 +57,10 @@ void	heredoc_aux(t_token *data, int fd)
 		line = readline("heredoc> ");
 		if (!line)
 			break ;
-		if (!data->next)
+		if (!target)
 			break ;
-		if (!ft_strncmp(line, data->next->value, ft_strlen(data->next->value))
-			&& ft_strlen(line) == ft_strlen(data->next->value))
+		if (!ft_strncmp(line, target, ft_strlen(target))
+			&& ft_strlen(line) == ft_strlen(target))
 		{
 			free(line);
 			break ;
@@ -69,22 +69,20 @@ void	heredoc_aux(t_token *data, int fd)
 		write(fd, "\n", 1);
 		free(line);
 	}
+	close (fd);
 }
 
-void	heredoc(t_token *data)
+int	heredoc(char *target)
 {
 	int	fd;
 
 	fd = create_temp_file();
-	while (data && data->next != NULL)
+	while (target != NULL)
 	{
-		if (data->token == HEREDOC)
-		{
-			heredoc_aux(data, fd);
-		}
-		data = data->next;
+			heredoc_aux(target, fd);
 	}
-	close(fd);
-	display_file_content();
-	unlink("heredoc");
+	// close(fd);
+	// display_file_content();
+	// unlink("heredoc");
+	return (fd);
 }
