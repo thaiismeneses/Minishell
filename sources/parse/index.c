@@ -14,7 +14,7 @@
 
 int	index_envvar(char *cmd, int i)
 {
-	while (cmd[i] && !ft_isspace(cmd[i]))
+	while (cmd[i] && !ft_isspace(cmd[i]) && cmd[i] != '\'' && cmd[i] != '\"')
 		i++;
 	return (i);
 }

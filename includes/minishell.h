@@ -198,9 +198,14 @@ void					process_quote(t_token *data);
 void    				remove_quotes(t_main *main);
 int 					builtins(char **token, char *path,t_main *main);
 
+//exit_utils.c
+void    				numeric_arg(char **token, t_main *main, char *path);
+void    				exit_cmd(char **token, t_main *main, char *path);
+
 //exit.c
 int						error_exit(char *token, int option);
 int						is_number(char *token);
+long    				get_number(long number);
 int						ft_exit(char **token, char *path, t_main *main);
 
 //env_var.c
@@ -221,7 +226,9 @@ int 					ft_unset(char **token, t_main *main);
 void					start_pwd(t_main *main);
 
 //cd.c
+int 					env_pwd(t_main *main, t_env_node *temp, char *pwd_line, char *oldpwd);
 void    				update_pwd(t_main *main);
+int 					chdir_error(char *token);
 int 					ft_cd(char **token, t_main *main);
 
 //cd_utils.c

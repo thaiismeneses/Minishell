@@ -49,48 +49,22 @@ int is_number(char *token)
         return (0);
     return (1);
 }
-
-
 long    get_number(long number)
 {
     while(number < 0)
         number = 256 + number;
     return (number);
 }
-
 int    ft_exit(char **token, char *path, t_main *main)
 {
-    int exit_code;
-
-    exit_code = 0;
     if(token[1] && token[2])
     {
         last_status(1);
         return(error_exit(token[1], 1));
     }
     else if (token[1] && !is_number(token[1]))
-    {
-        error_exit(token[1], 2);
-        last_status(2);
-		ft_free_tab(token);
-		token = NULL;
-		free(path);
-		path = NULL;
-        free_main(main);
-        exit(2);
-    }
+        numeric_arg(token, main, path);
     else
-    {
-        ft_putstr_fd("exit\n", STDOUT_FILENO);
-        if (token[1])
-            exit_code = get_number(ft_atol(token[1]));
-        last_status(exit_code);
-		ft_free_tab(token);
-		token = NULL;
-		free(path);
-		path = NULL;
-        free_main(main);
-        exit(exit_code);
-    }
+        exit_cmd(token, main, path);
     exit(last_status(-1));
 }
