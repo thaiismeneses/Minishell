@@ -22,6 +22,7 @@ SRC =	sources/main.c\
 		sources/execute/environ.c\
 		sources/buitins/buitins.c\
 		sources/buitins/exit.c\
+		sources/buitins/exit_utils.c\
 		sources/buitins/env_var.c\
 		sources/buitins/export.c\
 		sources/buitins/unset.c\

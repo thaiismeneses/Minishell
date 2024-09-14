@@ -15,10 +15,8 @@
 void	handle_exec_error(char **cmd, t_main *main)
 {
 	print_error_exc("command not found: ", cmd);
-	if (main->token)
-		free_list(&main->token);
-	if (main->tree)
-		free_tree(main->tree);
+	if (main)
+		free_main(main);
 	if (cmd)
 		ft_free_tab(cmd);
 	cmd = NULL;
@@ -59,9 +57,9 @@ void	execute_command(char *path, char **cmd,
 	else
 	{
 		waitpid(pid, &status, 0);
-		if (WIFEXITED(status) == 0)
-			status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status) == 0)
+		status = WEXITSTATUS(status);
+		if (WIFSIGNALED(status) == 0 && 
+			(!ft_strcmp(cmd[0], "cat") || !ft_strcmp(cmd[0], "grep")))
 			status = 130;
 		if (status == 139)
 			status = 1;
