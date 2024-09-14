@@ -16,13 +16,19 @@ t_tree_node	*create_redirect_node(t_token **data)
 {
 	char		*value;
 	t_tree_node	*arg_node;
+	t_token	*init;
 
+	init = *data;
 	value = NULL;
 	arg_node = NULL;
-	if ((*data)->prev)
-		value = join_cmd(value, (*data)->prev->value, 1);
-	value = join_cmd(value, (*data)->value, 1);
-	value = join_cmd(value, (*data)->next->value, 0);
+	while (init->prev && init->token != PIPE)
+		init = init->prev;
+	*data = init;
+	while (init && init->token != PIPE)
+	{
+		value = join_cmd(value, init->value, (init->next != NULL));
+		init = init->next;
+	}
 	arg_node = create_tree_node(COMMAND_SUBSTITUTION, value);
 	free(value);
 	return (arg_node);

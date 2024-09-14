@@ -64,6 +64,7 @@ t_token	*reorganize_cmd(t_token *data)
 			value = concatenate_cmd_tokens(&data);
 			new_list = set_token_list(new_list, value, 0);
 			free(value);
+			value = NULL;
 		}
 		else
 		{
@@ -79,8 +80,9 @@ void	check_values(t_token *data, t_main *main)
 	t_token	*new_list;
 
 	new_list = NULL;
-	if (is_in_order(data))
-		data = swap_nodes(data);
+	//if (is_in_order(data))
+	//	data = swap_nodes(data);
+	//print_token_list(data);
 	new_list = reorganize_cmd(data);
 	main->token = new_list;
 	if (!has_heredoc(main->token))
