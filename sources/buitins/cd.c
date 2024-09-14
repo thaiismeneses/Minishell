@@ -12,6 +12,26 @@
 
 #include "../../includes/minishell.h"
 
+int env_pwd(t_main *main, t_env_node *temp, char *pwd_line, char *oldpwd)
+{
+    if (!ft_strcmp(temp->name_env, "PWD"))
+    {
+        free(temp->value_env);
+		free(temp->line_env);
+        temp->value_env = ft_strdup(main->pwd);
+        temp->line_env = ft_strdup(pwd_line);
+    }
+    else if (!ft_strcmp(temp->name_env, "OLDPWD"))
+    {
+        free(temp->value_env);
+		free(temp->line_env);
+        temp->value_env = ft_strdup(main->old_pwd);
+        temp->line_env = ft_strdup(oldpwd);
+        return (1);
+    }
+    return (0);
+}
+
 void    update_pwd(t_main *main)
 {
 	char	pwd[PATH_MAX];
@@ -30,27 +50,21 @@ void    update_pwd(t_main *main)
     pwd_line = ft_strjoin("PWD=", main->pwd);
     while (temp != NULL)
     {
-        if (!ft_strcmp(temp->name_env, "PWD"))
-        {
-            free(temp->value_env);
-			free(temp->line_env);
-            temp->value_env = ft_strdup(main->pwd);
-            temp->line_env = ft_strdup(pwd_line);
-        }
-        else if (!ft_strcmp(temp->name_env, "OLDPWD"))
-        {
-            free(temp->value_env);
-			free(temp->line_env);
-            temp->value_env = ft_strdup(main->old_pwd);
-            temp->line_env = ft_strdup(oldpwd);
-            old_pwd = 1;
-        }
+        old_pwd = env_pwd(main, temp, pwd_line, oldpwd);
         temp = temp->next;
     }
     if (!old_pwd)
         append_env_node(&main->env, oldpwd);
     free(oldpwd);
     free(pwd_line);
+}
+
+int chdir_error(char *token)
+{
+    ft_putstr_fd("cd: ", STDOUT_FILENO);
+    perror(token);
+    last_status(1);
+    return (1);
 }
 
 int ft_cd(char **token, t_main *main)
@@ -73,12 +87,7 @@ int ft_cd(char **token, t_main *main)
     else
     {
         if (chdir(token[1]) != 0)
-        {
-            ft_putstr_fd("cd: ", STDOUT_FILENO);
-            perror(token[1]);
-            last_status(1);
-            return (1);
-        }
+            ret = chdir_error(token[1]);
     }
     if (ret == 0)
         update_pwd(main);

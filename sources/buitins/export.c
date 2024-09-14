@@ -92,7 +92,7 @@ int	export_env(char **token, t_main *main)
 			}
 			temp = temp->next;
 		}
-		append_env_node(&main->env, token[1]);
+		append_env_node(&main->env, str_join(token[1], token[2]));
 	}
 	else
 		return (errors_export(token, 1), 1);
