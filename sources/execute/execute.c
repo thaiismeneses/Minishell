@@ -38,6 +38,8 @@ void	execute_child_process(char *path, char **cmd,
 			ft_free_tab(env_array);
 		handle_exec_error(cmd, main);
 	}
+	if (main)
+		free_main(main);
 }
 
 void	execute_command(char *path, char **cmd,
@@ -96,14 +98,20 @@ void	ft_execute(char *av, t_env_node *env_list, t_main *main)
 
 int	execute(t_tree_node *node, t_main *main, int flag)
 {
-	if (node == NULL)
+	t_tree_node *new_node;
+
+	new_node = node;
+	if (new_node == NULL)
 		return (0);
-	if (node->type == CMD)
-		ft_execute(node->value, main->env, main);
-	if (node->type == COMMAND_SUBSTITUTION)
-		handle_redirect(node, main);
-	else if (node->type == PIPE)
-		execute_pipe(node, main);
+	if (new_node->type == CMD)
+		ft_execute(new_node->value, main->env, main);
+	if (new_node->type == COMMAND_SUBSTITUTION)
+	{
+		handle_redirect(new_node, main);
+
+	}
+	else if (new_node->type == PIPE)
+		execute_pipe(new_node, main);
 	if (flag == 1)
 	{
 		if (main->token)

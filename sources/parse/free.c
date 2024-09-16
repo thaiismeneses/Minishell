@@ -20,8 +20,11 @@ void	free_tree(t_tree_node *node)
 	node->left = NULL;
 	free_tree(node->right);
 	node->right = NULL;
-	free(node->value);
-	node->value = NULL;
+	if (node->value)
+	{
+		free(node->value);
+		node->value = NULL;
+	}
 	free(node);
 	node = NULL;
 }
