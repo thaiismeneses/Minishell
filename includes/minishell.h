@@ -123,7 +123,7 @@ void	handle_exec_error(char **cmd, t_main *main);
 void	execute_child_process(char *path, char **cmd, t_env_node *env_list, t_main *main);
 void	execute_command(char *path, char **cmd, t_env_node *env_list, t_main *main);
 void	ft_execute(char *av, t_env_node *env_list, t_main *main);
-int	execute(t_tree_node *node, t_main *main);
+int	execute(t_tree_node *node, t_main *main, int flag);
 
 // utils_execute
 int	count_env_nodes(t_env_node *env_list);

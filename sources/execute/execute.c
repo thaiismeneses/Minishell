@@ -58,7 +58,7 @@ void	execute_command(char *path, char **cmd,
 	{
 		waitpid(pid, &status, 0);
 		status = WEXITSTATUS(status);
-		if (WIFSIGNALED(status) == 0 && 
+		if (WIFSIGNALED(status) == 0 &&
 			(!ft_strcmp(cmd[0], "cat") || !ft_strcmp(cmd[0], "grep")))
 			status = 130;
 		if (status == 139)
@@ -94,7 +94,7 @@ void	ft_execute(char *av, t_env_node *env_list, t_main *main)
 	path = NULL;
 }
 
-int	execute(t_tree_node *node, t_main *main)
+int	execute(t_tree_node *node, t_main *main, int flag)
 {
 	if (node == NULL)
 		return (0);
@@ -104,9 +104,12 @@ int	execute(t_tree_node *node, t_main *main)
 		handle_redirect(node, main);
 	else if (node->type == PIPE)
 		execute_pipe(node, main);
-	if (main->token)
-		free_list(&main->token);
-	if (main->tree)
-		free_tree(main->tree);
+	if (flag == 1)
+	{
+		if (main->token)
+			free_list(&main->token);
+		if (main->tree)
+			free_tree(main->tree);
+	}
 	return (0);
 }
