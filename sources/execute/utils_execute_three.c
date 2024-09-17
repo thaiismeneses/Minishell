@@ -19,7 +19,7 @@ int	skip_whitespace(char *str, int i)
 	return (i);
 }
 
-char	**to_malloc_matriz(char **str, int len)
+char	**to_malloc_matrix(char **str, int len)
 {
 	str = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!str)
