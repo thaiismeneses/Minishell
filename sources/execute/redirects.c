@@ -75,9 +75,6 @@ void	execute_redirects(int fd_in, int fd_out, char *cmd, t_main *main)
 	int save_in;
 	int save_out;
 
-	printf("FD_IN: %d\n", fd_in);
-	printf("FD_OUT: %d\n", fd_out);
-
 	save_in = dup(STDIN_FILENO);
 	save_out = dup(STDOUT_FILENO);
 	if (fd_in != 0)
@@ -108,7 +105,13 @@ char *reorganize_redirect(char *cmd)
 	i = 0;
 	new_cmd = NULL;
 	redirect_and_file = NULL;
+	printf("CMD: %s\n", cmd);
 	cmd_splited = new_split(cmd);
+	while (cmd_splited[i])
+	{
+		printf("%s\n", cmd_splited[i++]);
+	}
+	i = 0;
 	while (cmd_splited[i] != NULL)
 	{
 		if (cmd_splited [i][0] == '>' || cmd_splited[i][0] == '<')
@@ -118,8 +121,9 @@ char *reorganize_redirect(char *cmd)
 				redirect_and_file = str_join(redirect_and_file, cmd_splited[i]);
 				redirect_and_file = str_join(redirect_and_file, " ");
 				redirect_and_file = str_join(redirect_and_file, cmd_splited[i + 1]);
-				redirect_and_file = str_join(redirect_and_file, " ");
 				i += 2;
+				if (cmd_splited && cmd_splited[i] != NULL)
+					redirect_and_file = str_join(redirect_and_file, " ");
 			}
 		}
 		else if (cmd_splited[i][0] != '>' || cmd_splited[i][0] != '<')
@@ -148,7 +152,6 @@ void	handle_redirect(t_tree_node *node, t_main *main)
 	int heredoc_fd;
 	char *cmd;
 
-
 	i = 0;
 	outfile = NULL;
 	infile = NULL;
@@ -156,9 +159,7 @@ void	handle_redirect(t_tree_node *node, t_main *main)
 	cmd = ft_strdup(new_node->value);
 	value = reorganize_redirect(cmd);
 	free(cmd);
-	printf("STRING: %s\n", value);
 	comando = before_redirect(value);
-	printf ("COMANDO: %s\n", comando);
 	heredoc_fd = -1;
 	fd_in = 0;
 	fd_out = 1;
@@ -167,29 +168,24 @@ void	handle_redirect(t_tree_node *node, t_main *main)
 		if (value[i] == '>' && value[i + 1] == '>')
 		{
 			i += 2;
-			printf("ANTES REDIRECT i: %d\n", i);
 			outfile = after_redirect(value, &i);
-			printf ("OUTFILE: %s\n", outfile);
 			if (fd_out != 1)
 				close(fd_out);
 			fd_out = open(outfile, O_WRONLY | O_CREAT | O_APPEND, 00777);
-			printf("FD_OUT APPEND: %d\n", fd_out);
 		}
 		else if (value[i] == '>')
 		{
 			i++;
 			outfile = after_redirect(value, &i);
-			printf ("OUTFILE: %s\n", outfile);
 			if (fd_out != 1)
 				close(fd_out);
 			fd_out = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 00777);
-			printf("FD_OUT: %d\n", fd_out);
 		}
 		else if (value[i] == '<' && value[i + 1] == '<')
 		{
 			i += 2;
 			infile = after_redirect(value, &i);
-			printf ("OUTFILE: %s\n", infile);
+			printf("Infile: %s\n", infile);
 			if (heredoc_fd != -1)
 				close(heredoc_fd);
 			heredoc_fd = create_temp_file();
@@ -204,18 +200,10 @@ void	handle_redirect(t_tree_node *node, t_main *main)
 		{
 			i++;
 			infile = after_redirect(value, &i);
-			printf("INFILE: %s\n", infile);
-			printf("I:%d\n", i);
 			if (fd_in != 0)
-			{
 					close (fd_in);
-					printf("FECHOU\n");
-			}
-			printf("FD_IN: %d\n", fd_in);
-
 			if (access(infile, F_OK | R_OK) == 0)
 			{
-				printf("AQUIII\n");
 				if (fd_in != 0)
 					close (fd_in);
 				fd_in = open(infile, O_RDONLY);
@@ -225,9 +213,7 @@ void	handle_redirect(t_tree_node *node, t_main *main)
 				fd_in = -1;
 				print_error_exc("No such file or directory", &infile);
 			}
-			printf("FD_IN: %d\n", fd_in);
 		}
-		printf("i: %d\n", i);
 		if (value[i] != '\0')
 			i++;
 	}
@@ -237,6 +223,5 @@ void	handle_redirect(t_tree_node *node, t_main *main)
 	if (fd_in != -1)
 		execute_redirects(fd_in, fd_out, comando, main);
 	free(comando);
-
 	unlink("heredoc");
 }

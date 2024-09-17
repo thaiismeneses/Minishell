@@ -62,12 +62,12 @@ char	*after_redirect(char *value, int *i)
 	while (value[size] != '\0' && isblank(value[size]))
 		size++;
 	init = size;
-	while (value[size] != '\0' && !isblank(value[size]))
+	while (value[size] != '\0' && (value[init] != '<' || value[init] != '>'))
 		size++;
 	after = malloc(sizeof(char) * (size - init + 1));
 	if (!after)
 		return (NULL);
-	while (value[init] != '\0' && !isblank(value[init]))
+	while (value[init] != '\0' && (value[init] != '<' || value[init] != '>'))
 	{
 		after[j++] = value[init++];
 	}
