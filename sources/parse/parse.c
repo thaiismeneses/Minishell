@@ -14,10 +14,10 @@
 
 t_tree_node	*create_redirect_node(t_token **data)
 {
-	char		*value;
-	char		*cmd;
-	t_tree_node	*arg_node;
-	t_token	*init;
+	t_tree_node		*arg_node;
+	t_token			*init;
+	char			*value;
+	char			*cmd;
 
 	init = *data;
 	value = NULL;
@@ -39,35 +39,20 @@ t_tree_node	*create_redirect_node(t_token **data)
 
 t_tree_node	*parse_command(t_token **data)
 {
-	t_tree_node	*node;
-	t_tree_node	*current;
-	t_tree_node	*arg_node;
-	char *value;
+	t_tree_node		*node;
+	t_tree_node		*current;
+	char			*value;
 
 	if (*data == NULL)
 		return (NULL);
-	value =  ft_strdup((*data)->value);
+	value = ft_strdup((*data)->value);
 	node = create_tree_node((*data)->token, value);
 	free(value);
 	*data = (*data)->prev;
 	current = node;
 	while (*data && ((*data)->token != PIPE))
 	{
-		if ((*data)->token == REDIRECT_IN || (*data)->token == REDIRECT_OUT
-			|| (*data)->token == HEREDOC || (*data)->token == APPEND)
-		{
-			free_tree(node);
-			node = create_redirect_node(data);
-		}
-		else
-		{
-			value =  ft_strdup((*data)->value);
-			arg_node = create_tree_node((*data)->token, value);
-			free(value);
-			current->left = arg_node;
-			current = arg_node;
-		}
-		*data = (*data)->prev;
+		node = handle_token(data, current, node);
 	}
 	return (node);
 }

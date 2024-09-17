@@ -71,9 +71,9 @@ int	has_error(t_token *data)
 	if (data->value == NULL || check_append(data) || check_redirect_in(data)
 		|| check_redirect_out(data) || check_heredoc(data) || check_pipe(data)
 		|| check_start_end(data) || check_quotes(data))
-		{
-			free_list(&data);
-			return (last_status(2), 0);
-		}
+	{
+		free_list(&data);
+		return (last_status(2), 0);
+	}
 	return (1);
 }

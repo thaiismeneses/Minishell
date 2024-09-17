@@ -14,7 +14,7 @@
 
 void	handle_exec_error(char **cmd, t_main *main)
 {
-	print_error_exc("command not found: ", cmd);
+	print_error_exc("command not found", cmd);
 	if (main)
 		free_main(main);
 	if (cmd)
