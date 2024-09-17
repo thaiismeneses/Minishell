@@ -56,7 +56,10 @@ void	heredoc_aux(char *target, int fd)
 	{
 		line = readline("heredoc> ");
 		if (!line)
+		{
+			last_status(0);
 			break ;
+		}
 		if (!target)
 			break ;
 		if (!ft_strncmp(line, target, ft_strlen(target))
