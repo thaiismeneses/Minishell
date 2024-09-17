@@ -1,20 +1,20 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buitins.c                                          :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
+/*   By: lfuruno- <lfuruno-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/22 09:33:05 by lfuruno-          #+#    #+#             */
-/*   Updated: 2024/08/31 14:27:18 by thfranco         ###   ########.fr       */
+/*   Created: 2024/09/17 12:05:13 by lfuruno-          #+#    #+#             */
+/*   Updated: 2024/09/17 12:05:13 by lfuruno-         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 int	last_status(int status)
 {
-	static int last;
+	static int	last;
 
 	if (status > -1)
 		last = status;
@@ -23,7 +23,7 @@ int	last_status(int status)
 
 void	process_quote(t_token *data)
 {
-	int	i;
+	int		i;
 	char	quote;
 	char	*temp;
 
@@ -54,17 +54,18 @@ void	remove_quotes(t_main *main)
 	head = data;
 	while (data)
 	{
-        if (!(ft_strcmp(data->value, "rm")) || !(ft_strcmp(data->value, "grep")) ||
-			 !(ft_strcmp(data->value, "echo")))
-        {
+		if (!(ft_strcmp(data->value, "rm"))
+			|| !(ft_strcmp(data->value, "grep"))
+			|| !(ft_strcmp(data->value, "echo")))
+		{
 			remove = data;
-            while(remove)
-            {
-                if (remove->token == S_QUOTE || remove->token == D_QUOTE)
-                    remove->token = 0;
-                remove = remove->next;
-            }
-        }
+			while (remove)
+			{
+				if (remove->token == S_QUOTE || remove->token == D_QUOTE)
+					remove->token = 0;
+				remove = remove->next;
+			}
+		}
 		if (data->token == S_QUOTE || data->token == D_QUOTE)
 			process_quote(data);
 		data = data->next;

@@ -5,13 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfuruno- <lfuruno-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/17 11:34:51 by lfuruno-          #+#    #+#             */
-/*   Updated: 2024/09/17 11:34:51 by lfuruno-         ###   ########.fr       */
+/*   Created: 2024/09/17 11:40:05 by lfuruno-          #+#    #+#             */
+/*   Updated: 2024/09/17 11:58:25 by lfuruno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 int	error_exit(char *token, int option)
 {
@@ -33,7 +32,7 @@ int	error_exit(char *token, int option)
 
 int	is_number(char *token)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (token[i] == '-' || token[i] == '+')
@@ -50,12 +49,14 @@ int	is_number(char *token)
 		return (0);
 	return (1);
 }
+
 long	get_number(long number)
 {
 	while (number < 0)
 		number = 256 + number;
 	return (number);
 }
+
 int	ft_exit(char **token, char *path, t_main *main)
 {
 	if (token[1] && token[2])

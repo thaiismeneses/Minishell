@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
+/*   By: lfuruno- <lfuruno-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/14 13:24:36 by lfuruno-          #+#    #+#             */
-/*   Updated: 2024/09/16 21:13:34 by thfranco         ###   ########.fr       */
+/*   Created: 2024/09/17 11:39:42 by lfuruno-          #+#    #+#             */
+/*   Updated: 2024/09/17 11:39:44 by lfuruno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void    numeric_arg(char **token, t_main *main, char *path)
+void	numeric_arg(char **token, t_main *main, char *path)
 {
-    error_exit(token[1], 2);
-    last_status(2);
+	error_exit(token[1], 2);
+	last_status(2);
 	ft_free_tab(token);
 	token = NULL;
 	free(path);
 	path = NULL;
-    free_main(main);
-    exit(2);
+	free_main(main);
+	exit(2);
 }
 
-void    exit_cmd(char **token, t_main *main, char *path)
+void	exit_cmd(char **token, t_main *main, char *path)
 {
-	int exit_code;
+	int	exit_code;
 
 	exit_code = 0;
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
