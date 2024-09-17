@@ -55,7 +55,10 @@ t_tree_node	*parse_command(t_token **data)
 	{
 		if ((*data)->token == REDIRECT_IN || (*data)->token == REDIRECT_OUT
 			|| (*data)->token == HEREDOC || (*data)->token == APPEND)
+		{
+			free_tree(node);
 			node = create_redirect_node(data);
+		}
 		else
 		{
 			value =  ft_strdup((*data)->value);
@@ -100,7 +103,5 @@ t_tree_node	*parse(t_token *data)
 
 	last_token = get_last_token(data);
 	root = parse_expression(&last_token);
-	printf("AQUIII\n");
-	free_list(&last_token);
 	return (root);
 }

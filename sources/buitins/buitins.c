@@ -49,11 +49,9 @@ void	remove_quotes(t_main *main)
 	t_token	*data;
 	t_token	*head;
 	t_token	*remove;
-	t_token *free;
 
 	data = main->token;
 	head = data;
-	free = data;
 	while (data)
 	{
         if (!(ft_strcmp(data->value, "rm")) || !(ft_strcmp(data->value, "grep")) ||
