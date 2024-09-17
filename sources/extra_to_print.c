@@ -26,7 +26,7 @@ void print_tree(t_tree_node *tree, int level) {
         printf("Node Type: %d\n", tree->type);
         for (int i = 0; i < level; i++)
             printf("  ");
-        printf("Value: %s\n", tree->value);
+        printf("Value: %s(%p)\n", tree->value, tree->value);
     }
 
     // Print the left subtree
@@ -55,7 +55,7 @@ void	print_token_list(t_token *head)
 	printf("Lista de Tokens:\n");
 	while (current != NULL)
 	{
-		printf("Token: %s\n", current->value);
+		printf("Token: %s (%p)\n", current->value, current->value);
 		printf("Tipo: %d\n", current->token);
 		current = current->next;
 	}

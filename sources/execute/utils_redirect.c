@@ -18,15 +18,14 @@ char	*before_redirect(char *value)
 	int		i;
 
 	i = 0;
+	if (value[0] == '<' || value[0] == '>')
+	{
+		before = NULL;
+		return (before);
+	}
 	before = malloc(sizeof(char) * ft_strlen(value));
 	if (!before)
 		return (NULL);
-	if (value[0] == '<' || value[0] == '>')
-	{
-		before[i++] = value[0];
-		before[i++] = '\0';
-		return (before);
-	}
 	while (value[i] != '<' && value[i] != '>' && value[i] != '\0')
 	{
 		before[i] = value[i];
@@ -55,21 +54,24 @@ char	*after_redirect(char *value, int *i)
 	char	*after;
 	int		j;
 	int size;
+	int	init;
 
-	size = *i;
+	init = *i;
+	size = init;
 	j = 0;
-	while (isblank(value[size]))
+	while (value[size] != '\0' && isblank(value[size]))
 		size++;
-	after = malloc(sizeof(char) * (size + 1));
+	init = size;
+	while (value[size] != '\0' && !isblank(value[size]))
+		size++;
+	after = malloc(sizeof(char) * (size - init + 1));
 	if (!after)
 		return (NULL);
-	while (value[size] != '\0' && !isblank(value[size]))
+	while (value[init] != '\0' && !isblank(value[init]))
 	{
-		after[j] = value[size];
-		size++;
-		j++;
+		after[j++] = value[init++];
 	}
-	after[j] = '\0';
+	after[j++] = '\0';
 	*i = size;
 	return (after);
 }
