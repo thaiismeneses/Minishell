@@ -91,18 +91,12 @@ void	check_values(t_token *data, t_main *main)
 
 	node = data;
 	new_list = NULL;
-	//if (is_in_order(data))
-	//	data = swap_nodes(data);
-	//print_token_list(data);
 	new_list = reorganize_cmd(node);
 	main->token = new_list;
 	if (!has_heredoc(main->token))
+	{
 		expand_tokens(main);
-	remove_quotes(main);
+		remove_quotes(main);
+	}
 	main->tree = parse(main->token);
-	// if (data)
-	// 	free_list(&data);
-	// if (new_list)
-	// 	free_list(&new_list);
-
 }
