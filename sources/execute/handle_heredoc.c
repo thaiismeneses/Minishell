@@ -27,27 +27,6 @@ int	create_temp_file(void)
 	return (fd);
 }
 
-void	display_file_content(void)
-{
-	int		fd;
-	char	buffer[1024];
-	ssize_t	bytes_read;
-
-	fd = open("heredoc", O_RDONLY);
-	if (fd < 0)
-	{
-		print_error("heredoc: ", strerror(errno));
-		exit(1);
-	}
-	bytes_read = read(fd, buffer, sizeof(buffer));
-	while (bytes_read > 0)
-	{
-		write(1, buffer, bytes_read);
-		bytes_read = read(fd, buffer, sizeof(buffer));
-	}
-	close(fd);
-}
-
 void	heredoc_aux(char *target, int fd)
 {
 	char	*line;
@@ -75,17 +54,21 @@ void	heredoc_aux(char *target, int fd)
 	close (fd);
 }
 
-int	heredoc(char *target)
+int	handle_heredoc_redirect(char *value, int i, int *fd_in, int *heredoc_fd)
 {
-	int	fd;
+	char	*infile;
 
-	fd = create_temp_file();
-	while (target != NULL)
-	{
-			heredoc_aux(target, fd);
-	}
-	// close(fd);
-	// display_file_content();
-	// unlink("heredoc");
-	return (fd);
+	i += 2;
+	infile = after_redirect(value, &i);
+	printf("Infile: %s\n", infile);
+	if (*heredoc_fd != -1)
+		close(*heredoc_fd);
+	*heredoc_fd = create_temp_file();
+	heredoc_aux(infile, *heredoc_fd);
+	close(*heredoc_fd);
+	if (*fd_in != 0)
+		close(*fd_in);
+	*fd_in = open("heredoc", O_RDONLY);
+	free(infile);
+	return (i);
 }

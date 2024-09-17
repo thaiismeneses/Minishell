@@ -53,31 +53,38 @@ char	*concatenate_cmd_tokens(t_token **data)
 	}
 	return (value);
 }
+
+t_token	*handle_cmd_token(t_token **data, t_token *new_list)
+{
+	char	*value;
+
+	if ((*data)->token == CMD)
+	{
+		value = concatenate_cmd_tokens(data);
+		new_list = set_token_list(new_list, value, 0);
+		free(value);
+		value = NULL;
+	}
+	else
+	{
+		value = ft_strdup((*data)->value);
+		new_list = set_token_list(new_list, value, (*data)->token);
+		free(value);
+		*data = (*data)->next;
+	}
+	return (new_list);
+}
+
 t_token	*reorganize_cmd(t_token *data)
 {
 	t_token	*new_list;
-	char	*value;
 	t_token	*node;
 
 	new_list = NULL;
-	value = NULL;
 	node = data;
 	while (data)
 	{
-		if (data->token == CMD)
-		{
-			value = concatenate_cmd_tokens(&data);
-			new_list = set_token_list(new_list, value, 0);
-			free(value);
-			value = NULL;
-		}
-		else
-		{
-			value = ft_strdup(data->value);
-			new_list = set_token_list(new_list, value, data->token);
-			free(value);
-			data = data->next;
-		}
+		new_list = handle_cmd_token(&data, new_list);
 	}
 	if (node)
 		free_list(&node);
@@ -87,7 +94,7 @@ t_token	*reorganize_cmd(t_token *data)
 void	check_values(t_token *data, t_main *main)
 {
 	t_token	*new_list;
-	t_token *node;
+	t_token	*node;
 
 	node = data;
 	new_list = NULL;

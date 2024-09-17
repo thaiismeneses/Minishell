@@ -208,4 +208,3 @@ char	**new_split(char *str)
 	result[vars.r] = NULL;
 	return (result);
 }
-
