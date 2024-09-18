@@ -36,7 +36,7 @@ int	check_start_end(t_token *data)
 	return (0);
 }
 
-static int	find_closing_quote(char *value, char quote)
+int	find_closing_quote(char *value, char quote)
 {
 	int	i;
 
