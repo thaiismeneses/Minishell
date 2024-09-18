@@ -57,7 +57,8 @@ typedef struct s_redirect_info
     int fd_in;
     int fd_out;
     int heredoc_fd;
-    char *comando;
+    char *command;
+	char			*new_cmd;
 } t_redirect_info;
 
 typedef struct s_token
@@ -132,7 +133,7 @@ t_tree_node	*handle_token(t_token **data, t_tree_node *current, t_tree_node *nod
 void	handle_exec_error(char **cmd, t_main *main);
 void	execute_child_process(char *path, char **cmd, t_env_node *env_list, t_main *main);
 void	execute_command(char *path, char **cmd, t_env_node *env_list, t_main *main);
-void	ft_execute(char *av, t_env_node *env_list, t_main *main);
+void	ft_execute(char *av, t_env_node *env_list, t_main *main, int flag);
 int	execute(t_tree_node *node, t_main *main, int flag);
 
 // utils_execute
@@ -278,7 +279,7 @@ char **new_split(char *str);
 
 //utils_execute_three
 int	skip_whitespace(char *str, int i);
-char	**to_malloc_matriz(char **str, int len);
+char	**to_malloc_matrix(char **str, int len);
 int	handle_quotes(char *str, int *i, char *quote_char, int *inside_quotes);
 int	process_word(char *str, int *i, int *inside_quotes, char quote_char);
 int	last_status(int status);

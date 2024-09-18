@@ -16,7 +16,9 @@ void	execute_redirects(int fd_in, int fd_out, char *cmd, t_main *main)
 {
 	int	save_in;
 	int	save_out;
+	int	flag;
 
+	flag = 0;
 	save_in = dup(STDIN_FILENO);
 	save_out = dup(STDOUT_FILENO);
 	if (fd_in != 0)
@@ -30,7 +32,7 @@ void	execute_redirects(int fd_in, int fd_out, char *cmd, t_main *main)
 		close(fd_out);
 	}
 	if (cmd)
-		ft_execute(cmd, main->env, main);
+		ft_execute(cmd, main->env, main, flag);
 	dup2(save_in, STDIN_FILENO);
 	dup2(save_out, STDOUT_FILENO);
 	close(save_in);
@@ -91,18 +93,17 @@ void	handle_redirect(t_tree_node *node, t_main *main)
 	cmd = ft_strdup(new_node->value);
 	value = reorganize_redirect(cmd);
 	free(cmd);
-	redir_info.comando = before_redirect(value);
+	redir_info.new_cmd = before_redirect(value);
+	redir_info.command = ft_strdup(redir_info.new_cmd);
+	free(redir_info.new_cmd);
 	redir_info.heredoc_fd = -1;
 	redir_info.fd_in = 0;
 	redir_info.fd_out = 1;
 	while (value[i] != '\0')
-	{
 		i = process_redirect(value, i, &redir_info);
-	}
 	free(value);
 	if (redir_info.fd_in != -1)
 		execute_redirects(redir_info.fd_in,
-			redir_info.fd_out, redir_info.comando, main);
-	free(redir_info.comando);
+			redir_info.fd_out, redir_info.command, main);
 	unlink("heredoc");
 }

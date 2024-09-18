@@ -60,7 +60,6 @@ int	handle_heredoc_redirect(char *value, int i, int *fd_in, int *heredoc_fd)
 
 	i += 2;
 	infile = after_redirect(value, &i);
-	printf("Infile: %s\n", infile);
 	if (*heredoc_fd != -1)
 		close(*heredoc_fd);
 	*heredoc_fd = create_temp_file();

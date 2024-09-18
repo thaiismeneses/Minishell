@@ -15,7 +15,7 @@
 void	setup_pipe(int pipe_fd[2])
 {
 	if (pipe(pipe_fd) == -1)
-		printf("pipe error.\n");
+		ft_putstr_fd("pipe error.\n", 2);
 }
 
 void	setup_child(int fd_in, int fd_out, t_tree_node *node, t_main *main)
@@ -35,12 +35,12 @@ void	fork_and_exec(t_tree_node *node, t_main *main, int pipe_fd[2])
 
 	pid1 = fork();
 	if (pid1 == -1)
-		printf("fork error.\n");
+		ft_putstr_fd("fork error.\n", 2);
 	if (pid1 == 0)
 		setup_child(pipe_fd[0], pipe_fd[1], node->left, main);
 	pid2 = fork();
 	if (pid2 == -1)
-		printf("fork error.\n");
+		ft_putstr_fd("fork error.\n", 2);
 	if (pid2 == 0)
 	{
 		close(pipe_fd[1]);
