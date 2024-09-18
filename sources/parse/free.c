@@ -87,21 +87,19 @@ void	ft_free_tab(char **tab)
 	tab = NULL;
 }
 
-void free_main(t_main *main)
+void	free_main(t_main *main)
 {
-    if (!main)
-        return;
-    free_env_list(main->env);
+	if (!main)
+		return ;
+	free_env_list(main->env);
 	main->env = NULL;
-    free_list(&(main->token));
+	free_list(&(main->token));
 	main->token = NULL;
-    free_tree(main->tree);
+	free_tree(main->tree);
 	main->tree = NULL;
-    free(main->pwd);
+	free(main->pwd);
 	main->pwd = NULL;
-    free(main->old_pwd);
+	free(main->old_pwd);
 	main->old_pwd = NULL;
-    free(main);
+	free(main);
 }
-
-

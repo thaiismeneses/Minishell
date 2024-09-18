@@ -1,19 +1,19 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 19:15:49 by thfranco          #+#    #+#             */
-/*   Updated: 2024/08/31 14:38:40 by thfranco         ###   ########.fr       */
+/*   Created: 2024/09/17 18:26:42 by thfranco          #+#    #+#             */
+/*   Updated: 2024/09/17 18:26:42 by thfranco         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 int	g_status;
-extern char		**environ;
+extern char	**environ;
 
 static void	run(char *prompt, t_main *main)
 {
@@ -34,7 +34,6 @@ static void	run(char *prompt, t_main *main)
 			if (has_error(tokens))
 			{
 				check_values(tokens, main);
-				//print_tree(main->tree, 0);
 				execute(main->tree, main, 1);
 			}
 		}
@@ -52,9 +51,9 @@ void	print_prompt(t_main *main)
 
 static t_main	*build_main(t_main *main)
 {
-	(void) main;
-	char **envp = environ;
+	char	**envp = environ;
 	t_main	*new_main;
+	(void) main;
 
 	new_main = malloc(sizeof(t_main));
 	if (!new_main)
@@ -68,9 +67,9 @@ static t_main	*build_main(t_main *main)
 
 int	main(void)
 {
-	g_status = 0;
 	t_main	*main;
 
+	g_status = 0;
 	main = NULL;
 	mini_signal();
 	main = build_main(main);

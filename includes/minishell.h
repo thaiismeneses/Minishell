@@ -52,6 +52,14 @@ typedef struct s_vars {
 	char	quote_char;
 } t_vars;
 
+typedef struct s_redirect_info
+{
+    int fd_in;
+    int fd_out;
+    int heredoc_fd;
+    char *command;
+	char			*new_cmd;
+} t_redirect_info;
 
 typedef struct s_token
 {
@@ -118,11 +126,14 @@ t_tree_node	*parse_command(t_token **data);
 t_tree_node	*parse_expression(t_token **data);
 t_tree_node	*parse(t_token *data);
 
+//utils_parse
+t_tree_node	*handle_token(t_token **data, t_tree_node *current, t_tree_node *node);
+
 // execute
 void	handle_exec_error(char **cmd, t_main *main);
 void	execute_child_process(char *path, char **cmd, t_env_node *env_list, t_main *main);
 void	execute_command(char *path, char **cmd, t_env_node *env_list, t_main *main);
-void	ft_execute(char *av, t_env_node *env_list, t_main *main);
+void	ft_execute(char *av, t_env_node *env_list, t_main *main, int flag);
 int	execute(t_tree_node *node, t_main *main, int flag);
 
 // utils_execute
@@ -147,9 +158,8 @@ int	check_pipe(t_token *data);
 
 // handle_heredoc
 int	create_temp_file(void);
-void	display_file_content(void);
 void	heredoc_aux(char *target, int fd);
-int	heredoc(char *target);
+int	handle_heredoc_redirect(char *value, int i, int *fd_in, int *heredoc_fd);
 
 // utils_errors
 int						check_start_end(t_token *data);
@@ -167,7 +177,6 @@ void	print_error(char *msg, char *value);
 
 // check_values
 int	is_in_order(t_token *data);
-t_token	*swap_nodes(t_token *data);
 char	*concatenate_cmd_tokens(t_token **data);
 t_token	*reorganize_cmd(t_token *data);
 void	check_values(t_token *data, t_main *main);
@@ -249,15 +258,17 @@ int						expansion(t_token *node, t_main *main);
 void					expand_tokens(t_main *main);
 
 //utils_redirect
+int handle_redirect_and_cmd(char **cmd_splited, int i, char **new_cmd, char **redirect_and_file);
+char *reorganize_redirect(char *cmd);
 char	*before_redirect(char *value);
-int	find_index(char *value);
 char	*after_redirect(char *value, int *i);
-char	*find_redirect(char *value);
+int	handle_input_redirect(char *value, int i, int *fd_in);
 
 //redirects
-void	handle_output_redirect(char *value, char *output_file, t_main *main);
-void	handle_input_redirect(char *value, char *input_file, t_main *main);
-void	handle_append_redirect(char *value, char *output_file, t_main *main);
+void	execute_redirects(int fd_in, int fd_out, char *cmd, t_main *main);
+int	handle_output_redirect(char *value, int i, int *fd_out);
+int	handle_output_append_redirect(char *value, int i, int *fd_out);
+int	process_redirect(char *value, int i, t_redirect_info *redir_info);
 void	handle_redirect(t_tree_node *node, t_main *main);
 
 //utils_execute_two
@@ -268,7 +279,7 @@ char **new_split(char *str);
 
 //utils_execute_three
 int	skip_whitespace(char *str, int i);
-char	**to_malloc_matriz(char **str, int len);
+char	**to_malloc_matrix(char **str, int len);
 int	handle_quotes(char *str, int *i, char *quote_char, int *inside_quotes);
 int	process_word(char *str, int *i, int *inside_quotes, char quote_char);
 int	last_status(int status);

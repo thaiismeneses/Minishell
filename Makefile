@@ -7,18 +7,17 @@ EFENCE = -lefence
 LIBS = libft/libft.a
 
 SRC =	sources/main.c\
+		sources/extra_to_print.c\
 		sources/parse/tokenization.c\
 		sources/parse/utils_token.c\
 		sources/parse/parse.c\
+		sources/parse/utils_parse.c\
 		sources/parse/index.c\
-		sources/extra_to_print.c\
 		sources/parse/check_errors.c\
 		sources/parse/utils_errors.c\
-		sources/execute/handle_heredoc.c\
 		sources/parse/check_values.c\
 		sources/parse/free.c\
 		sources/parse/nodes.c\
-		sources/execute/signals.c\
 		sources/execute/environ.c\
 		sources/builtins/builtins.c\
 		sources/builtins/exit.c\
@@ -30,6 +29,8 @@ SRC =	sources/main.c\
 		sources/builtins/cd_utils.c\
 		sources/builtins/pwd.c\
 		sources/builtins/echo.c\
+		sources/execute/signals.c\
+		sources/execute/handle_heredoc.c\
 		sources/execute/expansion.c\
 		sources/execute/execute.c\
 		sources/execute/utils_print_error.c\
@@ -39,7 +40,6 @@ SRC =	sources/main.c\
 		sources/execute/pipe.c\
 		sources/execute/redirects.c\
 		sources/execute/utils_redirect.c\
-		sources/parse/swap.c\
 
 OBJ = $(SRC:.c=.o)
 

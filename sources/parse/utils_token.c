@@ -56,9 +56,9 @@ char	*join_cmd(char *dest, char *src, int space)
 	return (dest);
 }
 
-int has_heredoc(t_token *data)
+int	has_heredoc(t_token *data)
 {
-	while(data)
+	while (data)
 	{
 		if (data->token == 5)
 			return (1);
