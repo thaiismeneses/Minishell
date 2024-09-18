@@ -6,13 +6,12 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:26:42 by thfranco          #+#    #+#             */
-/*   Updated: 2024/09/17 18:26:42 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:47:21 by lfuruno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	g_status;
 extern char	**environ;
 
 static void	run(char *prompt, t_main *main)
@@ -23,7 +22,6 @@ static void	run(char *prompt, t_main *main)
 	last_status(0);
 	while (42)
 	{
-		g_status = 0;
 		cmd = readline(prompt);
 		if (!cmd)
 			cmd = ft_strdup("exit");
@@ -51,10 +49,11 @@ void	print_prompt(t_main *main)
 
 static t_main	*build_main(t_main *main)
 {
-	char	**envp = environ;
+	char	**envp;
 	t_main	*new_main;
-	(void) main;
 
+	(void) main;
+	envp = environ;
 	new_main = malloc(sizeof(t_main));
 	if (!new_main)
 		exit (1);
@@ -69,7 +68,6 @@ int	main(void)
 {
 	t_main	*main;
 
-	g_status = 0;
 	main = NULL;
 	mini_signal();
 	main = build_main(main);
