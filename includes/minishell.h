@@ -121,9 +121,12 @@ int	index_double(char *cmd, int i);
 int	type_index(t_type_cmd type, char *cmd, int i);
 
 // parse
-t_tree_node	*create_redirect_node(t_token **data);
-t_tree_node	*parse_command(t_token **data);
-t_tree_node	*parse_expression(t_token **data);
+void	verify_priority(t_tree_node *root, t_token *data);
+int	build_branch(t_tree_node *root, t_token *data, t_token *node);
+t_token *node_left(t_token *data, t_token *node);
+t_token *node_right(t_token *data, t_token *node);
+t_token	*search_pipe(t_token *data);
+t_tree_node	*init_tree();
 t_tree_node	*parse(t_token *data);
 
 //utils_parse
@@ -180,6 +183,7 @@ int	is_in_order(t_token *data);
 char	*concatenate_cmd_tokens(t_token **data);
 t_token	*reorganize_cmd(t_token *data);
 void	check_values(t_token *data, t_main *main);
+t_token	*append_command(t_token *data);
 
 // free.c
 void	free_tree(t_tree_node *node);
@@ -187,6 +191,7 @@ void	free_list(t_token **data);
 void	free_env_list(t_env_node *head);
 void	ft_free_tab(char **tab);
 void	free_main(t_main *main);
+void	free_list_two(t_token *data);
 
 // nodes.c
 t_tree_node	*create_tree_node(t_type_cmd type, char *value);

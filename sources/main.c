@@ -34,6 +34,7 @@ static void	run(char *prompt, t_main *main)
 			if (has_error(tokens))
 			{
 				check_values(tokens, main);
+				//print_tree(main->tree,0);
 				execute(main->tree, main, 1);
 			}
 		}

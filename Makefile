@@ -11,7 +11,6 @@ SRC =	sources/main.c\
 		sources/parse/tokenization.c\
 		sources/parse/utils_token.c\
 		sources/parse/parse.c\
-		sources/parse/utils_parse.c\
 		sources/parse/index.c\
 		sources/parse/check_errors.c\
 		sources/parse/utils_errors.c\
