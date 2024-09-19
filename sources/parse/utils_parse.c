@@ -6,32 +6,35 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:00:17 by thfranco          #+#    #+#             */
-/*   Updated: 2024/09/18 13:32:43 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/09/19 09:33:25 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_tree_node	*handle_token(t_token **data, t_tree_node *current,
-		t_tree_node *node)
+t_tree_node	*init_tree(void)
 {
-	t_tree_node	*arg_node;
-	char		*value;
+	t_tree_node	*root;
 
-	if ((*data)->token == REDIRECT_IN || (*data)->token == REDIRECT_OUT
-		|| (*data)->token == HEREDOC || (*data)->token == APPEND)
+	root = malloc(sizeof(t_tree_node));
+	if (!root)
+		return (NULL);
+	root->left = NULL;
+	root->right = NULL;
+	root->value = NULL;
+	return (root);
+}
+
+t_token	*search_pipe(t_token *data)
+{
+	t_token	*temp;
+
+	temp = get_last_token(data);
+	while (temp)
 	{
-		free_tree(node);
-		node = create_redirect_node(data);
+		if (temp->token == PIPE)
+			return (temp);
+		temp = temp->prev;
 	}
-	else
-	{
-		value = ft_strdup((*data)->value);
-		arg_node = create_tree_node((*data)->token, value);
-		free(value);
-		current->left = arg_node;
-		current = arg_node;
-	}
-	*data = (*data)->prev;
-	return (node);
+	return (NULL);
 }

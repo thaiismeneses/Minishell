@@ -12,28 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-// int	is_in_order(t_token *data)
-// {
-// 	while (data)
-// 	{
-// 		if (data && (data->token == REDIRECT_IN || data->token == REDIRECT_OUT
-// 				|| data->token == APPEND || data->token == HEREDOC))
-// 		{
-// 			if (data->next && data->next->token == CMD
-// 				&& data->next->next == NULL)
-// 			{
-// 				return (0);
-// 			}
-// 			if (data->next->next && data->next->next->token == CMD)
-// 			{
-// 				return (1);
-// 			}
-// 		}
-// 		data = data->next;
-// 	}
-// 	return (0);
-// }
-
 char	*concatenate_cmd_tokens(t_token **data)
 {
 	char	*value;
@@ -91,90 +69,11 @@ t_token	*reorganize_cmd(t_token *data)
 	return (new_list);
 }
 
-int	is_redirect(t_token *data)
-{
-	if (data->token == REDIRECT_IN || data->token == REDIRECT_OUT
-			|| data->token == APPEND || data->token == HEREDOC)
-	{
-		return (1);
-	}
-	return (0);
-}
-
-int	has_redirs(t_token *data)
-{
-	t_token *temp;
-
-	temp = data;
-	while (temp)
-	{
-		if (temp->token == PIPE || is_redirect(temp))
-			return (1);
-		temp = temp->next;
-	}
-	return (0);
-}
-
-t_token	*append_command(t_token *data)
-{
-	char *cmd;
-	t_token *tmp;
-	int flag;
-	t_token	*new;
-	char *value;
-
-	flag = 0;
-	cmd = NULL;
-	new = NULL;
-	value = NULL;
-	if (!has_redirs(data))
-		return (data);
-	tmp = data;
-	while (tmp)
-	{
-		flag = 0;
-		while (tmp && tmp->token != PIPE)
-		{
-			if (is_redirect(tmp) == 1)
-				flag = 1;
-			value = ft_strdup(tmp->value);
-			cmd = str_join(cmd, value);
-			free(value);
-			value = NULL;
-			if (tmp->next && tmp->next->token != PIPE)
-				cmd = str_join(cmd, " ");
-			tmp = tmp->next;
-			printf("CMD: %s\n", cmd);
-		}
-		if (flag == 1)
-		{
-			printf("AQUII\n");
-			add_node(&new, COMMAND_SUBSTITUTION, cmd);
-		}
-		else
-		{
-			printf("AQUIICMD\n");
-			add_node(&new, CMD, cmd);
-		}
-		if (tmp && tmp->token == PIPE)
-		{
-
-			add_node(&new, tmp->token, tmp->value);
-			tmp = tmp->next;
-		}
-		free(cmd);
-		cmd = NULL;
-		//tmp = tmp->next;
-	}
-	free_list_two(data);
-	return (new);
-}
-
 void	check_values(t_token *data, t_main *main)
 {
 	t_token	*new_list;
 	t_token	*node;
-	t_token *tmp;
+	t_token	*tmp;
 
 	node = data;
 	new_list = NULL;
@@ -188,7 +87,5 @@ void	check_values(t_token *data, t_main *main)
 	tmp = NULL;
 	tmp = append_command(main->token);
 	main->token = tmp;
-	//print_token_list(main->token);
 	main->tree = parse(main->token);
-	print_tree(main->tree, 0);
 }

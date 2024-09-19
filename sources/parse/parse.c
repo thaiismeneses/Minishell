@@ -12,37 +12,10 @@
 
 #include "../../includes/minishell.h"
 
-t_tree_node	*init_tree()
-{
-	t_tree_node	*root;
-
-	root = malloc(sizeof(t_tree_node));
-	if (!root)
-		return (NULL);
-	root->left = NULL;
-	root->right = NULL;
-	root->value = NULL;
-	return (root);
-}
-
-t_token	*search_pipe(t_token *data)
-{
-	t_token *temp;
-
-	temp = get_last_token(data);
-	while (temp)
-	{
-		if (temp->token == PIPE)
-			return (temp);
-		temp = temp->prev;
-	}
-	return (NULL);
-}
-
-t_token *node_right(t_token *data, t_token *node)
+t_token	*node_right(t_token *data, t_token *node)
 {
 	t_token	*temp;
-	t_token *right;
+	t_token	*right;
 
 	right = NULL;
 	temp = data;
@@ -57,10 +30,10 @@ t_token *node_right(t_token *data, t_token *node)
 	return (right);
 }
 
-t_token *node_left(t_token *data, t_token *node)
+t_token	*node_left(t_token *data, t_token *node)
 {
 	t_token	*temp;
-	t_token *left;
+	t_token	*left;
 
 	left = NULL;
 	temp = data;
@@ -72,11 +45,10 @@ t_token *node_left(t_token *data, t_token *node)
 	return (left);
 }
 
-
 int	build_branch(t_tree_node *root, t_token *data, t_token *node)
 {
 	t_token	*left;
-	t_token *right;
+	t_token	*right;
 
 	if (!root | !data | !node)
 		return (0);
@@ -92,7 +64,7 @@ int	build_branch(t_tree_node *root, t_token *data, t_token *node)
 
 void	verify_priority(t_tree_node *root, t_token *data)
 {
-	t_token *pipe;
+	t_token	*pipe;
 
 	pipe = search_pipe(data);
 	if (!pipe)

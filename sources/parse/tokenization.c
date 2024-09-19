@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static t_type_cmd	find_type_cont(char *cmd, int i, int first_token)
+t_type_cmd	find_type_cont(char *cmd, int i, int first_token)
 {
 	(void)first_token;
 	if (cmd[i] == '\'')

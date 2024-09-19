@@ -15,7 +15,6 @@
 void	err_signal(char *err)
 {
 	perror(err);
-	g_status = 1;
 	last_status(130);
 }
 
