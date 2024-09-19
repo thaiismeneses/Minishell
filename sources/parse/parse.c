@@ -12,81 +12,78 @@
 
 #include "../../includes/minishell.h"
 
-t_tree_node	*create_redirect_node(t_token **data)
+t_token	*node_right(t_token *data, t_token *node)
 {
-	t_tree_node		*arg_node;
-	t_token			*init;
-	char			*value;
-	char			*cmd;
+	t_token	*temp;
+	t_token	*right;
 
-	init = *data;
-	value = NULL;
-	arg_node = NULL;
-	while (init->prev && init->token != PIPE)
-		init = init->prev;
-	*data = init;
-	while (init && init->token != PIPE)
+	right = NULL;
+	temp = data;
+	while (temp && temp != node)
+		temp = temp->next;
+	temp = temp->next;
+	while (temp)
 	{
-		cmd = ft_strdup(init->value);
-		value = join_cmd(value, cmd, (init->next != NULL));
-		free(cmd);
-		init = init->next;
+		add_node(&right, temp->token, temp->value);
+		temp = temp->next;
 	}
-	arg_node = create_tree_node(COMMAND_SUBSTITUTION, value);
-	free(value);
-	return (arg_node);
+	return (right);
 }
 
-t_tree_node	*parse_command(t_token **data)
+t_token	*node_left(t_token *data, t_token *node)
 {
-	t_tree_node		*node;
-	t_tree_node		*current;
-	char			*value;
+	t_token	*temp;
+	t_token	*left;
 
-	if (*data == NULL)
-		return (NULL);
-	value = ft_strdup((*data)->value);
-	node = create_tree_node((*data)->token, value);
-	free(value);
-	*data = (*data)->prev;
-	current = node;
-	while (*data && ((*data)->token != PIPE))
+	left = NULL;
+	temp = data;
+	while (temp && temp != node)
 	{
-		node = handle_token(data, current, node);
+		add_node(&left, temp->token, temp->value);
+		temp = temp->next;
 	}
-	return (node);
+	return (left);
 }
 
-t_tree_node	*parse_expression(t_token **data)
+int	build_branch(t_tree_node *root, t_token *data, t_token *node)
 {
-	t_tree_node	*right_node;
-	int			operator_type;
-	char		*value;
-	t_tree_node	*operator_node;
+	t_token	*left;
+	t_token	*right;
 
-	right_node = parse_command(data);
-	value = NULL;
-	while (*data && ((*data)->token == PIPE))
+	if (!root | !data | !node)
+		return (0);
+	right = node_right(data, node);
+	left = node_left(data, node);
+	root->type = node->token;
+	root->value = ft_strdup(node->value);
+	root->left = parse(left);
+	root->right = parse(right);
+	free_list_two(left);
+	free_list_two(right);
+	return (1);
+}
+
+void	verify_priority(t_tree_node *root, t_token *data)
+{
+	t_token	*pipe;
+
+	pipe = search_pipe(data);
+	if (!pipe)
 	{
-		operator_type = (*data)->token;
-		value = ft_strdup((*data)->value);
-		*data = (*data)->prev;
-		operator_node = create_tree_node(operator_type, value);
-		operator_node->right = right_node;
-		operator_node->left = parse_expression(data);
-		right_node = operator_node;
-		free(value);
-		value = NULL;
+		root->value = ft_strdup(data->value);
+		root->type = data->token;
 	}
-	return (right_node);
+	else if (!build_branch(root, data, pipe))
+		return ;
 }
 
 t_tree_node	*parse(t_token *data)
 {
 	t_tree_node	*root;
-	t_token		*last_token;
 
-	last_token = get_last_token(data);
-	root = parse_expression(&last_token);
+	root = init_tree();
+	if (!root)
+		return (NULL);
+	verify_priority(root, data);
 	return (root);
 }

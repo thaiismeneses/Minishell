@@ -12,12 +12,14 @@
 
 #include "../../includes/minishell.h"
 
-int	create_temp_file(void)
+int	create_temp_file(int i)
 {
 	int		fd;
 	char	*file;
 
 	file = "heredoc";
+	file = ft_strjoin(file, ft_itoa(i));
+	printf("file: %s\n", file);
 	fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd < 0)
 	{
@@ -62,7 +64,7 @@ int	handle_heredoc_redirect(char *value, int i, int *fd_in, int *heredoc_fd)
 	infile = after_redirect(value, &i);
 	if (*heredoc_fd != -1)
 		close(*heredoc_fd);
-	*heredoc_fd = create_temp_file();
+	*heredoc_fd = create_temp_file(i);
 	heredoc_aux(infile, *heredoc_fd);
 	close(*heredoc_fd);
 	if (*fd_in != 0)
