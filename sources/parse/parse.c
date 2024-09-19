@@ -54,11 +54,12 @@ int	build_branch(t_tree_node *root, t_token *data, t_token *node)
 		return (0);
 	right = node_right(data, node);
 	left = node_left(data, node);
-	//free_list_two(data);
 	root->type = node->token;
 	root->value = ft_strdup(node->value);
 	root->left = parse(left);
 	root->right = parse(right);
+	free_list_two(left);
+	free_list_two(right);
 	return (1);
 }
 
