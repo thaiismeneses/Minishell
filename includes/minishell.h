@@ -43,6 +43,7 @@ typedef enum e_type
 	NONE,
 }	t_type_cmd;
 
+
 typedef struct s_vars
 {
 	int		i;
@@ -118,7 +119,6 @@ int			is_redirect(t_token *data);
 int			has_redirs(t_token *data);
 void		handle_command(t_token **new, char *cmd, int flag, t_token **tmp);
 int			process_tokens(t_token **tmp, char **cmd);
-
 t_token		*append_command(t_token *data);
 
 // index
@@ -201,6 +201,7 @@ void		free_env_list(t_env_node *head);
 void		ft_free_tab(char **tab);
 void		free_main(t_main *main);
 void		free_list_two(t_token *data);
+
 
 // nodes.c
 t_tree_node	*create_tree_node(t_type_cmd type, char *value);
@@ -303,3 +304,4 @@ int			process_word(char *str, int *i, int *inside_quotes,
 				char quote_char);
 
 #endif
+
