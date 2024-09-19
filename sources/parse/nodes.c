@@ -54,3 +54,22 @@ void	add_node(t_token **data, t_type_cmd type, char *value)
 		new_node->prev = last_node;
 	}
 }
+
+void	free_list_two(t_token *data)
+{
+	t_token	*current;
+	t_token	*temp;
+
+	if (!data)
+		return ;
+	current = data;
+	while (current)
+	{
+		temp = current->next;
+		free(current->value);
+		current->value = NULL;
+		free(current);
+		current = temp;
+	}
+	data = NULL;
+}

@@ -48,25 +48,6 @@ void	free_list(t_token **data)
 	*data = NULL;
 }
 
-void	free_list_two(t_token *data)
-{
-	t_token	*current;
-	t_token	*temp;
-
-	if (!data)
-		return ;
-	current = data;
-	while (current)
-	{
-		temp = current->next;
-		free(current->value);
-		current->value = NULL;
-		free(current);
-		current = temp;
-	}
-	data = NULL;
-}
-
 void	free_env_list(t_env_node *head)
 {
 	t_env_node	*temp;

@@ -43,7 +43,6 @@ typedef enum e_type
 	NONE,
 }	t_type_cmd;
 
-
 typedef struct s_vars
 {
 	int		i;
@@ -168,7 +167,7 @@ int			check_redirect_in(t_token *data);
 int			check_pipe(t_token *data);
 
 // handle_heredoc
-int			create_temp_file(void);
+int			create_temp_file(int i);
 void		heredoc_aux(char *target, int fd);
 int			handle_heredoc_redirect(char *value, int i, int *fd_in,
 				int *heredoc_fd);
@@ -200,12 +199,11 @@ void		free_list(t_token **data);
 void		free_env_list(t_env_node *head);
 void		ft_free_tab(char **tab);
 void		free_main(t_main *main);
-void		free_list_two(t_token *data);
-
 
 // nodes.c
 t_tree_node	*create_tree_node(t_type_cmd type, char *value);
 void		add_node(t_token **data, t_type_cmd type, char *value);
+void		free_list_two(t_token *data);
 
 // signals.c
 void		err_signal(char *err);
@@ -304,4 +302,3 @@ int			process_word(char *str, int *i, int *inside_quotes,
 				char quote_char);
 
 #endif
-
