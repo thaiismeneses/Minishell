@@ -12,28 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-int	is_in_order(t_token *data)
-{
-	while (data)
-	{
-		if (data && (data->token == REDIRECT_IN || data->token == REDIRECT_OUT
-				|| data->token == APPEND || data->token == HEREDOC))
-		{
-			if (data->next && data->next->token == CMD
-				&& data->next->next == NULL)
-			{
-				return (0);
-			}
-			if (data->next->next && data->next->next->token == CMD)
-			{
-				return (1);
-			}
-		}
-		data = data->next;
-	}
-	return (0);
-}
-
 char	*concatenate_cmd_tokens(t_token **data)
 {
 	char	*value;
@@ -95,6 +73,7 @@ void	check_values(t_token *data, t_main *main)
 {
 	t_token	*new_list;
 	t_token	*node;
+	t_token	*tmp;
 
 	node = data;
 	new_list = NULL;
@@ -105,5 +84,8 @@ void	check_values(t_token *data, t_main *main)
 		expand_tokens(main);
 		remove_quotes(main);
 	}
+	tmp = NULL;
+	tmp = append_command(main->token);
+	main->token = tmp;
 	main->tree = parse(main->token);
 }

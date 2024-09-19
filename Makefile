@@ -10,6 +10,7 @@ SRC =	sources/main.c\
 		sources/extra_to_print.c\
 		sources/parse/tokenization.c\
 		sources/parse/utils_token.c\
+		sources/parse/utils_token_two.c\
 		sources/parse/parse.c\
 		sources/parse/utils_parse.c\
 		sources/parse/index.c\

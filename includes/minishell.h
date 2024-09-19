@@ -43,7 +43,9 @@ typedef enum e_type
 	NONE,
 }	t_type_cmd;
 
-typedef struct s_vars {
+
+typedef struct s_vars
+{
 	int		i;
 	int		r;
 	int		len;
@@ -112,21 +114,29 @@ char		*str_join(char *dest, char *src);
 char		*join_cmd(char *dest, char *src, int space);
 int			has_heredoc(t_token *data);
 
+//utils_token_two
+int			is_redirect(t_token *data);
+int			has_redirs(t_token *data);
+void		handle_command(t_token **new, char *cmd, int flag, t_token **tmp);
+int			process_tokens(t_token **tmp, char **cmd);
+t_token		*append_command(t_token *data);
+
 // index
 int			index_envvar(char *cmd, int i);
 int			index_single(char *cmd, int i);
 int			index_double(char *cmd, int i);
 int			type_index(t_type_cmd type, char *cmd, int i);
 
-// parse
-t_tree_node	*create_redirect_node(t_token **data);
-t_tree_node	*parse_command(t_token **data);
-t_tree_node	*parse_expression(t_token **data);
-t_tree_node	*parse(t_token *data);
-
 //utils_parse
-t_tree_node	*handle_token(t_token **data, t_tree_node *current,
-				t_tree_node *node);
+t_tree_node	*init_tree(void);
+t_token		*search_pipe(t_token *data);
+
+// parse
+t_token		*node_right(t_token *data, t_token *node);
+t_token		*node_left(t_token *data, t_token *node);
+int			build_branch(t_tree_node *root, t_token *data, t_token *node);
+void		verify_priority(t_tree_node *root, t_token *data);
+t_tree_node	*parse(t_token *data);
 
 // execute
 void		handle_exec_error(char **cmd, t_main *main);
@@ -179,7 +189,6 @@ void		print_env_list(t_env_node *head);
 void		print_error(char *msg, char *value);
 
 // check_values
-int			is_in_order(t_token *data);
 char		*concatenate_cmd_tokens(t_token **data);
 t_token		*handle_cmd_token(t_token **data, t_token *new_list);
 t_token		*reorganize_cmd(t_token *data);
@@ -191,6 +200,8 @@ void		free_list(t_token **data);
 void		free_env_list(t_env_node *head);
 void		ft_free_tab(char **tab);
 void		free_main(t_main *main);
+void		free_list_two(t_token *data);
+
 
 // nodes.c
 t_tree_node	*create_tree_node(t_type_cmd type, char *value);
@@ -293,3 +304,4 @@ int			process_word(char *str, int *i, int *inside_quotes,
 				char quote_char);
 
 #endif
+
