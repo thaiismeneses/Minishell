@@ -167,7 +167,7 @@ int			check_redirect_in(t_token *data);
 int			check_pipe(t_token *data);
 
 // handle_heredoc
-int			create_temp_file(int i);
+int			create_temp_file(void);
 void		heredoc_aux(char *target, int fd);
 int			handle_heredoc_redirect(char *value, int i, int *fd_in,
 				int *heredoc_fd);
