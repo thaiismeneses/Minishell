@@ -25,13 +25,11 @@ void	before_execute(t_tree_node *node)
 		before_execute(temp->right);
 }
 
-int	create_temp_file(void)
+int	create_temp_file(char *infile)
 {
 	int		fd;
-	char	*file;
 
-	file = "heredoc";
-	fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	fd = open(infile, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		print_error("heredoc: ", strerror(errno));
@@ -67,20 +65,21 @@ void	heredoc_aux(char *target, int fd)
 	close (fd);
 }
 
-int	handle_heredoc_redirect(char *value, int i, int *fd_in, int *heredoc_fd)
+int	handle_heredoc_redirect(char *value, int i, t_redirect_info *redir_info)
 {
 	char	*infile;
 
 	i += 2;
 	infile = after_redirect(value, &i);
-	if (*heredoc_fd != -1)
-		close(*heredoc_fd);
-	*heredoc_fd = create_temp_file();
-	heredoc_aux(infile, *heredoc_fd);
-	close(*heredoc_fd);
-	if (*fd_in != 0)
-		close(*fd_in);
-	*fd_in = open("heredoc", O_RDONLY);
+	if (redir_info->heredoc_fd != -1)
+		close(redir_info->heredoc_fd);
+	redir_info->heredoc_fd = create_temp_file(infile);
+	heredoc_aux(infile, redir_info->heredoc_fd);
+	close(redir_info->heredoc_fd);
+	if (redir_info->fd_in != 0)
+		close(redir_info->fd_in);
+	redir_info->fd_in = open(infile, O_RDONLY);
+	redir_info->file = ft_strdup(infile);
 	free(infile);
 	return (i);
 }

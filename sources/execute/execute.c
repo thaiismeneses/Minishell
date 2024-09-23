@@ -108,7 +108,8 @@ int	execute(t_tree_node *node, t_main *main, int flag)
 	if (new_node->type == COMMAND_SUBSTITUTION)
 	{
 		execute_redirects(new_node, main);
-		unlink("heredoc");
+		unlink(node->redir_info.file);
+		free(node->redir_info.file);
 	}
 	else if (new_node->type == PIPE)
 		execute_pipe(new_node, main);

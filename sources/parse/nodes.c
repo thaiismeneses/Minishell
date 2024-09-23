@@ -21,6 +21,7 @@ static t_redirect_info	init_redirect_info(void)
 	redir_info.fd_out = 0;
 	redir_info.heredoc_fd = -1;
 	redir_info.new_cmd = NULL;
+	redir_info.file = NULL;
 	return (redir_info);
 }
 

@@ -60,6 +60,7 @@ typedef struct s_redirect_info
 	int		heredoc_fd;
 	char	*command;
 	char	*new_cmd;
+	char	*file;
 }	t_redirect_info;
 
 typedef struct s_token
@@ -169,10 +170,10 @@ int			check_pipe(t_token *data);
 
 // handle_heredoc
 void		before_execute(t_tree_node *node);
-int			create_temp_file(void);
+int			create_temp_file(char *infile);
 void		heredoc_aux(char *target, int fd);
-int			handle_heredoc_redirect(char *value, int i, int *fd_in,
-				int *heredoc_fd);
+int			handle_heredoc_redirect(char *value, int i,
+				t_redirect_info *redir_info);
 
 // utils_errors
 int			check_start_end(t_token *data);

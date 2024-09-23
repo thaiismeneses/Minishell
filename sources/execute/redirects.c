@@ -71,8 +71,7 @@ int	process_redirect(char *value, int i, t_redirect_info *redir_info)
 	else if (value[i] == '>')
 		i = handle_output_redirect(value, i, &(redir_info->fd_out));
 	else if (value[i] == '<' && value[i + 1] == '<')
-		i = handle_heredoc_redirect(value, i, &(redir_info->fd_in),
-				&(redir_info->heredoc_fd));
+		i = handle_heredoc_redirect(value, i, redir_info);
 	else if (value[i] == '<')
 		i = handle_input_redirect(value, i, &(redir_info->fd_in));
 	if (value[i] != '\0')
