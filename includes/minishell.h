@@ -60,6 +60,7 @@ typedef struct s_redirect_info
 	int		heredoc_fd;
 	char	*command;
 	char	*new_cmd;
+	char	*file;
 }	t_redirect_info;
 
 typedef struct s_token
@@ -74,6 +75,7 @@ typedef struct s_tree_node
 {
 	t_type_cmd				type;
 	char					*value;
+	t_redirect_info			redir_info;
 	struct s_tree_node		*left;
 	struct s_tree_node		*right;
 }	t_tree_node;
@@ -167,10 +169,11 @@ int			check_redirect_in(t_token *data);
 int			check_pipe(t_token *data);
 
 // handle_heredoc
-int			create_temp_file(void);
+void		before_execute(t_tree_node *node);
+int			create_temp_file(char *infile);
 void		heredoc_aux(char *target, int fd);
-int			handle_heredoc_redirect(char *value, int i, int *fd_in,
-				int *heredoc_fd);
+int			handle_heredoc_redirect(char *value, int i,
+				t_redirect_info *redir_info);
 
 // utils_errors
 int			check_start_end(t_token *data);
@@ -281,11 +284,11 @@ char		*after_redirect(char *value, int *i);
 int			handle_input_redirect(char *value, int i, int *fd_in);
 
 //redirects
-void		execute_redirects(int fd_in, int fd_out, char *cmd, t_main *main);
+void		execute_redirects(t_tree_node *node, t_main *main);
 int			handle_output_redirect(char *value, int i, int *fd_out);
 int			handle_output_append_redirect(char *value, int i, int *fd_out);
 int			process_redirect(char *value, int i, t_redirect_info *redir_info);
-void		handle_redirect(t_tree_node *node, t_main *main);
+void		handle_redirect(t_tree_node *node);
 
 //utils_execute_two
 int			store_word(char **result, t_vars *vars, char *str, int start);
