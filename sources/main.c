@@ -32,6 +32,7 @@ static void	run(char *prompt, t_main *main)
 			if (has_error(tokens))
 			{
 				check_values(tokens, main);
+				before_execute(main->tree);
 				execute(main->tree, main, 1);
 			}
 		}

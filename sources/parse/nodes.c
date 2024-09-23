@@ -12,6 +12,18 @@
 
 #include "../../includes/minishell.h"
 
+static t_redirect_info	init_redirect_info(void)
+{
+	t_redirect_info	redir_info;
+
+	redir_info.command = NULL;
+	redir_info.fd_in = 0;
+	redir_info.fd_out = 0;
+	redir_info.heredoc_fd = -1;
+	redir_info.new_cmd = NULL;
+	return (redir_info);
+}
+
 t_tree_node	*create_tree_node(t_type_cmd type, char *value)
 {
 	t_tree_node	*node;
@@ -24,6 +36,7 @@ t_tree_node	*create_tree_node(t_type_cmd type, char *value)
 	}
 	node->type = type;
 	node->value = ft_strdup(value);
+	node->redir_info = init_redirect_info();
 	node->left = NULL;
 	node->right = NULL;
 	return (node);

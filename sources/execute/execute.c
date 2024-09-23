@@ -106,7 +106,10 @@ int	execute(t_tree_node *node, t_main *main, int flag)
 	if (new_node->type == CMD)
 		ft_execute(new_node->value, main->env, main, 1);
 	if (new_node->type == COMMAND_SUBSTITUTION)
-		handle_redirect(new_node, main);
+	{
+		execute_redirects(new_node, main);
+		unlink("heredoc");
+	}
 	else if (new_node->type == PIPE)
 		execute_pipe(new_node, main);
 	if (flag == 1)

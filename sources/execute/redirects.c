@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void	execute_redirects(int fd_in, int fd_out, char *cmd, t_main *main)
+void	execute_redirects(t_tree_node *node, t_main *main)
 {
 	int	save_in;
 	int	save_out;
@@ -21,18 +21,18 @@ void	execute_redirects(int fd_in, int fd_out, char *cmd, t_main *main)
 	flag = 0;
 	save_in = dup(STDIN_FILENO);
 	save_out = dup(STDOUT_FILENO);
-	if (fd_in != 0)
+	if (node->redir_info.fd_in != 0)
 	{
-		dup2(fd_in, STDIN_FILENO);
-		close(fd_in);
+		dup2(node->redir_info.fd_in, STDIN_FILENO);
+		close(node->redir_info.fd_in);
 	}
-	if (fd_out != 1)
+	if (node->redir_info.fd_out != 1)
 	{
-		dup2(fd_out, STDOUT_FILENO);
-		close(fd_out);
+		dup2(node->redir_info.fd_out, STDOUT_FILENO);
+		close(node->redir_info.fd_out);
 	}
-	if (cmd)
-		ft_execute(cmd, main->env, main, flag);
+	if (node->redir_info.command)
+		ft_execute(node->redir_info.command, main->env, main, flag);
 	dup2(save_in, STDIN_FILENO);
 	dup2(save_out, STDOUT_FILENO);
 	close(save_in);
@@ -80,7 +80,7 @@ int	process_redirect(char *value, int i, t_redirect_info *redir_info)
 	return (i);
 }
 
-void	handle_redirect(t_tree_node *node, t_main *main)
+void	handle_redirect(t_tree_node *node)
 {
 	t_tree_node		*new_node;
 	t_redirect_info	redir_info;
@@ -102,8 +102,5 @@ void	handle_redirect(t_tree_node *node, t_main *main)
 	while (value[i] != '\0')
 		i = process_redirect(value, i, &redir_info);
 	free(value);
-	if (redir_info.fd_in != -1)
-		execute_redirects(redir_info.fd_in,
-			redir_info.fd_out, redir_info.command, main);
-	unlink("heredoc");
+	node->redir_info = redir_info;
 }
