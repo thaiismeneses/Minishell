@@ -7,7 +7,6 @@ EFENCE = -lefence
 LIBS = libft/libft.a
 
 SRC =	sources/main.c\
-		sources/extra_to_print.c\
 		sources/parse/tokenization.c\
 		sources/parse/utils_token.c\
 		sources/parse/utils_token_two.c\

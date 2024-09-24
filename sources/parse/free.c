@@ -20,26 +20,7 @@ void	free_tree(t_tree_node *node)
 	node->left = NULL;
 	free_tree(node->right);
 	node->right = NULL;
-	if (node->value)
-	{
-		free(node->value);
-		node->value = NULL;
-	}
-	if (node->redir_info.command)
-	{
-		free(node->redir_info.command);
-		node->redir_info.command = NULL;
-	}
-	if (node->redir_info.new_cmd)
-	{
-		free(node->redir_info.new_cmd);
-		node->redir_info.new_cmd = NULL;
-	}
-	if (node->redir_info.file)
-	{
-		free(node->redir_info.file);
-		node->redir_info.file = NULL;
-	}
+	free_tree_node(node);
 	free(node);
 	node = NULL;
 }

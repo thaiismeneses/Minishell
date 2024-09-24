@@ -15,6 +15,16 @@
 
 #include "../../includes/minishell.h"
 
+void	print_error(char *msg, char *value)
+{
+	ft_putstr_fd("Error: ", 2);
+	ft_putstr_fd(msg, 2);
+	ft_putstr_fd(value, 2);
+	ft_putstr_fd("\'\n", 2);
+	if (errno != 0)
+		perror("");
+}
+
 int	check_start_end(t_token *data)
 {
 	if (data->token == PIPE)
