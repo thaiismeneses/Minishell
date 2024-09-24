@@ -53,10 +53,10 @@ void	update_pwd(t_main *main)
 		old_pwd = env_pwd(main, temp, pwd_line, oldpwd);
 		temp = temp->next;
 	}
-	if (!old_pwd)
-		append_env_node(&main->env, oldpwd);
-	free(oldpwd);
-	free(pwd_line);
+	if (oldpwd)
+		free(oldpwd);
+	if (pwd_line)
+		free(pwd_line);
 }
 
 int	chdir_error(char *token)
