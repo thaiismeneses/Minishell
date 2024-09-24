@@ -3,14 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
+/*   By: lfuruno- <lfuruno-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:00:17 by thfranco          #+#    #+#             */
-/*   Updated: 2024/09/23 20:13:39 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/09/24 10:19:52 by lfuruno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	free_tree_node(t_tree_node *node)
+{
+	if (node->value)
+	{
+		free(node->value);
+		node->value = NULL;
+	}
+	if (node->redir_info.command)
+	{
+		free(node->redir_info.command);
+		node->redir_info.command = NULL;
+	}
+	if (node->redir_info.new_cmd)
+	{
+		free(node->redir_info.new_cmd);
+		node->redir_info.new_cmd = NULL;
+	}
+	if (node->redir_info.file)
+	{
+		free(node->redir_info.file);
+		node->redir_info.file = NULL;
+	}
+}
 
 t_tree_node	*init_tree(void)
 {

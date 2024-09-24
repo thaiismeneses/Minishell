@@ -75,7 +75,7 @@ typedef struct s_tree_node
 {
 	t_type_cmd				type;
 	char					*value;
-	struct s_redirect_info			redir_info;
+	struct s_redirect_info	redir_info;
 	struct s_tree_node		*left;
 	struct s_tree_node		*right;
 }	t_tree_node;
@@ -129,6 +129,7 @@ int			index_double(char *cmd, int i);
 int			type_index(t_type_cmd type, char *cmd, int i);
 
 //utils_parse
+void		free_tree_node(t_tree_node *node);
 t_tree_node	*init_tree(void);
 t_token		*search_pipe(t_token *data);
 
@@ -176,6 +177,7 @@ int			handle_heredoc_redirect(char *value, int i,
 				t_redirect_info *redir_info);
 
 // utils_errors
+void		print_error(char *msg, char *value);
 int			check_start_end(t_token *data);
 int			find_closing_quote(char *value, char quote);
 int			check_quotes(t_token *token);
@@ -183,12 +185,6 @@ int			has_error(t_token *data);
 
 //utils_print_error
 void		print_error_exc(char *msg, char **cmd);
-
-// extra_to_print
-void		print_tree(t_tree_node *node, int level);
-void		print_token_list(t_token *head);
-void		print_env_list(t_env_node *head);
-void		print_error(char *msg, char *value);
 
 // check_values
 char		*concatenate_cmd_tokens(t_token **data);
