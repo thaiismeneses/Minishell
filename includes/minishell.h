@@ -75,7 +75,7 @@ typedef struct s_tree_node
 {
 	t_type_cmd				type;
 	char					*value;
-	t_redirect_info			redir_info;
+	struct s_redirect_info			redir_info;
 	struct s_tree_node		*left;
 	struct s_tree_node		*right;
 }	t_tree_node;
@@ -145,7 +145,7 @@ void		execute_child_process(char *path, char **cmd,
 				t_env_node *env_list, t_main *main);
 void		execute_command(char *path, char **cmd,
 				t_env_node *env_list, t_main *main);
-void		ft_execute(char *av, t_env_node *env_list, t_main *main, int flag);
+void		ft_execute(char *av, t_env_node *env_list, t_main *main);
 int			execute(t_tree_node *node, t_main *main, int flag);
 
 // utils_execute

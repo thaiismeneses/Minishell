@@ -67,14 +67,12 @@ void	execute_command(char *path, char **cmd,
 	}
 }
 
-void	ft_execute(char *av, t_env_node *env_list, t_main *main, int flag)
+void	ft_execute(char *av, t_env_node *env_list, t_main *main)
 {
 	char	**cmd;
 	char	*path;
 
 	cmd = new_split(av);
-	if (flag == 0)
-		free(av);
 	path = get_path(cmd[0], env_list);
 	if (path == NULL)
 	{
@@ -104,12 +102,11 @@ int	execute(t_tree_node *node, t_main *main, int flag)
 	if (new_node == NULL)
 		return (0);
 	if (new_node->type == CMD)
-		ft_execute(new_node->value, main->env, main, 1);
+		ft_execute(new_node->value, main->env, main);
 	if (new_node->type == COMMAND_SUBSTITUTION)
 	{
 		execute_redirects(new_node, main);
 		unlink(node->redir_info.file);
-		free(node->redir_info.file);
 	}
 	else if (new_node->type == PIPE)
 		execute_pipe(new_node, main);
