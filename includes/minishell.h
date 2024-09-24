@@ -132,6 +132,7 @@ int			type_index(t_type_cmd type, char *cmd, int i);
 void		free_tree_node(t_tree_node *node);
 t_tree_node	*init_tree(void);
 t_token		*search_pipe(t_token *data);
+t_redirect_info	init_info(void);
 
 // parse
 t_token		*node_right(t_token *data, t_token *node);
@@ -239,6 +240,9 @@ void		errors_export(char **token, int type);
 void		util_export(t_main *main);
 int			export_env(char **token, t_main *main);
 int			ft_export(char **token, t_main *main);
+
+//export_utils
+void		export_util(t_env_node *temp, char **token, int i, t_main *main);
 
 //unset.c
 void		remove_node_unset(char *token, t_main *main);

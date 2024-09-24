@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfuruno- <lfuruno-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:00:17 by thfranco          #+#    #+#             */
-/*   Updated: 2024/09/24 10:19:52 by lfuruno-         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:18:11 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,23 @@ void	free_tree_node(t_tree_node *node)
 	}
 	if (node->redir_info.file)
 	{
+		unlink(node->redir_info.file);
 		free(node->redir_info.file);
 		node->redir_info.file = NULL;
 	}
+}
+
+t_redirect_info	init_info(void)
+{
+	t_redirect_info	redir_info;
+
+	redir_info.fd_in = 0;
+	redir_info.fd_out = 1;
+	redir_info.heredoc_fd = -1;
+	redir_info.command = NULL;
+	redir_info.new_cmd = NULL;
+	redir_info.file = NULL;
+	return (redir_info);
 }
 
 t_tree_node	*init_tree(void)
@@ -46,12 +60,7 @@ t_tree_node	*init_tree(void)
 	root->left = NULL;
 	root->right = NULL;
 	root->value = NULL;
-	root->redir_info.fd_in = 0;
-	root->redir_info.fd_out = 1;
-	root->redir_info.heredoc_fd = -1;
-	root->redir_info.command = NULL;
-	root->redir_info.new_cmd = NULL;
-	root->redir_info.file = NULL;
+	root->redir_info = init_info();
 	return (root);
 }
 

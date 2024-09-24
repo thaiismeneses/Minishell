@@ -74,6 +74,8 @@ int	process_redirect(char *value, int i, t_redirect_info *redir_info)
 		i = handle_input_redirect(value, i, &(redir_info->fd_in));
 	if (value[i] != '\0')
 		i++;
+	if (i == -1)
+		return (-1);
 	return (i);
 }
 
@@ -86,6 +88,7 @@ void	handle_redirect(t_tree_node *node)
 	int				i;
 
 	i = 0;
+	redir_info = init_info();
 	new_node = node;
 	cmd = NULL;
 	value = NULL;

@@ -82,17 +82,7 @@ int	export_env(char **token, t_main *main)
 		i++;
 	if (token[1][i] == '=')
 	{
-		while (temp != NULL)
-		{
-			if (!ft_strncmp(token[1], temp->name_env, i)
-				&& temp->name_env[i] == '\0')
-			{
-				remove_node_export(token[1], main, i);
-				break ;
-			}
-			temp = temp->next;
-		}
-		append_env_node(&main->env, str_join(token[1], token[2]));
+		export_util(temp, token, i, main);
 	}
 	else
 		return (errors_export(token, 1), 1);

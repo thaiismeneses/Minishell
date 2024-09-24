@@ -24,6 +24,7 @@ SRC =	sources/main.c\
 		sources/builtins/exit_utils.c\
 		sources/builtins/env_var.c\
 		sources/builtins/export.c\
+		sources/builtins/export_utils.c\
 		sources/builtins/unset.c\
 		sources/builtins/cd.c\
 		sources/builtins/cd_utils.c\

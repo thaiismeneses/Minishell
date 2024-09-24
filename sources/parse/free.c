@@ -20,7 +20,8 @@ void	free_tree(t_tree_node *node)
 	node->left = NULL;
 	free_tree(node->right);
 	node->right = NULL;
-	free_tree_node(node);
+	if (node && node->value)
+		free_tree_node(node);
 	free(node);
 	node = NULL;
 }
@@ -72,7 +73,7 @@ void	ft_free_tab(char **tab)
 	i = 0;
 	while (tab[i])
 	{
-		if (tab[i])
+		if (tab[i] != NULL)
 		{
 			free(tab[i]);
 			tab[i] = NULL;

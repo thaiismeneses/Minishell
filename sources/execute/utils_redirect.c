@@ -128,8 +128,9 @@ int	handle_input_redirect(char *value, int i, int *fd_in)
 	}
 	else
 	{
-		*fd_in = -1;
+		*fd_in = 0;
 		print_error_exc("No such file or directory", &infile);
+		return (-1);
 	}
 	free(infile);
 	return (i);
