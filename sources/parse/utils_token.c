@@ -41,6 +41,7 @@ char	*str_join(char *dest, char *src)
 	}
 	result = ft_strjoin(dest, src);
 	free(dest);
+	dest = NULL;
 	return (result);
 }
 

@@ -88,7 +88,7 @@ char	*get_path(char *cmd, t_env_node *env_list)
 	char	*env;
 
 	env = my_env("PATH", env_list);
-	if (!env)
+	if (!env || !*env)
 		return (ft_strdup(cmd));
 	paths = ft_split(env, ':');
 	i = -1;
