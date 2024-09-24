@@ -12,17 +12,18 @@
 
 #include "../../includes/minishell.h"
 
-void	before_execute(t_tree_node *node)
+int	before_execute(t_tree_node *node, t_main * main)
 {
 	t_tree_node	*temp;
 
 	temp = node;
 	if (temp && temp->type == COMMAND_SUBSTITUTION)
-		handle_redirect(temp);
+		return (handle_redirect(temp, main));
 	if (temp && temp->left)
-		before_execute(temp->left);
+		before_execute(temp->left, main);
 	if (temp && temp->right)
-		before_execute(temp->right);
+		before_execute(temp->right, main);
+	return (0);
 }
 
 int	create_temp_file(char *infile)

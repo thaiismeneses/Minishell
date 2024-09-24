@@ -130,6 +130,7 @@ int	handle_input_redirect(char *value, int i, int *fd_in)
 	{
 		*fd_in = 0;
 		print_error_exc("No such file or directory", &infile);
+		free(infile);
 		return (-1);
 	}
 	free(infile);

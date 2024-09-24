@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:00:17 by thfranco          #+#    #+#             */
-/*   Updated: 2024/09/24 14:18:11 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:55:24 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	free_tree_node(t_tree_node *node)
 		free(node->redir_info.file);
 		node->redir_info.file = NULL;
 	}
+	free(node);
+	node = NULL;
 }
 
 t_redirect_info	init_info(void)

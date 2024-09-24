@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 RM = rm -rf
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 DBUG = -g
 EFENCE = -lefence
 LIBS = libft/libft.a

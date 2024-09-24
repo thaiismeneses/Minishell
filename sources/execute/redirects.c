@@ -71,39 +71,57 @@ int	process_redirect(char *value, int i, t_redirect_info *redir_info)
 	else if (value[i] == '<' && value[i + 1] == '<')
 		i = handle_heredoc_redirect(value, i, redir_info);
 	else if (value[i] == '<')
+	{
 		i = handle_input_redirect(value, i, &(redir_info->fd_in));
+		if (i == -1)
+			return (-1);
+	}
 	if (value[i] != '\0')
 		i++;
-	if (i == -1)
-		return (-1);
 	return (i);
 }
 
-void	handle_redirect(t_tree_node *node)
+int handle_redirect(t_tree_node *node, t_main *main)
 {
-	t_tree_node		*new_node;
+	t_tree_node	*new_node;
 	t_redirect_info	redir_info;
-	char			*value;
-	char			*cmd;
-	int				i;
+	char	*value;
+	char	*cmd;
+	int	i;
 
 	i = 0;
 	redir_info = init_info();
 	new_node = node;
-	cmd = NULL;
-	value = NULL;
 	cmd = ft_strdup(new_node->value);
 	value = reorganize_redirect(cmd);
 	free(cmd);
-	redir_info.new_cmd = before_redirect(value);
-	redir_info.command = ft_strdup(redir_info.new_cmd);
-	free(redir_info.new_cmd);
-	redir_info.new_cmd = NULL;
+	cmd = NULL;
+	cmd = before_redirect(value);
+	redir_info.command = ft_strdup(cmd);
+	free(cmd);
+	cmd = NULL;
+	// else
+	// {
+	// 	print_error_exc("Failed to get new command", NULL);
+	// 	free(value);
+	// 	return -1;
+	// }
 	redir_info.heredoc_fd = -1;
 	redir_info.fd_in = 0;
 	redir_info.fd_out = 1;
 	while (value[i] != '\0')
+	{
 		i = process_redirect(value, i, &redir_info);
+		if (i < 0)
+		{
+			free(redir_info.command);
+			free(value);
+			free_tree(main->tree);
+			free_list(&main->token);
+			return -1;
+		}
+	}
 	free(value);
 	node->redir_info = redir_info;
+	return i;
 }

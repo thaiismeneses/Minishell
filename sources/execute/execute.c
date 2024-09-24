@@ -112,9 +112,15 @@ int	execute(t_tree_node *node, t_main *main, int flag)
 	if (flag == 1)
 	{
 		if (main->token)
+		{
 			free_list(&main->token);
+			main->token = NULL;
+		}
 		if (main->tree)
+		{
 			free_tree(main->tree);
+			main->tree = NULL;
+		}
 	}
 	return (0);
 }

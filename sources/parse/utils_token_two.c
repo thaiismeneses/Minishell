@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 09:41:15 by thfranco          #+#    #+#             */
-/*   Updated: 2024/09/19 10:42:45 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:19:33 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,17 @@ int	has_redirs(t_token *data)
 
 void	handle_command(t_token **new, char *cmd, int flag, t_token **tmp)
 {
+	char	*new_cmd;
+
 	if (flag == 1)
 		add_node(new, COMMAND_SUBSTITUTION, cmd);
 	else
 		add_node(new, CMD, cmd);
 	if (*tmp && (*tmp)->token == PIPE)
 	{
-		add_node(new, (*tmp)->token, (*tmp)->value);
+		new_cmd = ft_strdup((*tmp)->value);
+		add_node(new, (*tmp)->token, new_cmd);
+		free(new_cmd);
 		*tmp = (*tmp)->next;
 	}
 }

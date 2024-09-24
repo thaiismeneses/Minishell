@@ -22,8 +22,6 @@ void	free_tree(t_tree_node *node)
 	node->right = NULL;
 	if (node && node->value)
 		free_tree_node(node);
-	free(node);
-	node = NULL;
 }
 
 void	free_list(t_token **data)
