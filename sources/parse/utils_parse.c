@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:00:17 by thfranco          #+#    #+#             */
-/*   Updated: 2024/09/23 10:21:04 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/09/23 20:13:39 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ t_tree_node	*init_tree(void)
 	root->left = NULL;
 	root->right = NULL;
 	root->value = NULL;
+	root->redir_info.fd_in = 0;
+	root->redir_info.fd_out = 1;
+	root->redir_info.heredoc_fd = -1;
+	root->redir_info.command = NULL;
+	root->redir_info.new_cmd = NULL;
+	root->redir_info.file = NULL;
 	return (root);
 }
 
