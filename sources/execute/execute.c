@@ -106,16 +106,21 @@ int	execute(t_tree_node *node, t_main *main, int flag)
 	if (new_node->type == COMMAND_SUBSTITUTION)
 	{
 		execute_redirects(new_node, main);
-		unlink(node->redir_info.file);
 	}
 	else if (new_node->type == PIPE)
 		execute_pipe(new_node, main);
 	if (flag == 1)
 	{
 		if (main->token)
+		{
 			free_list(&main->token);
+			main->token = NULL;
+		}
 		if (main->tree)
+		{
 			free_tree(main->tree);
+			main->tree = NULL;
+		}
 	}
 	return (0);
 }

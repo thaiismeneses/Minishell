@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 RM = rm -rf
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 DBUG = -g
 EFENCE = -lefence
 LIBS = libft/libft.a
@@ -24,6 +24,7 @@ SRC =	sources/main.c\
 		sources/builtins/exit_utils.c\
 		sources/builtins/env_var.c\
 		sources/builtins/export.c\
+		sources/builtins/export_utils.c\
 		sources/builtins/unset.c\
 		sources/builtins/cd.c\
 		sources/builtins/cd_utils.c\

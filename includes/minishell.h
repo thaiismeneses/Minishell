@@ -132,6 +132,7 @@ int			type_index(t_type_cmd type, char *cmd, int i);
 void		free_tree_node(t_tree_node *node);
 t_tree_node	*init_tree(void);
 t_token		*search_pipe(t_token *data);
+t_redirect_info	init_info(void);
 
 // parse
 t_token		*node_right(t_token *data, t_token *node);
@@ -170,7 +171,7 @@ int			check_redirect_in(t_token *data);
 int			check_pipe(t_token *data);
 
 // handle_heredoc
-void		before_execute(t_tree_node *node);
+int		before_execute(t_tree_node *node, t_main *main);
 int			create_temp_file(char *infile);
 void		heredoc_aux(char *target, int fd);
 int			handle_heredoc_redirect(char *value, int i,
@@ -240,6 +241,9 @@ void		util_export(t_main *main);
 int			export_env(char **token, t_main *main);
 int			ft_export(char **token, t_main *main);
 
+//export_utils
+void		export_util(t_env_node *temp, char **token, int i, t_main *main);
+
 //unset.c
 void		remove_node_unset(char *token, t_main *main);
 int			ft_unset(char **token, t_main *main);
@@ -277,14 +281,14 @@ int			handle_redirect_and_cmd(char **cmd_splited,
 char		*reorganize_redirect(char *cmd);
 char		*before_redirect(char *value);
 char		*after_redirect(char *value, int *i);
-int			handle_input_redirect(char *value, int i, int *fd_in);
+int		handle_input_redirect(char *value, int i, int *fd_in);
 
 //redirects
 void		execute_redirects(t_tree_node *node, t_main *main);
 int			handle_output_redirect(char *value, int i, int *fd_out);
 int			handle_output_append_redirect(char *value, int i, int *fd_out);
 int			process_redirect(char *value, int i, t_redirect_info *redir_info);
-void		handle_redirect(t_tree_node *node);
+int		handle_redirect(t_tree_node *node, t_main *main);
 
 //utils_execute_two
 int			store_word(char **result, t_vars *vars, char *str, int start);
