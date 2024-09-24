@@ -24,7 +24,8 @@ void	setup_child(int fd_in, int fd_out, t_tree_node *node, t_main *main)
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);
 	execute(node, main, 0);
-	free_main(main);
+	if (main)
+		free_main(main);
 	exit(EXIT_SUCCESS);
 }
 
@@ -47,7 +48,8 @@ void	fork_and_exec(t_tree_node *node, t_main *main, int pipe_fd[2])
 		dup2(pipe_fd[0], STDIN_FILENO);
 		close(pipe_fd[0]);
 		execute(node->right, main, 0);
-		free_main(main);
+		if (main)
+			free_main(main);
 		exit(EXIT_SUCCESS);
 	}
 	close(pipe_fd[0]);

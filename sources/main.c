@@ -12,8 +12,6 @@
 
 #include "../includes/minishell.h"
 
-extern char	**environ;
-
 static void	run(char *prompt, t_main *main)
 {
 	char	*cmd;
@@ -48,13 +46,11 @@ void	print_prompt(t_main *main)
 	run(prompt, main);
 }
 
-static t_main	*build_main(t_main *main)
+static t_main	*build_main(t_main *main, char **envp)
 {
-	char	**envp;
 	t_main	*new_main;
-
 	(void) main;
-	envp = environ;
+
 	new_main = malloc(sizeof(t_main));
 	if (!new_main)
 		exit (1);
@@ -65,13 +61,15 @@ static t_main	*build_main(t_main *main)
 	return (new_main);
 }
 
-int	main(void)
+int	main (int ac, char **av, char **envp)
 {
 	t_main	*main;
+	(void) ac;
+	(void) av;
 
 	main = NULL;
 	mini_signal();
-	main = build_main(main);
+	main = build_main(main, envp);
 	print_prompt(main);
 	return (0);
 }

@@ -16,9 +16,7 @@ void	execute_redirects(t_tree_node *node, t_main *main)
 {
 	int	save_in;
 	int	save_out;
-	int	flag;
 
-	flag = 0;
 	save_in = dup(STDIN_FILENO);
 	save_out = dup(STDOUT_FILENO);
 	if (node->redir_info.fd_in != 0)
@@ -32,7 +30,7 @@ void	execute_redirects(t_tree_node *node, t_main *main)
 		close(node->redir_info.fd_out);
 	}
 	if (node->redir_info.command)
-		ft_execute(node->redir_info.command, main->env, main, flag);
+		ft_execute(node->redir_info.command, main->env, main);
 	dup2(save_in, STDIN_FILENO);
 	dup2(save_out, STDOUT_FILENO);
 	close(save_in);
@@ -89,12 +87,15 @@ void	handle_redirect(t_tree_node *node)
 
 	i = 0;
 	new_node = node;
+	cmd = NULL;
+	value = NULL;
 	cmd = ft_strdup(new_node->value);
 	value = reorganize_redirect(cmd);
 	free(cmd);
 	redir_info.new_cmd = before_redirect(value);
 	redir_info.command = ft_strdup(redir_info.new_cmd);
 	free(redir_info.new_cmd);
+	redir_info.new_cmd = NULL;
 	redir_info.heredoc_fd = -1;
 	redir_info.fd_in = 0;
 	redir_info.fd_out = 1;
