@@ -6,7 +6,7 @@
 /*   By: lfuruno- <lfuruno-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:05:13 by lfuruno-          #+#    #+#             */
-/*   Updated: 2024/09/17 12:05:13 by lfuruno-         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:14:49 by lfuruno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,30 @@ void	process_quote(t_token *data)
 	}
 }
 
+static void	export_quote(t_token *token)
+{
+	char	*join;
+	char	*old_value;
+	t_token	*next_token;
+	t_token	*data;
+
+	data = token;
+	if (!ft_strncmp(data->value, "export", 6)
+		&& (data->next && (data->next->token == S_QUOTE
+				|| data->next->token == D_QUOTE)))
+	{
+		old_value = data->value;
+		join = ft_strjoin(data->value, data->next->value);
+		free(old_value);
+		data->value = join;
+		next_token = data->next;
+		data->next = next_token->next;
+		free(next_token->value);
+		free(next_token);
+		data->token = 0;
+	}
+}
+
 void	remove_quotes(t_main *main)
 {
 	t_token	*data;
@@ -52,10 +76,10 @@ void	remove_quotes(t_main *main)
 
 	data = main->token;
 	head = data;
+	export_quote(data);
 	while (data)
 	{
-		if (!(ft_strcmp(data->value, "rm"))
-			|| !(ft_strcmp(data->value, "grep"))
+		if (!(ft_strcmp(data->value, "rm")) || !(ft_strcmp(data->value, "grep"))
 			|| !(ft_strcmp(data->value, "echo")))
 		{
 			remove = data;
