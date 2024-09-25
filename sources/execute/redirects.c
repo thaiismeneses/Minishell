@@ -42,6 +42,15 @@ int	handle_output_redirect(char *value, int i, int *fd_out)
 	char	*outfile;
 
 	outfile = after_redirect(value, &i);
+	if (access(outfile, F_OK) == 0)
+	{
+		if (access(outfile, W_OK) == -1)
+		{
+			print_error_exc("Permission denied", &outfile);
+			free(outfile);
+			return (-1);
+		}
+	}
 	if (*fd_out != 1)
 		close(*fd_out);
 	*fd_out = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 00777);
@@ -67,7 +76,11 @@ int	process_redirect(char *value, int i, t_redirect_info *redir_info)
 	if (value[i] == '>' && value[i + 1] == '>')
 		i = handle_output_append_redirect(value, i, &(redir_info->fd_out));
 	else if (value[i] == '>')
+	{
 		i = handle_output_redirect(value, i, &(redir_info->fd_out));
+		if (i == -1)
+			return (-1);
+	}
 	else if (value[i] == '<' && value[i + 1] == '<')
 		i = handle_heredoc_redirect(value, i, redir_info);
 	else if (value[i] == '<')
@@ -81,34 +94,15 @@ int	process_redirect(char *value, int i, t_redirect_info *redir_info)
 	return (i);
 }
 
-int handle_redirect(t_tree_node *node, t_main *main)
+int	handle_redirect(t_tree_node *node, t_main *main)
 {
-	t_tree_node	*new_node;
 	t_redirect_info	redir_info;
-	char	*value;
-	char	*cmd;
-	int	i;
+	char			*value;
+	int				i;
 
+	redir_info = init_handle_redirect(node);
+	value = reorganize_redirect(ft_strdup(node->value));
 	i = 0;
-	redir_info = init_info();
-	new_node = node;
-	cmd = ft_strdup(new_node->value);
-	value = reorganize_redirect(cmd);
-	free(cmd);
-	cmd = NULL;
-	cmd = before_redirect(value);
-	redir_info.command = ft_strdup(cmd);
-	free(cmd);
-	cmd = NULL;
-	// else
-	// {
-	// 	print_error_exc("Failed to get new command", NULL);
-	// 	free(value);
-	// 	return -1;
-	// }
-	redir_info.heredoc_fd = -1;
-	redir_info.fd_in = 0;
-	redir_info.fd_out = 1;
 	while (value[i] != '\0')
 	{
 		i = process_redirect(value, i, &redir_info);
@@ -118,10 +112,10 @@ int handle_redirect(t_tree_node *node, t_main *main)
 			free(value);
 			free_tree(main->tree);
 			free_list(&main->token);
-			return -1;
+			return (-1);
 		}
 	}
 	free(value);
 	node->redir_info = redir_info;
-	return i;
+	return (i);
 }

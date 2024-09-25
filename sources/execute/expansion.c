@@ -45,7 +45,7 @@ int	handle_exit_status(t_token *node, int start)
 	char	*temp;
 	char	*before;
 	char	*after;
-	char 	*new_value;
+	char	*new_value;
 
 	expand = 1;
 	temp = ft_itoa(last_status(-1));

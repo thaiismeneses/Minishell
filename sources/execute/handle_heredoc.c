@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	before_execute(t_tree_node *node, t_main * main)
+int	before_execute(t_tree_node *node, t_main *main)
 {
 	t_tree_node	*temp;
 
@@ -24,6 +24,28 @@ int	before_execute(t_tree_node *node, t_main * main)
 	if (temp && temp->right)
 		before_execute(temp->right, main);
 	return (0);
+}
+
+t_redirect_info	init_handle_redirect(t_tree_node *node)
+{
+	t_redirect_info	redir_info;
+	char			*cmd;
+	char			*value;
+
+	redir_info = init_info();
+	cmd = ft_strdup(node->value);
+	value = reorganize_redirect(cmd);
+	free(cmd);
+	cmd = NULL;
+	cmd = before_redirect(value);
+	redir_info.command = ft_strdup(cmd);
+	free(cmd);
+	cmd = NULL;
+	redir_info.heredoc_fd = -1;
+	redir_info.fd_in = 0;
+	redir_info.fd_out = 1;
+	free(value);
+	return (redir_info);
 }
 
 int	create_temp_file(char *infile)

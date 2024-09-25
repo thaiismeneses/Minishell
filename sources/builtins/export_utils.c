@@ -15,7 +15,6 @@
 void	export_util(t_env_node *temp, char *token, int i, t_main *main)
 {
 	char	*token_one;
-	//char	*join;
 
 	token_one = ft_strdup(token);
 	while (temp != NULL)
@@ -28,7 +27,6 @@ void	export_util(t_env_node *temp, char *token, int i, t_main *main)
 		}
 		temp = temp->next;
 	}
-	//join = str_join(token_one, token[2]);
 	append_env_node(&main->env, token_one);
-	//free(join);
+	free(token_one);
 }
