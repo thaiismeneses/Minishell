@@ -236,13 +236,13 @@ int			ft_env(char **token, t_main *main);
 
 //export.c
 void		remove_node_export(char *token, t_main *main, int i);
-void		errors_export(char **token, int type);
+void		errors_export(char *token, int type);
 void		util_export(t_main *main);
-int			export_env(char **token, t_main *main);
+int			export_env(char *token, t_main *main);
 int			ft_export(char **token, t_main *main);
 
 //export_utils
-void		export_util(t_env_node *temp, char **token, int i, t_main *main);
+void		export_util(t_env_node *temp, char *token, int i, t_main *main);
 
 //unset.c
 void		remove_node_unset(char *token, t_main *main);
@@ -252,7 +252,7 @@ int			ft_unset(char **token, t_main *main);
 void		start_pwd(t_main *main);
 
 //cd.c
-int			env_pwd(t_main *main, t_env_node *temp,
+void			env_pwd(t_main *main, t_env_node *temp,
 				char *pwd_line, char *oldpwd);
 void		update_pwd(t_main *main);
 int			chdir_error(char *token);
@@ -270,7 +270,7 @@ int			ft_echo(char **token);
 
 //expansion.c
 int			subst_env_var(t_token *node, int start, int length, t_main *main);
-int			handle_exit_status(t_token *node);
+int			handle_exit_status(t_token *node, int start);
 int			handle_expansion(t_token *node, int i, t_main *main);
 int			expansion(t_token *node, t_main *main);
 void		expand_tokens(t_main *main);
