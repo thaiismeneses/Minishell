@@ -39,17 +39,24 @@ int	subst_env_var(t_token *node, int start, int length, t_main *main)
 	return (1);
 }
 
-int	handle_exit_status(t_token *node)
+int	handle_exit_status(t_token *node, int start)
 {
 	int		expand;
 	char	*temp;
+	char	*before;
+	char	*after;
+	char 	*new_value;
 
 	expand = 1;
 	temp = ft_itoa(last_status(-1));
-	if (node->value)
-		free(node->value);
-	node->value = ft_strdup(temp);
-	free (temp);
+	before = ft_substr(node->value, 0, start);
+	after = ft_strdup(&node->value[start + 2]);
+	new_value = str_join(before, temp);
+	new_value = str_join(new_value, after);
+	free(after);
+	free(node->value);
+	node->value = new_value;
+	free(temp);
 	return (expand);
 }
 
@@ -81,7 +88,7 @@ int	expansion(t_token *node, t_main *main)
 	{
 		if (node->value[i] == '$' && node->value[i + 1] == '?')
 		{
-			expand = handle_exit_status(node);
+			expand = handle_exit_status(node, i);
 			i = -1;
 		}
 		else if (node->value[i] == '$' && (ft_isalpha(node->value[i + 1])

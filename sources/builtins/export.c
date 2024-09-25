@@ -38,19 +38,19 @@ void	remove_node_export(char *token, t_main *main, int i)
 	}
 }
 
-void	errors_export(char **token, int type)
+void	errors_export(char *token, int type)
 {
 	if (type == 1)
 	{
 		ft_putstr_fd("export: '", STDOUT_FILENO);
-		ft_putstr_fd(token[1], STDOUT_FILENO);
+		ft_putstr_fd(token, STDOUT_FILENO);
 		ft_putstr_fd("': need '=' after variable name\n", STDOUT_FILENO);
 		last_status(1);
 	}
 	if (type == 2)
 	{
 		ft_putstr_fd("export: '", STDOUT_FILENO);
-		ft_putstr_fd(token[1], STDOUT_FILENO);
+		ft_putstr_fd(token, STDOUT_FILENO);
 		ft_putstr_fd("': not a valid identifier\n", STDOUT_FILENO);
 		last_status(1);
 	}
@@ -71,16 +71,16 @@ void	util_export(t_main *main)
 	last_status(0);
 }
 
-int	export_env(char **token, t_main *main)
+int	export_env(char *token, t_main *main)
 {
 	int			i;
 	t_env_node	*temp;
 
 	i = 0;
 	temp = main->env;
-	while (token[1][i] != '\0' && token[1][i] != '=')
+	while (token[i] != '\0' && token[i] != '=')
 		i++;
-	if (token[1][i] == '=')
+	if (token[i] == '=' && ft_isalpha(token[0]))
 	{
 		export_util(temp, token, i, main);
 	}
@@ -92,19 +92,21 @@ int	export_env(char **token, t_main *main)
 
 int	ft_export(char **token, t_main *main)
 {
+	int	i;
+	int flag;
+
+	i = 1;
+	flag = 1;
 	if (!token[1])
 	{
 		util_export(main);
 		return (0);
 	}
-	if (!ft_isalpha(token[1][0]) && token[1][0] != '_')
+	while (token[i])
 	{
-		errors_export(token, 2);
-		return (1);
-	}
-	else
-	{
-		if (!export_env(token, main))
+		flag = export_env(token[i], main);
+		i++;
+		if (!token[i] && flag == 1)
 			return (1);
 	}
 	return (0);

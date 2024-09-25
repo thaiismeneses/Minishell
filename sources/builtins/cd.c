@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	env_pwd(t_main *main, t_env_node *temp, char *pwd_line, char *oldpwd)
+void	env_pwd(t_main *main, t_env_node *temp, char *pwd_line, char *oldpwd)
 {
 	if (!ft_strcmp(temp->name_env, "PWD"))
 	{
@@ -27,20 +27,18 @@ int	env_pwd(t_main *main, t_env_node *temp, char *pwd_line, char *oldpwd)
 		free(temp->line_env);
 		temp->value_env = ft_strdup(main->old_pwd);
 		temp->line_env = ft_strdup(oldpwd);
-		return (1);
 	}
-	return (0);
 }
 
 void	update_pwd(t_main *main)
 {
 	char		pwd[PATH_MAX];
 	t_env_node	*temp;
-	int			old_pwd;
+	//int			old_pwd;
 	char		*oldpwd;
 	char		*pwd_line;
 
-	old_pwd = 0;
+	//old_pwd = 0;
 	temp = main->env;
 	getcwd(pwd, sizeof(pwd));
 	free(main->old_pwd);
@@ -50,7 +48,7 @@ void	update_pwd(t_main *main)
 	pwd_line = ft_strjoin("PWD=", main->pwd);
 	while (temp != NULL)
 	{
-		old_pwd = env_pwd(main, temp, pwd_line, oldpwd);
+		env_pwd(main, temp, pwd_line, oldpwd);
 		temp = temp->next;
 	}
 	if (oldpwd)
