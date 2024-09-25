@@ -34,11 +34,9 @@ void	update_pwd(t_main *main)
 {
 	char		pwd[PATH_MAX];
 	t_env_node	*temp;
-	//int			old_pwd;
 	char		*oldpwd;
 	char		*pwd_line;
 
-	//old_pwd = 0;
 	temp = main->env;
 	getcwd(pwd, sizeof(pwd));
 	free(main->old_pwd);

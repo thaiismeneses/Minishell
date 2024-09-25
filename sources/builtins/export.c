@@ -93,7 +93,7 @@ int	export_env(char *token, t_main *main)
 int	ft_export(char **token, t_main *main)
 {
 	int	i;
-	int flag;
+	int	flag;
 
 	i = 1;
 	flag = 1;
