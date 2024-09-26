@@ -98,10 +98,13 @@ int	handle_redirect(t_tree_node *node, t_main *main)
 {
 	t_redirect_info	redir_info;
 	char			*value;
+	char			*cmd;
 	int				i;
 
 	redir_info = init_handle_redirect(node);
-	value = reorganize_redirect(ft_strdup(node->value));
+	cmd = ft_strdup(node->value);
+	value = reorganize_redirect(cmd);
+	free(cmd);
 	i = 0;
 	while (value[i] != '\0')
 	{
