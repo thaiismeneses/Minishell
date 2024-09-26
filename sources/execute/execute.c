@@ -73,12 +73,13 @@ void	ft_execute(char *av, t_env_node *env_list, t_main *main)
 	char	*path;
 
 	cmd = new_split(av);
-	path = get_path(cmd[0], env_list);
+	if (cmd[0] == NULL)
+		path = cmd[0];
+	else
+		path = get_path(cmd[0], env_list);
 	if (path == NULL)
 	{
 		print_error_exc("command does not exist: ", cmd);
-		free_list(&main->token);
-		free_tree(main->tree);
 		if (cmd)
 			ft_free_tab(cmd);
 		cmd = NULL;

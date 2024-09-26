@@ -35,10 +35,15 @@ void	process_quote(t_token *data)
 			break ;
 	}
 	temp = ft_substr(data->value, 1, i - 2);
-	if (temp)
+	if (temp && ft_strcmp(temp, "\0"))
 	{
 		free(data->value);
 		data->value = ft_strdup(temp);
+		data->token = 0;
+		free(temp);
+	}
+	else
+	{
 		data->token = 0;
 		free(temp);
 	}
